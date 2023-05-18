@@ -58,16 +58,6 @@ resource appService 'Microsoft.Web/sites@2022-03-01' = {
   }
 
   identity: { type: managedIdentity ? 'SystemAssigned' : 'None' }
-
-  resource configLogs 'config' = {
-    name: 'logs'
-    properties: {
-      applicationLogs: { fileSystem: { level: 'Verbose' } }
-      detailedErrorMessages: { enabled: true }
-      failedRequestsTracing: { enabled: true }
-      httpLogs: { fileSystem: { enabled: true, retentionInDays: 1, retentionInMb: 35 } }
-    }
-  }
 }
 
 output identityPrincipalId string = managedIdentity ? appService.identity.principalId : ''

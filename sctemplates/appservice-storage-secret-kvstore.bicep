@@ -1,6 +1,5 @@
 targetScope = 'subscription'
 
-
 param appServiceName string = ''
 param appServicePlanName string = ''
 param keyVaultName string = ''
@@ -50,6 +49,14 @@ module storageAccount './target/storage/storage-account.bicep' = {
     name: storageAccountName
     location: location
     keyVaultName: keyVaultName
+    networkAcls: {
+      bypass: 'none'
+      defaultAction: 'Allow'
+      ipRules: [ for ip in split(appService.outputs.outboundIps, ',') : {
+        action: 'Allow'
+        ipAddressOrRange: ip
+      }]
+    }
   }
 }
 
@@ -63,14 +70,14 @@ module keyVault './auth/keyvault.bicep' = {
   }
 }
 
-// AppSettings
+// Auth: Secret
 module webAppSettings './source/appservice-appsettings.bicep' = {
   name: 'app-settings'
   scope: rg
   params: {
     name: appServiceName
     appSettings: {
-      StorageConnectionString: storageAccount.outputs.connectionStringKey
+      AZURE_STORAGE_CONNECTIONSTRING: storageAccount.outputs.connectionStringKey
     }
   }
 }
@@ -84,4 +91,3 @@ module apiKeyVaultAccess './auth/keyvault-access.bicep' = {
     principalId: appService.outputs.identityPrincipalId
   }
 }
-

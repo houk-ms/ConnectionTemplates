@@ -44,19 +44,6 @@ resource storage 'Microsoft.Storage/storageAccounts@2022-05-01' = {
     networkAcls: networkAcls
     publicNetworkAccess: publicNetworkAccess
   }
-
-  resource blobServices 'blobServices' = if (!empty(containers)) {
-    name: 'default'
-    properties: {
-      deleteRetentionPolicy: deleteRetentionPolicy
-    }
-    resource container 'containers' = [for container in containers: {
-      name: container.name
-      properties: {
-        publicAccess: contains(container, 'publicAccess') ? container.publicAccess : 'None'
-      }
-    }]
-  }
 }
 
 resource keyVault 'Microsoft.KeyVault/vaults@2022-07-01' existing = {
@@ -67,11 +54,9 @@ resource storageAccessKeySercret 'Microsoft.KeyVault/vaults/secrets@2022-07-01' 
   parent: keyVault
   name: connectionStringKeyVaultSecretName
   properties: {
-    value: connectionString
+    value: 'DefaultEndpointsProtocol=https;AccountName=${storage.name};AccountKey=${storage.listKeys().keys[0].value}'
   }
 }
-
-var connectionString = 'DefaultEndpointsProtocol=https;AccountName=${storage.name};AccountKey=${storage.listKeys().keys[0].value}'
 
 output name string = storage.name
 output primaryEndpoints object = storage.properties.primaryEndpoints
