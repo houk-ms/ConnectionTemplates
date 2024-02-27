@@ -1,0 +1,21 @@
+{
+    "source_type": "webapp",
+    "source_id": "",
+    "use_service_connector": false,
+    "targets": [{
+        "target_type": "storage",
+        "target_id": "",
+        "auth_type": "secret",
+        "client_type": "python",
+        "kv_store": true,
+        "network_solution": "ipfirewall"
+    },
+    {
+        "target_type": "keyvault",
+        "target_id": "",
+        "auth_type": "system-identity",
+        "client_type": "python",
+        "kv_store": "",
+        "network_solution": "ipfirewall"
+    }]
+}

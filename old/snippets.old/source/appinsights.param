@@ -1,0 +1,2 @@
+param appInsightsName string = 'insights_${uniqueString(resourceGroup().id)}'
+param appInsightsLocation string = resourceGroup().location

@@ -1,0 +1,3 @@
+param containerRegistryName string = 'acr_${uniqueString(resourceGroup().id)}'
+param containerRegistryLocation string = resourceGroup().location
+param containerRegistrySku string = 'Basic'

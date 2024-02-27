@@ -1,0 +1,2 @@
+param containerAppName string = 'acaenv_${uniqueString(resourceGroup().id)}'
+param containerAppLocation string = resourceGroup().location

@@ -1,0 +1,5 @@
+param appServicePlanName string = 'plan_${uniqueString(resourceGroup().id)}'
+param appServicePlanLocation string = resourceGroup().location
+param appServicePlanKind string = 'linux'
+param appServicePlanReserved bool = true
+param appServicePlanSku string = 'B1'

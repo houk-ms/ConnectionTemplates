@@ -1,0 +1,3 @@
+param logAnalyticsName string = 'loganalytics-${uniqueString(resourceGroup().id)}'
+param logAnalyticsLocation string = resourceGroup().location
+param logAnalyticsSku string = 'PerGB2018'
