@@ -1,6 +1,6 @@
 // Deploy an Azure Container App environment
 
-module containerAppEnv 'containerappenv.bicep' = {
+module {{engine.module_name}} 'containerappenv.bicep' = {
 	name: 'container-app-env-deployment'
 	params: {
 		location: location
@@ -8,6 +8,3 @@ module containerAppEnv 'containerappenv.bicep' = {
 	}
 }
 var containerAppEnvId = containerAppEnv.outputs.id
-
-
-

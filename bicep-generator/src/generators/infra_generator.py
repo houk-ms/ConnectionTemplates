@@ -1,9 +1,14 @@
 from generators.base_generator import BaseGenerator
 from engines import engine_factory
+from engines.base_engine import BaseEngine
+from engines.models.template import Template
 from helpers import file_helper
 from handlers.binding_handler import BindingHandler
 from payloads.payload import Payload
 from payloads.resource import Resource
+from payloads.binding import Binding
+from payloads.models.resource_type import ResourceType
+from payloads.models.connection_type import ConnectionType
 
 
 class InfraGenerator(BaseGenerator):
@@ -28,7 +33,10 @@ class InfraGenerator(BaseGenerator):
         for resource in self.payload.resources:
             resource_engine = engine_factory.get_resource_engine_from_type(resource.type)
             self.resource_engines.append(resource_engine(resource))
-            if resource.type.is_compute() and resource in [binding.source for binding in self.payload.bindings]:
+            
+            # create setting engines for compute resources if they are as the binding sources
+            if resource.type.is_compute() and \
+                resource in [binding.source for binding in self.payload.bindings]:
                 setting_engine = engine_factory.get_setting_engine_from_type(resource.type)
                 self.setting_engines.append(setting_engine(resource))
 
@@ -36,6 +44,8 @@ class InfraGenerator(BaseGenerator):
     def init_dependency_engines(self):
         # Create dependency engines from each resource engine
         for engine in self.resource_engines:
+            # TODO: may do it recursively in the future
+            # now dependency engines don't have dependencies
             self.dependency_engines.extend(engine.get_dependency_engines())
 
         # dependency engines should be singleton, so that multiple instances of same resource type 
@@ -67,6 +77,7 @@ class InfraGenerator(BaseGenerator):
  
 
     def process_bindings(self):
+        # process bindings and engines
         for binding in self.payload.bindings:
             binding_handler =BindingHandler(binding, 
                                             self._get_resource_engine_by_resource(binding.source), 
@@ -77,36 +88,18 @@ class InfraGenerator(BaseGenerator):
 
 
     def generate_biceps(self, output_folder: str):
-        # TODO: use jinja to generate the main.bicep file
+        delployment_engines = self.dependency_engines + self.resource_engines + self.setting_engines
 
         # generate main.bicep file
-        main_bicep = ''
-        for engine in self.param_engines:
-            main_bicep += engine.render_template()
-        main_bicep += '\n\n'
-        for engine in self.dependency_engines:
-            main_bicep += engine.render_module()
-        for engine in self.resource_engines:
-            main_bicep += engine.render_module()
-        for engine in self.setting_engines:
-            main_bicep += engine.render_module()
-        for engine in self.output_engines:
-            main_bicep += engine.render_template()
-        file_helper.create_file('{}/main.bicep'.format(output_folder), main_bicep)
+        main_engine = BaseEngine()
+        main_engine.params = [engine.render_template() for engine in self.param_engines]
+        main_engine.outputs = [engine.render_template() for engine in self.output_engines]
+        main_engine.deployments = [engine.render_module() for engine in delployment_engines]
+        file_helper.create_file('{}/main.bicep'.format(output_folder), main_engine.render(Template.MAIN.value))
         
         # generate dependency bicep files
-        # duplicated dependency engines does not matter as the bicep file will be overwritten
-        for engine in self.dependency_engines:
-            bicep_file_name = engine.bicep_template.split('/')[-1].replace('.jinja', '')
-            file_helper.create_file('{}/{}'.format(output_folder, bicep_file_name), engine.render_bicep())
-
-        # generate resource bicep files
-        # duplicated resource engines does not matter as the bicep file will be overwritten
-        for engine in self.resource_engines:
-            bicep_file_name = engine.bicep_template.split('/')[-1].replace('.jinja', '')
-            file_helper.create_file('{}/{}'.format(output_folder, bicep_file_name), engine.render_bicep())
-        
-        for engine in self.setting_engines:
+        # duplicated engines does not matter as the bicep file will be overwritten
+        for engine in delployment_engines:
             bicep_file_name = engine.bicep_template.split('/')[-1].replace('.jinja', '')
             file_helper.create_file('{}/{}'.format(output_folder, bicep_file_name), engine.render_bicep())
 
@@ -133,7 +126,6 @@ class InfraGenerator(BaseGenerator):
         return None
     
     def _dedup_engines_by_name(self, engine_list):
-        #TODO: use dict to dedup
         deduped = []
         for engine in engine_list:
             if engine.name not in [e.name for e in deduped]:
@@ -141,6 +133,7 @@ class InfraGenerator(BaseGenerator):
         return deduped
 
     def _dedup_engines_by_type(self, engine_list):
+        # only one engine is kept for each resource and engine type
         engine_dict = dict()
         for engine in engine_list:
             engine_name = engine.__class__.__name__

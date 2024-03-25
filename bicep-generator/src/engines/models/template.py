@@ -1,6 +1,7 @@
 from enum import Enum
 
 class Template(str, Enum):
+    MAIN = "main.jinja"	
     PARAM = "param.jinja"
     OUTPUT = "output.jinja"
     APP_INSIGHTS_BICEP = "modules/applicationinsights/applicationinsights.bicep.jinja"

@@ -13,9 +13,7 @@ class BaseGenerator:
         #TODO: Implement validation
         pass
 
-    def auto_complete_payload(self):
-        # TODO: move to child generator
-        
+    def auto_complete_payload(self):        
         implicit_bindings = []
         for binding in self.payload.bindings:
             # when binding store is keyvault, add implicit binding for source to keyvault
@@ -25,5 +23,5 @@ class BaseGenerator:
                 implicit_binding.target = binding.store
                 implicit_binding.connection = ConnectionType.SYSTEMIDENTITY
                 implicit_bindings.append(implicit_binding)
-        # TODO: may need to deduplicate implicit bindings
+        # no need to dedup
         self.payload.bindings.extend(implicit_bindings)

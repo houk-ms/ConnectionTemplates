@@ -37,8 +37,10 @@ class AppServiceEngine(SourceResourceEngine, TargetResourceEngine):
             (string_helper.format_camel('appService', self.resource.name, "Id"),
              'string', '{}.outputs.id'.format(self.module_name))]
 
-    def get_dependency_engines(self) -> List[BaseEngine]:
-        return [AppServicePlanEngine(self.resource)]
+        # dependency engines
+        self.depend_engines = [
+            AppServicePlanEngine(self.resource)
+        ]
 
     
 

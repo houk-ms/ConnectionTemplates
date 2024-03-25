@@ -13,6 +13,8 @@ class AppServicePlanEngine(BaseResourceEngine):
                          Template.APP_SERVICE_PLAN_MODULE.value)
         self.resource = resource
 
+        # resource.module states and variables
+        self.module_name = 'appServicePlan'
 
         # main.bicep states and variables
         self.main_params = [

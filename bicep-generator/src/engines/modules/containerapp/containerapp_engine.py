@@ -37,10 +37,12 @@ class ContainerAppEngine(SourceResourceEngine, TargetResourceEngine):
         self.main_outputs = [
             (string_helper.format_camel('containerApp', self.resource.name, "Id"),
              'string', '{}.outputs.id'.format(self.module_name))]
-
-    def get_dependency_engines(self) -> List[BaseEngine]:
-        return [ContainerAppEnvEngine(self.resource), ContainerRegistryEngine(self.resource)]
-
+        
+        # dependency engines
+        self.depend_engines = [
+            ContainerAppEnvEngine(self.resource),
+            ContainerRegistryEngine(self.resource)
+        ]
     
 
     

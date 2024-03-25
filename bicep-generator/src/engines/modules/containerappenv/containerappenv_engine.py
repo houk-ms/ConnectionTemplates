@@ -13,6 +13,8 @@ class ContainerAppEnvEngine(BaseResourceEngine):
                          Template.CONTAINER_APP_ENV_MODULE.value)
         self.resource = resource
 
+        # resource.module states and variables
+        self.module_name = 'containerAppEnv'
 
         # main.bicep states and variables
         self.main_params = [

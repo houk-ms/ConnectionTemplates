@@ -13,6 +13,8 @@ class ContainerRegistryEngine(BaseResourceEngine):
                          Template.CONTAINER_REGISTRY_MODULE.value)
         self.resource = resource
 
+        # resource.module states and variables
+        self.module_name = 'containerRegistry'
 
         # main.bicep states and variables
         self.main_params = [

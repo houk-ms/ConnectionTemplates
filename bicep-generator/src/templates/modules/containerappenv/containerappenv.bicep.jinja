@@ -16,21 +16,18 @@ resource logAnalytics 'Microsoft.OperationalInsights/workspaces@2022-10-01' = {
 	}
 }
 
-resource containerAppEnv 'Microsoft.Web/kubeEnvironments@2022-09-01' = {
-	name: name
-	location: location 
-	kind: 'containerenvironment'
-	properties: {
-		environmentType: 'managed'
-		internalLoadBalancerEnabled: false
-		appLogsConfiguration: {
-			destination: 'log-analytics'
-			logAnalyticsConfiguration: {
-				customerId: logAnalytics.properties.customerId
-				sharedKey: logAnalytics.listKeys().primarySharedKey
-			}
-		}
-	}
+resource containerAppEnv 'Microsoft.App/managedEnvironments@2023-05-01' = {
+  name: name
+  location: location 
+  properties: {
+    appLogsConfiguration: {
+      destination: 'log-analytics'
+      logAnalyticsConfiguration: {
+        customerId: logAnalytics.properties.customerId
+        sharedKey: logAnalytics.listKeys().primarySharedKey
+      }
+    }
+  }
 }
 
 
