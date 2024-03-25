@@ -12,6 +12,7 @@ class BaseEngine():
         self.module_bicep_file = ''
         self.module_deployment_name = ''
         self.module_params = []     # [(param_name, param_value)]
+        self.module_depends = '[]'
 
         self.existing_resource_symbolic_name = ''
         self.existing_resource_type = ''
@@ -35,6 +36,7 @@ param {param_name} {param_type} = {param_value}
     params: 「
         {module_params}
     」
+    dependsOn: {module_depends}
 」
 """
         self._existing_resource_template = \
@@ -80,7 +82,8 @@ param {param_name} {param_type} = {param_value}
             module_symbolic_name = self.module_symbolic_name,
             module_bicep_file = self.module_bicep_file,
             module_deployment_name = self.module_deployment_name,
-            module_params = module_params.strip()
+            module_params = module_params.strip(),
+            module_depends = self.module_depends
         ).replace('「', '{').replace('」', '}')
 
 

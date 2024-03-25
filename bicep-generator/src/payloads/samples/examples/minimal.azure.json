@@ -1,0 +1,16 @@
+{
+    "resources": [
+      {
+        "type": "containerapp"
+      },
+      {
+        "type": "appinsights"
+      },
+      {
+        "type": "keyvault"
+      },
+      {
+        "type": "cosmos"
+      }
+    ]
+  }

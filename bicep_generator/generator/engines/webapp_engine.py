@@ -17,6 +17,7 @@ class WebAppEngine(SourceEngine):
             ('location', 'location'),
             ('name', 'webAppName')
         ]
+
         self.module_symbolic_name = 'appServiceDeployment'
         self.module_bicep_file = 'webapp.bicep'
         self.module_deployment_name = 'app-service-deployment'

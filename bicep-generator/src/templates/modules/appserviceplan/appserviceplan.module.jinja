@@ -1,0 +1,13 @@
+// Deploy an Azure App Service Plan
+
+module appServicePlan 'appserviceplan.bicep' = {
+	name: 'app-service-plan-deployment'
+	params: {
+		location: location
+		name: appServicePlanName
+	}
+}
+var appServicePlanId = appServicePlan.outputs.id
+
+
+

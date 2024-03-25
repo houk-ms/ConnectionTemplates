@@ -14,11 +14,12 @@ class KeyvaultSecretEngine(SecretEngine):
         self.module_bicep_file = 'keyvault.secret.bicep'
         self.module_deployment_name = '{}-keyvault-secret-deployment'.format(self.connector.target_type)
 
+        self.module_depends = "[keyvaultDeployment]"
+
 
     def set_module_param_secret(self, secretName):
-        if self.connector.source_type == 'webapp':
-            self.module_params.append(('name', "'{}-secret'".format(self.connector.target_type)))
-            self.module_params.append(('secretValue', secretName))
+        self.module_params.append(('name', "'{}-secret'".format(self.connector.target_type)))
+        self.module_params.append(('secretValue', secretName))
 
 
     def set_variables(self):

@@ -1,0 +1,600 @@
+(['C:\\Users\\houk\\OneDrive - '
+  'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\generator\\generator.py'],
+ ['C:\\Users\\houk\\OneDrive - '
+  'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\generator',
+  'C:\\Users\\houk\\OneDrive - '
+  'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\generator\\generator.py'],
+ [],
+ ['c:\\users\\houk\\onedrive - '
+  'microsoft\\desktop\\msws\\env3\\lib\\site-packages\\_pyinstaller_hooks_contrib\\hooks\\stdhooks',
+  'c:\\users\\houk\\onedrive - '
+  'microsoft\\desktop\\msws\\env3\\lib\\site-packages\\_pyinstaller_hooks_contrib\\hooks'],
+ {},
+ [],
+ [],
+ False,
+ {},
+ [],
+ [('biceps\\appinsights.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\appinsights.bicep',
+   'DATA'),
+  ('biceps\\appserviceplan.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\appserviceplan.bicep',
+   'DATA'),
+  ('biceps\\containerapp.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\containerapp.bicep',
+   'DATA'),
+  ('biceps\\containerappenv.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\containerappenv.bicep',
+   'DATA'),
+  ('biceps\\containerregistry.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\containerregistry.bicep',
+   'DATA'),
+  ('biceps\\cosmos.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\cosmos.bicep',
+   'DATA'),
+  ('biceps\\functionapp.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\functionapp.bicep',
+   'DATA'),
+  ('biceps\\keyvault.accesspolicy.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\keyvault.accesspolicy.bicep',
+   'DATA'),
+  ('biceps\\keyvault.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\keyvault.bicep',
+   'DATA'),
+  ('biceps\\keyvault.firewall.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\keyvault.firewall.bicep',
+   'DATA'),
+  ('biceps\\keyvault.secret.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\keyvault.secret.bicep',
+   'DATA'),
+  ('biceps\\loganalytics.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\loganalytics.bicep',
+   'DATA'),
+  ('biceps\\postgresql.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\postgresql.bicep',
+   'DATA'),
+  ('biceps\\postgresql.database.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\postgresql.database.bicep',
+   'DATA'),
+  ('biceps\\postgresql.firewall.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\postgresql.firewall.bicep',
+   'DATA'),
+  ('biceps\\redis.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\redis.bicep',
+   'DATA'),
+  ('biceps\\redis.firewall.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\redis.firewall.bicep',
+   'DATA'),
+  ('biceps\\redisenterprise.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\redisenterprise.bicep',
+   'DATA'),
+  ('biceps\\redisenterprise.database.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\redisenterprise.database.bicep',
+   'DATA'),
+  ('biceps\\storageaccount.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\storageaccount.bicep',
+   'DATA'),
+  ('biceps\\storageaccount.firewall.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\storageaccount.firewall.bicep',
+   'DATA'),
+  ('biceps\\storageaccount.roleassignment.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\storageaccount.roleassignment.bicep',
+   'DATA'),
+  ('biceps\\webapp.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\webapp.bicep',
+   'DATA'),
+  ('biceps\\webapp.serviceconnector.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\webapp.serviceconnector.bicep',
+   'DATA'),
+  ('biceps\\webapp.settings.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\webapp.settings.bicep',
+   'DATA')],
+ '3.8.10 (tags/v3.8.10:3d8993a, May  3 2021, 11:48:03) [MSC v.1928 64 bit '
+ '(AMD64)]',
+ [('generator',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\generator\\generator.py',
+   'PYSOURCE')],
+ [('copy', 'D:\\Python3.8.2\\lib\\copy.py', 'PYMODULE'),
+  ('_py_abc', 'D:\\Python3.8.2\\lib\\_py_abc.py', 'PYMODULE'),
+  ('_strptime', 'D:\\Python3.8.2\\lib\\_strptime.py', 'PYMODULE'),
+  ('calendar', 'D:\\Python3.8.2\\lib\\calendar.py', 'PYMODULE'),
+  ('argparse', 'D:\\Python3.8.2\\lib\\argparse.py', 'PYMODULE'),
+  ('textwrap', 'D:\\Python3.8.2\\lib\\textwrap.py', 'PYMODULE'),
+  ('gettext', 'D:\\Python3.8.2\\lib\\gettext.py', 'PYMODULE'),
+  ('struct', 'D:\\Python3.8.2\\lib\\struct.py', 'PYMODULE'),
+  ('string', 'D:\\Python3.8.2\\lib\\string.py', 'PYMODULE'),
+  ('tokenize', 'D:\\Python3.8.2\\lib\\tokenize.py', 'PYMODULE'),
+  ('token', 'D:\\Python3.8.2\\lib\\token.py', 'PYMODULE'),
+  ('tracemalloc', 'D:\\Python3.8.2\\lib\\tracemalloc.py', 'PYMODULE'),
+  ('pickle', 'D:\\Python3.8.2\\lib\\pickle.py', 'PYMODULE'),
+  ('pprint', 'D:\\Python3.8.2\\lib\\pprint.py', 'PYMODULE'),
+  ('_compat_pickle', 'D:\\Python3.8.2\\lib\\_compat_pickle.py', 'PYMODULE'),
+  ('fnmatch', 'D:\\Python3.8.2\\lib\\fnmatch.py', 'PYMODULE'),
+  ('typing', 'D:\\Python3.8.2\\lib\\typing.py', 'PYMODULE'),
+  ('contextlib', 'D:\\Python3.8.2\\lib\\contextlib.py', 'PYMODULE'),
+  ('quopri', 'D:\\Python3.8.2\\lib\\quopri.py', 'PYMODULE'),
+  ('getopt', 'D:\\Python3.8.2\\lib\\getopt.py', 'PYMODULE'),
+  ('stringprep', 'D:\\Python3.8.2\\lib\\stringprep.py', 'PYMODULE'),
+  ('bz2', 'D:\\Python3.8.2\\lib\\bz2.py', 'PYMODULE'),
+  ('threading', 'D:\\Python3.8.2\\lib\\threading.py', 'PYMODULE'),
+  ('_threading_local', 'D:\\Python3.8.2\\lib\\_threading_local.py', 'PYMODULE'),
+  ('_compression', 'D:\\Python3.8.2\\lib\\_compression.py', 'PYMODULE'),
+  ('base64', 'D:\\Python3.8.2\\lib\\base64.py', 'PYMODULE'),
+  ('payload_parser',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\generator\\payload_parser.py',
+   'PYMODULE'),
+  ('json', 'D:\\Python3.8.2\\lib\\json\\__init__.py', 'PYMODULE'),
+  ('json.encoder', 'D:\\Python3.8.2\\lib\\json\\encoder.py', 'PYMODULE'),
+  ('json.decoder', 'D:\\Python3.8.2\\lib\\json\\decoder.py', 'PYMODULE'),
+  ('json.scanner', 'D:\\Python3.8.2\\lib\\json\\scanner.py', 'PYMODULE'),
+  ('shutil', 'D:\\Python3.8.2\\lib\\shutil.py', 'PYMODULE'),
+  ('zipfile', 'D:\\Python3.8.2\\lib\\zipfile.py', 'PYMODULE'),
+  ('py_compile', 'D:\\Python3.8.2\\lib\\py_compile.py', 'PYMODULE'),
+  ('importlib.machinery',
+   'D:\\Python3.8.2\\lib\\importlib\\machinery.py',
+   'PYMODULE'),
+  ('importlib', 'D:\\Python3.8.2\\lib\\importlib\\__init__.py', 'PYMODULE'),
+  ('importlib._bootstrap',
+   'D:\\Python3.8.2\\lib\\importlib\\_bootstrap.py',
+   'PYMODULE'),
+  ('importlib._bootstrap_external',
+   'D:\\Python3.8.2\\lib\\importlib\\_bootstrap_external.py',
+   'PYMODULE'),
+  ('importlib.metadata',
+   'D:\\Python3.8.2\\lib\\importlib\\metadata.py',
+   'PYMODULE'),
+  ('importlib.abc', 'D:\\Python3.8.2\\lib\\importlib\\abc.py', 'PYMODULE'),
+  ('configparser', 'D:\\Python3.8.2\\lib\\configparser.py', 'PYMODULE'),
+  ('pathlib', 'D:\\Python3.8.2\\lib\\pathlib.py', 'PYMODULE'),
+  ('urllib.parse', 'D:\\Python3.8.2\\lib\\urllib\\parse.py', 'PYMODULE'),
+  ('urllib', 'D:\\Python3.8.2\\lib\\urllib\\__init__.py', 'PYMODULE'),
+  ('email', 'D:\\Python3.8.2\\lib\\email\\__init__.py', 'PYMODULE'),
+  ('email.parser', 'D:\\Python3.8.2\\lib\\email\\parser.py', 'PYMODULE'),
+  ('email._policybase',
+   'D:\\Python3.8.2\\lib\\email\\_policybase.py',
+   'PYMODULE'),
+  ('email.utils', 'D:\\Python3.8.2\\lib\\email\\utils.py', 'PYMODULE'),
+  ('email._parseaddr',
+   'D:\\Python3.8.2\\lib\\email\\_parseaddr.py',
+   'PYMODULE'),
+  ('socket', 'D:\\Python3.8.2\\lib\\socket.py', 'PYMODULE'),
+  ('selectors', 'D:\\Python3.8.2\\lib\\selectors.py', 'PYMODULE'),
+  ('random', 'D:\\Python3.8.2\\lib\\random.py', 'PYMODULE'),
+  ('hashlib', 'D:\\Python3.8.2\\lib\\hashlib.py', 'PYMODULE'),
+  ('logging', 'D:\\Python3.8.2\\lib\\logging\\__init__.py', 'PYMODULE'),
+  ('bisect', 'D:\\Python3.8.2\\lib\\bisect.py', 'PYMODULE'),
+  ('email.feedparser',
+   'D:\\Python3.8.2\\lib\\email\\feedparser.py',
+   'PYMODULE'),
+  ('email.message', 'D:\\Python3.8.2\\lib\\email\\message.py', 'PYMODULE'),
+  ('email.policy', 'D:\\Python3.8.2\\lib\\email\\policy.py', 'PYMODULE'),
+  ('email.contentmanager',
+   'D:\\Python3.8.2\\lib\\email\\contentmanager.py',
+   'PYMODULE'),
+  ('email.quoprimime',
+   'D:\\Python3.8.2\\lib\\email\\quoprimime.py',
+   'PYMODULE'),
+  ('email.headerregistry',
+   'D:\\Python3.8.2\\lib\\email\\headerregistry.py',
+   'PYMODULE'),
+  ('email.iterators', 'D:\\Python3.8.2\\lib\\email\\iterators.py', 'PYMODULE'),
+  ('email.generator', 'D:\\Python3.8.2\\lib\\email\\generator.py', 'PYMODULE'),
+  ('email._encoded_words',
+   'D:\\Python3.8.2\\lib\\email\\_encoded_words.py',
+   'PYMODULE'),
+  ('uu', 'D:\\Python3.8.2\\lib\\uu.py', 'PYMODULE'),
+  ('optparse', 'D:\\Python3.8.2\\lib\\optparse.py', 'PYMODULE'),
+  ('email._header_value_parser',
+   'D:\\Python3.8.2\\lib\\email\\_header_value_parser.py',
+   'PYMODULE'),
+  ('email.header', 'D:\\Python3.8.2\\lib\\email\\header.py', 'PYMODULE'),
+  ('email.base64mime',
+   'D:\\Python3.8.2\\lib\\email\\base64mime.py',
+   'PYMODULE'),
+  ('email.charset', 'D:\\Python3.8.2\\lib\\email\\charset.py', 'PYMODULE'),
+  ('email.encoders', 'D:\\Python3.8.2\\lib\\email\\encoders.py', 'PYMODULE'),
+  ('email.errors', 'D:\\Python3.8.2\\lib\\email\\errors.py', 'PYMODULE'),
+  ('csv', 'D:\\Python3.8.2\\lib\\csv.py', 'PYMODULE'),
+  ('importlib.util', 'D:\\Python3.8.2\\lib\\importlib\\util.py', 'PYMODULE'),
+  ('tarfile', 'D:\\Python3.8.2\\lib\\tarfile.py', 'PYMODULE'),
+  ('gzip', 'D:\\Python3.8.2\\lib\\gzip.py', 'PYMODULE'),
+  ('lzma', 'D:\\Python3.8.2\\lib\\lzma.py', 'PYMODULE'),
+  ('datetime', 'D:\\Python3.8.2\\lib\\datetime.py', 'PYMODULE'),
+  ('subprocess', 'D:\\Python3.8.2\\lib\\subprocess.py', 'PYMODULE'),
+  ('signal', 'D:\\Python3.8.2\\lib\\signal.py', 'PYMODULE'),
+  ('engine_factory',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\generator\\engine_factory.py',
+   'PYMODULE'),
+  ('engines.cosmos_engine',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\generator\\engines\\cosmos_engine.py',
+   'PYMODULE'),
+  ('engines', '-', 'PYMODULE'),
+  ('engines.target_engine',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\generator\\engines\\target_engine.py',
+   'PYMODULE'),
+  ('engines.base_engine',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\generator\\engines\\base_engine.py',
+   'PYMODULE'),
+  ('engines.appinsights_engine',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\generator\\engines\\appinsights_engine.py',
+   'PYMODULE'),
+  ('engines.keyvault_secret_engine',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\generator\\engines\\keyvault_secret_engine.py',
+   'PYMODULE'),
+  ('engines.secret_engine',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\generator\\engines\\secret_engine.py',
+   'PYMODULE'),
+  ('engines.keyvault_accesspolicy_engine',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\generator\\engines\\keyvault_accesspolicy_engine.py',
+   'PYMODULE'),
+  ('engines.roleassignment_engine',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\generator\\engines\\roleassignment_engine.py',
+   'PYMODULE'),
+  ('engines.keyvault_firewall_engine',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\generator\\engines\\keyvault_firewall_engine.py',
+   'PYMODULE'),
+  ('engines.firewall_engine',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\generator\\engines\\firewall_engine.py',
+   'PYMODULE'),
+  ('engines.keyvault_engine',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\generator\\engines\\keyvault_engine.py',
+   'PYMODULE'),
+  ('engines.postgresql_firewall_engine',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\generator\\engines\\postgresql_firewall_engine.py',
+   'PYMODULE'),
+  ('engines.postgresql_engine',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\generator\\engines\\postgresql_engine.py',
+   'PYMODULE'),
+  ('engines.storage_firewall_engine',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\generator\\engines\\storage_firewall_engine.py',
+   'PYMODULE'),
+  ('engines.storage_roleassignment_engine',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\generator\\engines\\storage_roleassignment_engine.py',
+   'PYMODULE'),
+  ('engines.storage_engine',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\generator\\engines\\storage_engine.py',
+   'PYMODULE'),
+  ('engines.webapp_serviceconnector_engine',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\generator\\engines\\webapp_serviceconnector_engine.py',
+   'PYMODULE'),
+  ('engines.webapp_engine',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\generator\\engines\\webapp_engine.py',
+   'PYMODULE'),
+  ('engines.source_engine',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\generator\\engines\\source_engine.py',
+   'PYMODULE'),
+  ('engines.containerapp_target_engine',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\generator\\engines\\containerapp_target_engine.py',
+   'PYMODULE'),
+  ('engines.containerapp_engine',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\generator\\engines\\containerapp_engine.py',
+   'PYMODULE'),
+  ('models.connector',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\generator\\models\\connector.py',
+   'PYMODULE'),
+  ('models', '-', 'PYMODULE')],
+ [('python38.dll', 'D:\\Python3.8.2\\python38.dll', 'BINARY'),
+  ('unicodedata.pyd', 'D:\\Python3.8.2\\DLLs\\unicodedata.pyd', 'EXTENSION'),
+  ('_bz2.pyd', 'D:\\Python3.8.2\\DLLs\\_bz2.pyd', 'EXTENSION'),
+  ('select.pyd', 'D:\\Python3.8.2\\DLLs\\select.pyd', 'EXTENSION'),
+  ('_socket.pyd', 'D:\\Python3.8.2\\DLLs\\_socket.pyd', 'EXTENSION'),
+  ('_hashlib.pyd', 'D:\\Python3.8.2\\DLLs\\_hashlib.pyd', 'EXTENSION'),
+  ('_lzma.pyd', 'D:\\Python3.8.2\\DLLs\\_lzma.pyd', 'EXTENSION'),
+  ('api-ms-win-crt-stdio-l1-1-0.dll',
+   'C:\\Program Files\\Microsoft\\Azure Functions Core '
+   'Tools\\api-ms-win-crt-stdio-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-string-l1-1-0.dll',
+   'C:\\Program Files\\Microsoft\\Azure Functions Core '
+   'Tools\\api-ms-win-crt-string-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-convert-l1-1-0.dll',
+   'C:\\Program Files\\Microsoft\\Azure Functions Core '
+   'Tools\\api-ms-win-crt-convert-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-locale-l1-1-0.dll',
+   'C:\\Program Files\\Microsoft\\Azure Functions Core '
+   'Tools\\api-ms-win-crt-locale-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-filesystem-l1-1-0.dll',
+   'C:\\Program Files\\Microsoft\\Azure Functions Core '
+   'Tools\\api-ms-win-crt-filesystem-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-runtime-l1-1-0.dll',
+   'C:\\Program Files\\Microsoft\\Azure Functions Core '
+   'Tools\\api-ms-win-crt-runtime-l1-1-0.dll',
+   'BINARY'),
+  ('VCRUNTIME140.dll', 'D:\\Python3.8.2\\VCRUNTIME140.dll', 'BINARY'),
+  ('api-ms-win-crt-environment-l1-1-0.dll',
+   'C:\\Program Files\\Microsoft\\Azure Functions Core '
+   'Tools\\api-ms-win-crt-environment-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-heap-l1-1-0.dll',
+   'C:\\Program Files\\Microsoft\\Azure Functions Core '
+   'Tools\\api-ms-win-crt-heap-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-conio-l1-1-0.dll',
+   'C:\\Program Files\\Microsoft\\Azure Functions Core '
+   'Tools\\api-ms-win-crt-conio-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-process-l1-1-0.dll',
+   'C:\\Program Files\\Microsoft\\Azure Functions Core '
+   'Tools\\api-ms-win-crt-process-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-math-l1-1-0.dll',
+   'C:\\Program Files\\Microsoft\\Azure Functions Core '
+   'Tools\\api-ms-win-crt-math-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-time-l1-1-0.dll',
+   'C:\\Program Files\\Microsoft\\Azure Functions Core '
+   'Tools\\api-ms-win-crt-time-l1-1-0.dll',
+   'BINARY'),
+  ('libcrypto-1_1.dll', 'D:\\Python3.8.2\\DLLs\\libcrypto-1_1.dll', 'BINARY'),
+  ('ucrtbase.dll',
+   'C:\\Program Files\\Microsoft\\Azure Functions Core Tools\\ucrtbase.dll',
+   'BINARY'),
+  ('api-ms-win-crt-utility-l1-1-0.dll',
+   'C:\\Program Files\\Microsoft\\Azure Functions Core '
+   'Tools\\api-ms-win-crt-utility-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-libraryloader-l1-1-0.dll',
+   'C:\\Program Files\\Microsoft\\Azure Functions Core '
+   'Tools\\api-ms-win-core-libraryloader-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-processthreads-l1-1-0.dll',
+   'C:\\Program Files\\Microsoft\\Azure Functions Core '
+   'Tools\\api-ms-win-core-processthreads-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-util-l1-1-0.dll',
+   'C:\\Program Files\\Microsoft\\Azure Functions Core '
+   'Tools\\api-ms-win-core-util-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-console-l1-1-0.dll',
+   'C:\\Program Files\\Microsoft\\Azure Functions Core '
+   'Tools\\api-ms-win-core-console-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-rtlsupport-l1-1-0.dll',
+   'C:\\Program Files\\Microsoft\\Azure Functions Core '
+   'Tools\\api-ms-win-core-rtlsupport-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-debug-l1-1-0.dll',
+   'C:\\Program Files\\Microsoft\\Azure Functions Core '
+   'Tools\\api-ms-win-core-debug-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-errorhandling-l1-1-0.dll',
+   'C:\\Program Files\\Microsoft\\Azure Functions Core '
+   'Tools\\api-ms-win-core-errorhandling-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-string-l1-1-0.dll',
+   'C:\\Program Files\\Microsoft\\Azure Functions Core '
+   'Tools\\api-ms-win-core-string-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-datetime-l1-1-0.dll',
+   'C:\\Program Files\\Microsoft\\Azure Functions Core '
+   'Tools\\api-ms-win-core-datetime-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-processenvironment-l1-1-0.dll',
+   'C:\\Program Files\\Microsoft\\Azure Functions Core '
+   'Tools\\api-ms-win-core-processenvironment-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-fibers-l1-1-0.dll',
+   'C:\\Program Files\\Microsoft\\Azure Functions Core '
+   'Tools\\api-ms-win-core-fibers-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-timezone-l1-1-0.dll',
+   'C:\\Program Files\\Microsoft\\Azure Functions Core '
+   'Tools\\api-ms-win-core-timezone-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-sysinfo-l1-1-0.dll',
+   'C:\\Program Files\\Microsoft\\Azure Functions Core '
+   'Tools\\api-ms-win-core-sysinfo-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-synch-l1-2-0.dll',
+   'C:\\Program Files\\Microsoft\\Azure Functions Core '
+   'Tools\\api-ms-win-core-synch-l1-2-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-heap-l1-1-0.dll',
+   'C:\\Program Files\\Microsoft\\Azure Functions Core '
+   'Tools\\api-ms-win-core-heap-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-interlocked-l1-1-0.dll',
+   'C:\\Program Files\\Microsoft\\Azure Functions Core '
+   'Tools\\api-ms-win-core-interlocked-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-namedpipe-l1-1-0.dll',
+   'C:\\Program Files\\Microsoft\\Azure Functions Core '
+   'Tools\\api-ms-win-core-namedpipe-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-synch-l1-1-0.dll',
+   'C:\\Program Files\\Microsoft\\Azure Functions Core '
+   'Tools\\api-ms-win-core-synch-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-processthreads-l1-1-1.dll',
+   'C:\\Program Files\\Microsoft\\Azure Functions Core '
+   'Tools\\api-ms-win-core-processthreads-l1-1-1.dll',
+   'BINARY'),
+  ('api-ms-win-core-file-l2-1-0.dll',
+   'C:\\Program Files\\Microsoft\\Azure Functions Core '
+   'Tools\\api-ms-win-core-file-l2-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-file-l1-2-0.dll',
+   'C:\\Program Files\\Microsoft\\Azure Functions Core '
+   'Tools\\api-ms-win-core-file-l1-2-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-file-l1-1-0.dll',
+   'C:\\Program Files\\Microsoft\\Azure Functions Core '
+   'Tools\\api-ms-win-core-file-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-memory-l1-1-0.dll',
+   'C:\\Program Files\\Microsoft\\Azure Functions Core '
+   'Tools\\api-ms-win-core-memory-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-profile-l1-1-0.dll',
+   'C:\\Program Files\\Microsoft\\Azure Functions Core '
+   'Tools\\api-ms-win-core-profile-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-handle-l1-1-0.dll',
+   'C:\\Program Files\\Microsoft\\Azure Functions Core '
+   'Tools\\api-ms-win-core-handle-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-localization-l1-2-0.dll',
+   'C:\\Program Files\\Microsoft\\Azure Functions Core '
+   'Tools\\api-ms-win-core-localization-l1-2-0.dll',
+   'BINARY')],
+ [],
+ [],
+ [('biceps\\appinsights.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\appinsights.bicep',
+   'DATA'),
+  ('biceps\\appserviceplan.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\appserviceplan.bicep',
+   'DATA'),
+  ('biceps\\containerapp.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\containerapp.bicep',
+   'DATA'),
+  ('biceps\\containerappenv.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\containerappenv.bicep',
+   'DATA'),
+  ('biceps\\containerregistry.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\containerregistry.bicep',
+   'DATA'),
+  ('biceps\\cosmos.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\cosmos.bicep',
+   'DATA'),
+  ('biceps\\functionapp.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\functionapp.bicep',
+   'DATA'),
+  ('biceps\\keyvault.accesspolicy.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\keyvault.accesspolicy.bicep',
+   'DATA'),
+  ('biceps\\keyvault.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\keyvault.bicep',
+   'DATA'),
+  ('biceps\\keyvault.firewall.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\keyvault.firewall.bicep',
+   'DATA'),
+  ('biceps\\keyvault.secret.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\keyvault.secret.bicep',
+   'DATA'),
+  ('biceps\\loganalytics.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\loganalytics.bicep',
+   'DATA'),
+  ('biceps\\postgresql.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\postgresql.bicep',
+   'DATA'),
+  ('biceps\\postgresql.database.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\postgresql.database.bicep',
+   'DATA'),
+  ('biceps\\postgresql.firewall.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\postgresql.firewall.bicep',
+   'DATA'),
+  ('biceps\\redis.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\redis.bicep',
+   'DATA'),
+  ('biceps\\redis.firewall.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\redis.firewall.bicep',
+   'DATA'),
+  ('biceps\\redisenterprise.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\redisenterprise.bicep',
+   'DATA'),
+  ('biceps\\redisenterprise.database.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\redisenterprise.database.bicep',
+   'DATA'),
+  ('biceps\\storageaccount.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\storageaccount.bicep',
+   'DATA'),
+  ('biceps\\storageaccount.firewall.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\storageaccount.firewall.bicep',
+   'DATA'),
+  ('biceps\\storageaccount.roleassignment.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\storageaccount.roleassignment.bicep',
+   'DATA'),
+  ('biceps\\webapp.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\webapp.bicep',
+   'DATA'),
+  ('biceps\\webapp.serviceconnector.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\webapp.serviceconnector.bicep',
+   'DATA'),
+  ('biceps\\webapp.settings.bicep',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\biceps\\webapp.settings.bicep',
+   'DATA'),
+  ('base_library.zip',
+   'C:\\Users\\houk\\OneDrive - '
+   'Microsoft\\Desktop\\msws\\ConnectionTemplates\\bicep_generator\\build\\installer\\base_library.zip',
+   'DATA')])

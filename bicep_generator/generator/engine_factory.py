@@ -2,6 +2,8 @@ from models.connector import (
     SourceType,
     TargetType
 )
+from engines.containerapp_engine import ContainerAppEngine
+from engines.containerapp_target_engine import ContainerAppTargetEngine
 from engines.webapp_engine import WebAppEngine
 from engines.webapp_serviceconnector_engine import WebAppServiceConnectorEngine
 from engines.storage_engine import StorageEngine
@@ -13,11 +15,13 @@ from engines.keyvault_engine import KeyvaultEngine
 from engines.keyvault_firewall_engine import KeyvaultFirewallEngine
 from engines.keyvault_accesspolicy_engine import KeyvaultAccessPolicyEngine
 from engines.keyvault_secret_engine import KeyvaultSecretEngine
-
+from engines.appinsights_engine import AppInsightsEngine
+from engines.cosmos_engine import CosmosEngine
 
 def get_source_engine(connector):
     source_engine_map = {
-        SourceType.WebApp.value: WebAppEngine
+        SourceType.WebApp.value: WebAppEngine,
+        SourceType.ContainerApp.value: ContainerAppEngine
     }
     source_engine = source_engine_map.get(connector.source_type)
     return source_engine(connector)
@@ -36,6 +40,9 @@ def get_target_engine(connector):
         TargetType.Storage.value: StorageEngine,
         TargetType.Postgres.value: PostgresqlEngine,
         TargetType.Keyvaykt.value: KeyvaultEngine,
+        TargetType.AppInsights.value: AppInsightsEngine,
+        TargetType.Cosmos.value: CosmosEngine,
+        TargetType.ContainerApp.value: ContainerAppTargetEngine
     }
     target_engine = target_engine_map.get(connector.target_type)
     return target_engine(connector)

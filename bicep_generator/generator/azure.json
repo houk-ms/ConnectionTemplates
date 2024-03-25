@@ -1,0 +1,82 @@
+{
+    "resources": [
+      {
+        "type": "containerapp",
+        "instances": [
+          {
+            "name": "api",
+            "region": "eastus"
+          },
+          {
+            "name": "web",
+            "region": "eastus"
+          }
+        ]
+      },
+      {
+        "type": "appinsights",
+        "instances": [
+          {
+            "name": "appinsights1",
+            "region": "eastus"
+          }
+        ]
+      },
+      {
+        "type": "keyvault",
+        "instances": [
+          {
+            "name": "keyvault1",
+            "region": "eastus"
+          }
+        ]
+      },
+      {
+        "type": "cosmos",
+        "instances": [
+          {
+            "name": "mongodb1",
+            "region": "eastus"
+          }
+        ]
+      }
+    ],
+    "bindings": [
+      {
+        "source": "${containerapp.api}",
+        "target": "${cosmos.mongodb1}",
+        "connection": "secret",
+        "key": "AZURE_COSMOS_CONNECTION_STRING"
+      },
+      {
+        "source": "${containerapp.api}",
+        "target": "${appinsights.appinsights1}",
+        "connection": "secret",
+        "key": "APPLICATIONINSIGHTS_CONNECTION_STRING"
+      },
+      {
+        "source": "${containerapp.api}",
+        "target": "${keyvault.keyvault1}",
+        "connection": "system-identity",
+        "key": "AZURE_KEY_VAULT_ENDPOINT"
+      },
+      {
+        "source": "${containerapp.web}",
+        "target": "${appinsights.appinsights1}",
+        "connection": "secret",
+        "key": "REACT_APP_APPLICATIONINSIGHTS_CONNECTION_STRING"
+      }
+    ],
+    "services": [
+      {
+        "name": "api",
+        "language": "ts",
+        "project": "src/api"
+      },
+      {
+        "name": "web",
+        "language": "ts",
+        "project": "src/web"
+      }
+    ]
+  }

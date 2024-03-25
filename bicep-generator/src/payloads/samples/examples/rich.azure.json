@@ -1,0 +1,84 @@
+{
+    "resources": [
+      {
+        "type": "containerapp",
+        "instances": [
+          {
+            "name": "api"
+          },
+          {
+            "name": "web"
+          }
+        ]
+      },
+      {
+        "type": "appinsights",
+        "instances": [
+          {
+            "name": "todo"
+          }
+        ]
+      },
+      {
+        "type": "keyvault",
+        "instances": [
+          {
+            "name": "todo"
+          }
+        ]
+      },
+      {
+        "type": "cosmos",
+        "instances": [
+          {
+            "name": "todo"
+          }
+        ]
+      }
+    ],
+    "bindings": [
+      {
+        "source": "${containerapp.api}",
+        "target": "${cosmos.todo}",
+        "connection": "secret",
+        "store": "${keyvault.keyvault1}",
+        "key": "AZURE_COSMOS_CONNECTION_STRING"
+      },
+      {
+        "source": "${containerapp.api}",
+        "target": "${appinsights.todo}",
+        "connection": "secret",
+        "key": "APPLICATIONINSIGHTS_CONNECTION_STRING"
+      },
+      {
+        "source": "${containerapp.api}",
+        "target": "${keyvault.todo}",
+        "connection": "system-identity",
+        "key": "AZURE_KEY_VAULT_ENDPOINT"
+      },
+      {
+        "source": "${containerapp.web}",
+        "target": "${appinsights.todo}",
+        "connection": "secret",
+        "key": "APPLICATIONINSIGHTS_CONNECTION_STRING"
+      },
+      {
+        "source": "${containerapp.web}",
+        "target": "${containerapp.api}",
+        "connection": "http",
+        "key": "SERVICE_API_URL"
+      }
+    ],
+    "services": [
+      {
+        "name": "api",
+        "language": "ts",
+        "project": "src/api"
+      },
+      {
+        "name": "web",
+        "language": "ts",
+        "project": "src/web"
+      }
+    ]
+  }

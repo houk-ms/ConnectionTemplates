@@ -1,0 +1,75 @@
+
+{
+    "resources": [
+        {
+            "type": "containerapp",
+            "instances": [
+                {
+                    "name": "web",
+                    "region": "eastus"
+                },
+                {
+                    "name": "api",
+                    "region": "eastus"
+                }
+            ]
+        },
+        {
+            "type": "applicationinsights",
+            "instances": [
+                {
+                    "name": "todo_insights",
+                    "region": "eastus"
+                }
+            ]
+        },
+        {
+            "type": "keyvault",
+            "instances": [
+                {
+                    "name": "todo_kv",
+                    "region": "eastus"
+                }
+            ]
+        },
+        {
+            "type": "cosmosdb",
+            "instances": [
+                {
+                    "name": "todo_cosmos",
+                    "region": "eastus"
+                }
+            ]
+        }
+    ],
+    "bindings": [
+        {
+            "source": "${containerapp.web}",
+            "target": "${containerapp.api}",
+            "connection": "http"
+        },
+        {
+            "source": "${containerapp.api}",
+            "target": "${applicationinsights.todo_insights}",
+            "connection": "secret"
+        },
+        {
+            "source": "${containerapp.api}",
+            "target": "${cosmosdb.todo_cosmos}",
+            "connection": "secret",
+            "secret_store": "${keyvault.todo_kv}"
+        }
+    ],
+    "services": [
+        {
+            "name": "${containerapp.web}",
+            "language": "nodejs",
+            "project": "./src/web"
+        },
+        {
+            "name": "${containerapp.api}",
+            "language": "python",
+            "project": "./src/api"
+        }
+    ]
+}

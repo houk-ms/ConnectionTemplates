@@ -1,0 +1,15 @@
+// The template to create webapp settings
+
+param appName string
+param appSettings object = {}
+
+resource webApp 'Microsoft.Web/sites@2022-09-01' existing = {
+	name: appName
+}
+
+resource webAppSettings 'Microsoft.Web/sites/config@2022-09-01' = {
+	name: 'appsettings'
+	parent: webApp
+	properties: appSettings
+}
+

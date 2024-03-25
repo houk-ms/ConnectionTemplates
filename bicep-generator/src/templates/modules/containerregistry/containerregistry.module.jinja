@@ -1,0 +1,12 @@
+// Deploy an Azure Container Registry
+
+module containerRegistry 'containerregistry.bicep' = {
+	name: 'container-registry-deployment'
+	params: {
+		location: location
+		name: containerRegistryName
+	}
+}
+
+
+

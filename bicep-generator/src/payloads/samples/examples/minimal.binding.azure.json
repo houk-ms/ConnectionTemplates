@@ -1,0 +1,33 @@
+{
+    "resources": [
+      {
+        "type": "containerapp"
+      },
+      {
+        "type": "appinsights"
+      },
+      {
+        "type": "keyvault"
+      },
+      {
+        "type": "cosmosdb"
+      }
+    ],
+    "bindings": [
+      {
+        "source": "${containerapp}",
+        "target": "${cosmosdb}",
+        "connection": "secret"
+      },
+      {
+        "source": "${containerapp}",
+        "target": "${appinsights}",
+        "connection": "secret"
+      },
+      {
+        "source": "${containerapp}",
+        "target": "${keyvault}",
+        "connection": "system-identity"
+      }
+    ]
+  }

@@ -3,7 +3,7 @@ from enum import Enum
 
 class SourceType(Enum):
     WebApp = 'webapp'
-    ContainerApp = 'containerApp'
+    ContainerApp = 'containerapp'
 
 
 class TargetType(Enum):
@@ -11,6 +11,9 @@ class TargetType(Enum):
     Postgres = 'postgresql'
     Redis = 'redis'
     Keyvaykt = 'keyvault'
+    AppInsights = 'appinsights'
+    Cosmos = 'cosmos'
+    ContainerApp = 'containerapp'
 
 
 class AuthType(Enum):
@@ -18,6 +21,7 @@ class AuthType(Enum):
     SystemIdentity = 'system-identity'
     UserIdentity = 'user-identity'
     ServicePrincipal = 'service-principal'
+    Http = 'http'
 
 
 class ClientType(Enum):
@@ -32,12 +36,14 @@ class NetworkSolution(Enum):
 
 
 class Connector():
-    def __init__(self, source_type, source_id, target_type, target_id, auth_type, client_type, kv_store, network_solution):
+    def __init__(self, source_type, source_id, source_props, target_type, target_id, target_props, auth_type, client_type, kv_store, network_solution):
         self.source_type = source_type
         self.source_id = source_id
+        self.source_props = source_props
 
         self.target_type = target_type
         self.target_id = target_id
+        self.target_props =target_props
 
         self.auth_type = auth_type
         self.client_type = client_type

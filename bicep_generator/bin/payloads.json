@@ -1,0 +1,68 @@
+
+{
+    "resources": [
+        {
+            "type": "containerapp",
+            "instances": [
+                {
+                    "name": "web"
+                },
+                {
+                    "name": "api"
+                }
+            ]
+        },
+        {
+            "type": "appinsights",
+            "instances": [
+                {
+                    "name": "todo"
+                }
+            ]
+        },
+        {
+            "type": "keyvault",
+            "instances": [
+                {
+                    "name": "todo"
+                }
+            ]
+        },
+        {
+            "type": "cosmos",
+            "instances": [
+                {
+                    "server": "todo",
+                    "name": "todo"
+                }
+            ]
+        }
+    ],
+    "bindings": [
+        {
+            "source": "${containerapp.api}",
+            "target": "${appinsights.todo}",
+            "connection": "secret",
+            "key": "MyCustomizedAppInsightsKey"
+        },
+        {
+            "source": "${containerapp.api}",
+            "target": "${cosmos.todo}",
+            "connection": "secret",
+            "store": "${keyvault.todo}",
+            "key": "MyCustomizedCosmosKey"
+        },
+        {
+            "source": "${containerapp.api}",
+            "target": "${keyvault.todo}",
+            "connection": "system-identity",
+            "key": "MyCustomizedKeyVaultKey"
+        },
+        {
+            "source": "${containerapp.web}",
+            "target": "${appinsights.todo}",
+            "connection": "secret",
+            "key": "MyCustomizedAppInsightsKey"
+        }
+    ]
+}

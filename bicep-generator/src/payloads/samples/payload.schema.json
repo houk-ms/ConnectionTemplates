@@ -1,0 +1,99 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+      "resources": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "appservice", 
+                "containerapp", 
+                "functionapp", 
+                "keyvault", 
+                "cosmos", 
+                "postgresql", 
+                "sql", 
+                "mysql", 
+                "storageaccount", 
+                "redis", 
+                "appinsights"
+              ],
+              "description": "The resource type"
+            },
+            "instances": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": []
+              },
+              "description": "The resource instances"
+            }
+          },
+          "required": ["type"]
+        }
+      },
+      "bindings": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "source": {
+              "type": "string",
+              "description": "The binding source resource. With the form `${resourceType}` or `${resourceType.resourceName}`"
+            },
+            "target": {
+              "type": "string",
+              "description": "The binding target resource. With the form `${resourceType}` or `${resourceType.resourceName}`"
+            },
+            "connection": {
+              "type": "string",
+              "enum": ["secret", "http", "system-identity"],
+              "description": "The binding connection type"
+            },
+            "store":{
+                "type": "string",
+                "description": "The binding store resource. With the form `${resourceType}` or `${resourceType.resourceName}`",
+                "enum": ["keyvault"]
+            },
+            "key": {
+              "type": "string",
+              "description": "The binding customization key"
+            }
+          },
+          "required": ["source", "target", "connection"]
+        }
+      },
+      "services": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The service name"
+            },
+            "language": {
+              "type": "string",
+              "enum": ["node", "python", "dotnet", "java", "go"],
+              "description": "The service language"
+            },
+            "project": {
+              "type": "string",
+              "description": "The project path"
+            }
+          },
+          "required": ["name", "language", "project"]
+        }
+      }
+    },
+    "required": ["resources"]
+  }
