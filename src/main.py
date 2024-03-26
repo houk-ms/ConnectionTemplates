@@ -3,7 +3,7 @@ from payloads.payload import Payload
 from generators.infra_generator import InfraGenerator
 
 def main():
-    input_file = './test.json'
+    input_file = '../test.payload.json'
     content = open(input_file, 'r').read()
     input_json = json.loads(content)
 

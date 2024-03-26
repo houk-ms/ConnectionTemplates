@@ -1,5 +1,5 @@
 from typing import List
-from ...base_engine import BaseEngine
+from payloads.binding import Binding
 from payloads.resources.container_app import ContainerAppResource
 
 from engines.models.abbrevation import Abbreviation
@@ -44,5 +44,11 @@ class ContainerAppEngine(SourceResourceEngine, TargetResourceEngine):
             ContainerRegistryEngine(self.resource)
         ]
     
+    def get_app_settings_http(self, binding: Binding) -> List[tuple]:
+        app_setting_key = binding.key if binding.key else 'SERVICE{}_URL'.format(self.resource.name.upper())
+        
+        return [
+            (app_setting_key, '{}.outputs.requestUrl'.format(self.module_name))
+        ]
 
     

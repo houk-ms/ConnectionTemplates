@@ -1,4 +1,5 @@
 from typing import List
+from payloads.binding import Binding
 from payloads.models.resource_type import ResourceType
 from engines.modules.base_resource_engine import BaseResourceEngine
 
@@ -27,13 +28,13 @@ class TargetResourceEngine(BaseResourceEngine):
         self.module_params_allow_ips.append(public_ip)
     
     # return the app settings needed by identity connection
-    def get_app_settings_identity(self) -> List[tuple]:
+    def get_app_settings_identity(self, binding: Binding) -> List[tuple]:
         raise NotImplementedError('Resource engine does not implement the method')
     
     # return the app settings needed by http connection
-    def get_app_settings_http(self) -> List[tuple]:
+    def get_app_settings_http(self, binding: Binding) -> List[tuple]:
         raise NotImplementedError('Resource engine does not implement the method')
     
     # return the app settings needed by secret connection
-    def get_app_settings_secret(self, compute: ResourceType) -> List[tuple]:
+    def get_app_settings_secret(self, binding: Binding) -> List[tuple]:
         raise NotImplementedError('Resource engine does not implement the method')

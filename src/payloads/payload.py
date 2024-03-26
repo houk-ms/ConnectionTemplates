@@ -16,7 +16,7 @@ class Payload():
         if 'resources' not in json:
             raise ValueError('`resources` property is not found in payload')
         for resource in json['resources']:
-            payload.resources += Resource.from_json(resource)
+            payload.resources.extend(Resource.from_json(resource))
         
         # for resource reference in bindings and services
         resource_dict = {f'{resource.type}.{resource.name}' if resource.name else resource.type: \

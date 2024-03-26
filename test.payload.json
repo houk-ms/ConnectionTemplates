@@ -1,0 +1,24 @@
+{
+    "resources": [
+        {
+            "type": "containerapp",
+            "instances": [
+                {
+                "name": "houk"
+                },
+                {
+                "name": "houk2"
+                }
+            ]
+        }
+    ],
+    "bindings": [
+        {
+            "source": "${containerapp.houk}",
+            "target": "${containerapp.houk2}",
+            "connection": "http",
+            "key": "somekeyyyyyyyy"
+        }
+    ],
+    "services": []
+}

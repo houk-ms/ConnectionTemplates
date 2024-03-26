@@ -25,7 +25,8 @@ class Binding():
         binding.connection = ConnectionType(json['connection'])
 
         # optional properties
-        binding.store = Resource.from_expression(json.get('store'), all_resources)
+        if 'store' in json:
+            binding.store = Resource.from_expression(json.get('store'), all_resources)
         binding.key = json.get('key')
 
         return binding

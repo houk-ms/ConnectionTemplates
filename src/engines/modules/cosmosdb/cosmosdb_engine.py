@@ -1,4 +1,5 @@
 from typing import List
+from payloads.binding import Binding
 from payloads.models.resource_type import ResourceType
 from payloads.resources.cosmos_db import CosmosDBResource
 
@@ -34,18 +35,20 @@ class CosmosDbEngine(TargetResourceEngine):
 
 
     # return the app settings needed by identity connection
-    def get_app_settings_identity(self) -> List[tuple]:
+    def get_app_settings_identity(self, binding: Binding) -> List[tuple]:
+        app_setting_key = binding.key if binding.key else 'AZURE_COSMOS_RESOURCEENDPOINT'
         return [
-            ('AZURE_COSMOS_CONNECTIONSTRING', '{}.outputs.endpoint'.format(self.module_name)),
+            (app_setting_key, '{}.outputs.endpoint'.format(self.module_name)),
         ]
     
     # return the app settings needed by secret connection
-    def get_app_settings_secret(self, compute: ResourceType) -> List[tuple]:
-        if compute == ResourceType.AZURE_APP_SERVICE:
+    def get_app_settings_secret(self, binding: Binding) -> List[tuple]:
+        app_setting_key = binding.key if binding.key else 'AZURE_COSMOS_CONNECTIONSTRING'
+        if binding.source.type == ResourceType.AZURE_APP_SERVICE:
             return [
-                ('AZURE_COSMOS_CONNECTIONSTRING', '{}.outputs.appServiceSecretReference'.format(self.module_name))
+                (app_setting_key, '{}.outputs.appServiceSecretReference'.format(self.module_name))
             ]
-        elif compute == ResourceType.AZURE_CONTAINER_APP:
+        elif binding.source.type == ResourceType.AZURE_CONTAINER_APP:
             return [
-                ('AZURE_COSMOS_CONNECTIONSTRING', '{}.outputs.containerAppSecretReference'.format(self.module_name))
+                (app_setting_key, '{}.outputs.containerAppSecretReference'.format(self.module_name))
             ]

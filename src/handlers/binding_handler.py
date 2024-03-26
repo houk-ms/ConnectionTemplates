@@ -31,14 +31,14 @@ class BindingHandler():
             
             # setting engine depends on target engine
             self.setting_engine.add_dependency_engine(self.target_engine)
-            app_settings = self.target_engine.get_app_settings_identity()
+            app_settings = self.target_engine.get_app_settings_identity(self.binding)
             self.setting_engine.add_app_settings(app_settings)
 
         elif self.binding.connection == ConnectionType.HTTP:
             # target engine depends on source engine
             # setting engine depends on target engine
             self.target_engine.add_dependency_engine(self.source_engine)
-            app_settings = self.target_engine.get_app_settings_http()
+            app_settings = self.target_engine.get_app_settings_http(self.binding)
             self.setting_engine.add_app_settings(app_settings)
 
         elif self.binding.connection == ConnectionType.SECRET:
@@ -54,7 +54,7 @@ class BindingHandler():
 
             # setting engine depends on store engine
             self.setting_engine.add_dependency_engine(self.target_engine)
-            app_settings = self.target_engine.get_app_settings_secret(self.source_engine.resource.type)
+            app_settings = self.target_engine.get_app_settings_secret(self.binding)
             self.setting_engine.add_app_settings(app_settings)
             
         else:

@@ -1,4 +1,5 @@
 from typing import List
+from payloads.binding import Binding
 from payloads.models.resource_type import ResourceType
 from payloads.resources.storage_account import StorageAccountResource
 
@@ -34,7 +35,8 @@ class StorageAccountEngine(TargetResourceEngine):
 
 
     # return the app settings needed by identity connection
-    def get_app_settings_identity(self) -> List[tuple]:
+    def get_app_settings_identity(self, binding: Binding) -> List[tuple]:
+        # TODO: support multiple keys customizations
         return [
             ('AZURE_STORAGEBLOB_RESOURCEENDPOINT', '{}.outputs.blobEndpoint'.format(self.module_name)),
             ('AZURE_STORAGETABLE_RESOURCEENDPOINT', '{}.outputs.tableEndpoint'.format(self.module_name)),
@@ -43,12 +45,14 @@ class StorageAccountEngine(TargetResourceEngine):
         ]
     
     # return the app settings needed by secret connection
-    def get_app_settings_secret(self, compute: ResourceType) -> List[tuple]:
-        if compute == ResourceType.AZURE_APP_SERVICE:
+    def get_app_settings_secret(self, binding: Binding) -> List[tuple]:
+        app_setting_key = binding.key if binding.key else 'AZURE_REDIS_CONNECTIONSTRING'
+
+        if binding.source.type == ResourceType.AZURE_APP_SERVICE:
             return [
-                ('AZURE_STORAGE_CONNECTIONSTRING', '{}.outputs.appServiceSecretReference'.format(self.module_name))
+                (app_setting_key, '{}.outputs.appServiceSecretReference'.format(self.module_name))
             ]
-        elif compute == ResourceType.AZURE_CONTAINER_APP:
+        elif binding.source.type == ResourceType.AZURE_CONTAINER_APP:
             return [
-                ('AZURE_STORAGE_CONNECTIONSTRING', '{}.outputs.containerAppSecretReference'.format(self.module_name))
+                (app_setting_key, '{}.outputs.containerAppSecretReference'.format(self.module_name))
             ]

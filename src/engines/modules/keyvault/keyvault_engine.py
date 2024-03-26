@@ -1,4 +1,5 @@
 from typing import List
+from payloads.binding import Binding
 from payloads.resources.keyvault import KeyVaultResource
 
 from engines.models.abbrevation import Abbreviation
@@ -38,8 +39,9 @@ class KeyVaultEngine(TargetResourceEngine, StoreResourceEngine):
 
 
     # return the app settings needed by identity connection
-    def get_app_settings_identity(self) -> List[tuple]:
+    def get_app_settings_identity(self, binding: Binding) -> List[tuple]:
+        app_setting_key = binding.key if binding.key else 'AZURE_KEYVAULT_RESOURCEENDPOINT'
+        
         return [
-            ('AZURE_KEYVAULT_RESOURCEENDPOINT', '{}.outputs.endpoint'.format(self.module_name)),
+            (app_setting_key, '{}.outputs.endpoint'.format(self.module_name)),
         ]
-    

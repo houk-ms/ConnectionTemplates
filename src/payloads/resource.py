@@ -34,9 +34,15 @@ class Resource():
             raise ValueError(f'`type` is not found for resource: {json}')
 
         resource = RESOURCES[json['type']]
-        return [resource.from_json(json) for json in json['instances']]
+        if 'instances' not in json:
+            # single resource instance
+            return [resource()]
+        
+        # multiple resource instances
+        return [resource.from_json(json) for json in json.get('instances', [])]
+
     
-    def from_expression(expression: dict, all_resources: dict) -> 'Resource':
+    def from_expression(expression: str, all_resources: dict) -> 'Resource':
         # two expressions are supported: '${resource_type}' or '${resource_type.resource_name}'
         pattern = r'\$\{(.*?)\}'
         match = re.search(pattern, expression)
