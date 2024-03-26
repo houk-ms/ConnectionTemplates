@@ -1,15 +1,11 @@
 from generators.base_generator import BaseGenerator
 from engines import engine_factory
-from engines.base_engine import BaseEngine
+from engines.main_engine import MainEngine
 from engines.models.template import Template
 from helpers import file_helper
 from handlers.binding_handler import BindingHandler
 from payloads.payload import Payload
 from payloads.resource import Resource
-from payloads.binding import Binding
-from payloads.models.resource_type import ResourceType
-from payloads.models.connection_type import ConnectionType
-
 
 class InfraGenerator(BaseGenerator):
     def __init__(self, payload: Payload):
@@ -91,11 +87,11 @@ class InfraGenerator(BaseGenerator):
         delployment_engines = self.dependency_engines + self.resource_engines + self.setting_engines
 
         # generate main.bicep file
-        main_engine = BaseEngine()
+        main_engine = MainEngine()
         main_engine.params = [engine.render_template() for engine in self.param_engines]
         main_engine.outputs = [engine.render_template() for engine in self.output_engines]
         main_engine.deployments = [engine.render_module() for engine in delployment_engines]
-        file_helper.create_file('{}/main.bicep'.format(output_folder), main_engine.render(Template.MAIN.value))
+        file_helper.create_file('{}/main.bicep'.format(output_folder), main_engine.render_template())
         
         # generate dependency bicep files
         # duplicated engines does not matter as the bicep file will be overwritten
