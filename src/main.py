@@ -9,7 +9,7 @@ def main():
 
     payload = Payload.from_json(input_json)
     infra_generator = InfraGenerator(payload)
-    infra_generator.generate('./output')
+    infra_generator.generate('../output')
 
 if __name__ == '__main__':
     main()

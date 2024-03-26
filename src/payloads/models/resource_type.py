@@ -19,6 +19,5 @@ class ResourceType(str, Enum):
             ResourceType.AZURE_APP_SERVICE, 
             ResourceType.AZURE_CONTAINER_APP, 
             ResourceType.AZURE_FUNCTION_APP, 
-            ResourceType.AZURE_SPRING_APP
         ]
 

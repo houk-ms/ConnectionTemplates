@@ -23,7 +23,6 @@ RESOURCES = {
     ResourceType.AZURE_KEYVAULT: KeyVaultResource,
     ResourceType.AZURE_POSTGRESQL_DB: PostgreSqlDbResource,
     ResourceType.AZURE_REDIS_CACHE: RedisResource,
-    ResourceType.AZURE_SPRING_APP: SpringAppResource,
     ResourceType.AZURE_SQL_DB: SqlDbResource,
     ResourceType.AZURE_STORAGE_ACCOUNT: StorageAccountResource
 }
