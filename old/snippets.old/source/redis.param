@@ -1,5 +1,0 @@
-param redisCacheName string = 'redis_${uniqueString(resourceGroup().id)}'
-param redisCacheLocation string = resourceGroup().location
-param redisCacheSkuName string = 'Basic'
-param redisCacheSkuFamily string = 'C'
-param redisCacheSkuCapacity int = 0

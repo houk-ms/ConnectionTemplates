@@ -1,3 +1,0 @@
-param functionAppName string = 'functionapp-${uniqueString(resourceGroup().id)}'
-param functionAppLocation string = resourceGroup().location
-param functionAppIdentityType string = 'SystemAssigned'

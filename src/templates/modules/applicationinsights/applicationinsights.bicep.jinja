@@ -1,0 +1,58 @@
+// The template to create an Azure Application Insights
+
+param name string = 'insights_${uniqueString(resourceGroup().id)}'
+param location string = resourceGroup().location
+param kind string = 'web'
+param applicationType string = 'web'
+param requestSource string = 'rest'
+param principalIds array = []
+param roleDefinitionId string = 'ba92f5b4-2d11-453d-a403-e96b0029c9fe'  // storage blob data contributor role
+param keyVaultName string = ''
+param secretName string = ''
+
+
+// create the application insights
+resource applicationInsights 'Microsoft.Insights/components@2020-02-02' = {
+	name: name
+	location: location
+	kind: kind
+	properties: {
+		Application_Type: applicationType
+		Request_Source: requestSource
+	}
+}
+
+// create role assignments for the specified principalIds
+resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = [for principalId in principalIds: {
+	scope: applicationInsights
+	name: guid(name, principalId)
+	properties: {
+		roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', roleDefinitionId)
+		principalId: principalId
+	}
+}]
+
+// create key vault and secret if keyVaultName is specified
+resource keyVault 'Microsoft.KeyVault/vaults@2022-07-01' existing = if (keyVaultName != ''){
+	name: keyVaultName
+}
+
+resource keyVaultSecret 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = if (keyVaultName != ''){
+	name: secretName
+	parent: keyVault
+	properties: {
+		attributes: {
+			enabled: true
+		}
+		contentType: 'string'
+		value: applicationInsights.properties.ConnectionString
+	}
+}
+
+output id string = applicationInsights.id
+output identityConnectionString string = replace(
+    applicationInsights.properties.ConnectionString, 
+    applicationInsights.properties.InstrumentationKey, 
+    '00000000-0000-0000-0000-000000000000')
+output appServiceSecretReference string = '@Microsoft.KeyVault(SecretUri=${keyVaultSecret.properties.secretUriWithVersion})'
+output containerAppSecretReference string = keyVaultSecret.properties.secretUriWithVersion

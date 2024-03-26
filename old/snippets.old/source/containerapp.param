@@ -1,4 +1,0 @@
-param containerAppName string = 'aca_${uniqueString(resourceGroup().id)}'
-param containerAppLocation string = resourceGroup().location
-param containerAppContainerName string = 'hello-world'
-param containerAppContainerImage string = 'mcr.microsoft.com/azuredocs/containerapps-helloworld:latest'

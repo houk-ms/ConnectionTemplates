@@ -1,0 +1,16 @@
+// Deploy an Azure PostgresSQL server and with database
+
+module {{engine.module_name}} 'postgresqldb.bicep' = {
+  name: '{{engine.module_deployment_name}}'
+  params: {
+      location: location
+      name: {{engine.module_params_name}}{% if engine.module_params_allow_ips %}
+      allowIps: concat({% for publicIp in engine.module_params_allow_ips %}{{publicIp}}{% if not loop.last %}, {% endif %}{% endfor %}){% endif %}{% if engine.module_params_keyvault_name %}
+      keyVaultName: {{engine.module_params_keyvault_name}}
+      secretName: '{{engine.module_params_secret_name}}'{% endif %}
+  }{% if engine.module_depends_on %}
+  dependsOn: [{% for dep in engine.module_depends_on %}
+      {{dep}}{% endfor %}
+  ]
+  {% endif %}
+}

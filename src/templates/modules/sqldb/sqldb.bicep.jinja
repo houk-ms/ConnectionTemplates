@@ -1,0 +1,68 @@
+// The template to create an Azure SQL DB
+
+param name string = 'psql_${uniqueString(resourceGroup().id)}'
+param databaseName string = 'database_${uniqueString(resourceGroup().id)}'
+param location string = resourceGroup().location
+param adminName string = 'administrator_${uniqueString(resourceGroup().id)}'
+@secure()
+param adminPassword string = 'Aa0!${newGuid()}'
+param databaseSkuName string = 'Standard'
+param databaseSkuTier string = 'Standard'
+param allowIps array = []
+param keyVaultName string = ''
+param secretName string = ''
+
+
+// create a SQL server
+resource sqlServer 'Microsoft.Sql/servers@2021-11-01' = {
+    name: name
+    location: location
+    properties: {
+        administratorLogin: adminName
+        administratorLoginPassword: adminPassword
+    }
+}
+
+// create a SQL database
+resource sqlDB 'Microsoft.Sql/servers/databases@2021-11-01' = {
+    parent: sqlServer
+    name: databaseName
+    location: location
+    sku: {
+        name: databaseSkuName
+        tier: databaseSkuTier
+    }
+}
+
+// create firewall rules
+resource symbolicname 'Microsoft.Sql/servers/firewallRules@2021-11-01' = [for ip in allowIps : {
+  name: uniqueString(ip)
+  parent: sqlServer
+  properties: {
+    endIpAddress: ip
+    startIpAddress: ip
+  }
+}]
+
+// create key vault and secret if keyVaultName is specified
+resource keyVault 'Microsoft.KeyVault/vaults@2022-07-01' existing = if (keyVaultName != ''){
+	name: keyVaultName
+}
+
+resource keyVaultSecret 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = if (keyVaultName != ''){
+	name: secretName
+	parent: keyVault
+	properties: {
+		attributes: {
+			enabled: true
+		}
+		contentType: 'string'
+    // TODO: generate connection string per client type, now hard code to .NET
+		value: 'Data Source=${name}.database.windows.net,1433;Initial Catalog=${databaseName};User ID=${adminName};Password=${adminPassword}'
+	}
+}
+
+
+output id string = sqlDB.id
+output appServiceSecretReference string = '@Microsoft.KeyVault(SecretUri=${keyVaultSecret.properties.secretUriWithVersion})'
+output containerAppSecretReference string = keyVaultSecret.properties.secretUriWithVersion

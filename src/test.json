@@ -1,0 +1,37 @@
+{
+    "resources": [
+        {
+            "type": "sqldb",
+            "instances": [
+                {
+                "name": "houk"
+                }
+            ]
+        },
+        {
+            "type": "containerapp",
+            "instances": [
+                {
+                "name": "houk"
+                }
+            ]
+        },
+        {
+            "type": "keyvault",
+            "instances": [
+                {
+                "name": "houk"
+                }
+            ]
+        }
+    ],
+    "bindings": [
+        {
+            "source": "${containerapp.houk}",
+            "target": "${sqldb.houk}",
+            "connection": "secret",
+            "store": "${keyvault.houk}"
+        }
+    ],
+    "services": []
+}

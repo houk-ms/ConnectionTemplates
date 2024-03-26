@@ -1,4 +1,0 @@
-param storageAccountName string = 'account${uniqueString(resourceGroup().id)}'
-param storageAccountLocation string = resourceGroup().location
-param storageAccountSku string = 'Standard_LRS'
-param storageAccountKind string = 'StorageV2'

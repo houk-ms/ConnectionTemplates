@@ -1,4 +1,0 @@
-param webAppName string = 'webapp-${uniqueString(resourceGroup().id)}'
-param webAppLocation string = resourceGroup().location
-param webAppLinuxFxVersion string = 'PYTHON|3.8'
-param webAppIdentityType string = 'SystemAssigned'
