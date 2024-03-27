@@ -21,11 +21,13 @@ class TargetResourceEngine(BaseResourceEngine):
     
     # allow the principal to access the resource of current engine
     def assign_role(self, principal_id: str) -> None:
-        self.module_params_principal_ids.append(principal_id)
+        if principal_id not in self.module_params_principal_ids:
+            self.module_params_principal_ids.append(principal_id)
     
     # allow the ip to access the resource of current engine
     def allow_firewall(self, public_ip: str) -> None:
-        self.module_params_allow_ips.append(public_ip)
+        if public_ip not in self.module_params_allow_ips:
+            self.module_params_allow_ips.append(public_ip)
     
     # return the app settings needed by identity connection
     def get_app_settings_identity(self, binding: Binding) -> List[tuple]:

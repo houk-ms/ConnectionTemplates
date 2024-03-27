@@ -40,11 +40,17 @@ class ApplicationInsightsEngine(TargetResourceEngine):
     def get_app_settings_secret(self, binding: Binding) -> List[tuple]:
         app_setting_key = binding.key if binding.key else 'AZURE_APPLICATION_INSIGHTS_CONNECTION_STRING'
         
-        if binding.source.type == ResourceType.AZURE_APP_SERVICE:
-            return [
-                (app_setting_key, '{}.outputs.appServiceSecretReference'.format(self.module_name))
-            ]
-        elif binding.source.type == ResourceType.AZURE_CONTAINER_APP:
-            return [
-                (app_setting_key, '{}.outputs.containerAppSecretReference'.format(self.module_name))
-            ]
+        if binding.store is not None:
+            if binding.source.type == ResourceType.AZURE_APP_SERVICE:
+                return [
+                    (app_setting_key, '{}.outputs.appServiceSecretReference'.format(self.module_name))
+                ]
+            elif binding.source.type == ResourceType.AZURE_CONTAINER_APP:
+                return [
+                    (app_setting_key, '{}.outputs.containerAppSecretReference'.format(self.module_name))
+                ]
+            raise ValueError(f'Unsupported binding source type for secret connection: {binding.source.type}')
+
+        return [
+            (app_setting_key, '{}.outputs.ikeyConnectionString'.format(self.module_name))
+        ]

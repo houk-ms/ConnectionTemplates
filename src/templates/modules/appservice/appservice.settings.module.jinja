@@ -7,9 +7,8 @@ module {{engine.module_name}} 'appservice.settings.bicep' = {
 		appSettings: { {% for key, value in engine.module_params_app_settings %}
 			{{key}}: {{value}} {% endfor %}
 		}{% endif %}
-	}{% if engine.module_depends_on %}
-	dependsOn: [{% for dep in engine.module_depends_on %}
-		{{dep}}{% endfor %}
-	]
-	{% endif %}
+	}{% if engine.depend_engines %}
+	dependsOn: [{% for dep in engine.depend_engines %}
+		{{dep.module_name}}{% endfor %}
+	]{% endif %}
 }

@@ -1,6 +1,7 @@
 from payloads.models.resource_type import ResourceType
+from payloads.resources.base_resource import BaseResource
 
-class SpringAppResource():
+class SpringAppResource(BaseResource):
     def __init__(self):
         self.type = ResourceType.AZURE_SPRING_APP
         self.name = ''

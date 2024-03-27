@@ -11,7 +11,7 @@ class Service():
 
         if 'host' not in json:
             raise ValueError(f'`host` property is not found in service: {json}')
-        result.host = Resource.from_json(json['host'], all_resources)
+        result.host = Resource.from_expression(json['host'], all_resources)
 
         if 'language' not in json:
             raise ValueError(f'`language` property is not found in service: {json}')
@@ -22,3 +22,6 @@ class Service():
         result.project = json['project']
         
         return result
+    
+    def get_identifier(self) -> str:
+        return self.host.get_identifier()

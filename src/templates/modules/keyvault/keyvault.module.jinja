@@ -1,17 +1,16 @@
 // Deploy an Azure Keyvault
 
 module {{engine.module_name}} 'keyvault.bicep' = {
-    name: '{{engine.module_deployment_name}}'
-    params: {
-        location: location
-        name: {{engine.module_params_name}}{% if engine.module_params_principal_ids %}
-        principalIds: [{% for principalId in engine.module_params_principal_ids %}
-            {{principalId}}{% endfor %}
-        ]{% endif %} {% if engine.module_params_allow_ips %}
-        allowIps: concat({% for publicIp in engine.module_params_allow_ips %}{{publicIp}}{% if not loop.last %}, {% endif %}{% endfor %}){% endif %}
-    }{% if engine.module_depends_on %}
-    dependsOn: [{% for dep in engine.module_depends_on %}
-        {{dep}}{% endfor %}
-    ]
-    {% endif %}
+	name: '{{engine.module_deployment_name}}'
+	params: {
+		location: location
+		name: {{engine.module_params_name}}{% if engine.module_params_principal_ids %}
+		principalIds: [{% for principalId in engine.module_params_principal_ids %}
+			{{principalId}}{% endfor %}
+		]{% endif %} {% if engine.module_params_allow_ips %}
+		allowIps: concat({% for publicIp in engine.module_params_allow_ips %}{{publicIp}}{% if not loop.last %}, {% endif %}{% endfor %}){% endif %}
+	}{% if engine.depend_engines %}
+	dependsOn: [{% for dep in engine.depend_engines %}
+		{{dep.module_name}}{% endfor %}
+	]{% endif %}
 }

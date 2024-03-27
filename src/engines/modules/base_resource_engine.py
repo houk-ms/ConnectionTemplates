@@ -26,7 +26,8 @@ class BaseResourceEngine(BaseEngine):
     # add a module name as a dependency to current engine's module
     # this is used to control module provision order
     def add_dependency_engine(self, engine: BaseEngine) -> None:
-        self.depend_engines.append(engine)
+        if engine not in self.depend_engines:
+            self.depend_engines.append(engine)
 
     # return the dependency engines required by current engine
     # this is used to provision dependent resources before the current resource

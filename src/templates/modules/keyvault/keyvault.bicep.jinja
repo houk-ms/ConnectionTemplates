@@ -12,21 +12,21 @@ param roleDefinitionId string = 'f25e0fa2-a7c8-4377-a976-54943a77a395'  // keyva
 
 // create keyvault with network ACLs
 resource keyvault 'Microsoft.KeyVault/vaults@2023-02-01' = {
-  name: name
-  location: location
-  properties: {
-    tenantId: subscription().tenantId
-    sku: {
-      name: skuName
-      family: skuFamily
-    }
-    enableRbacAuthorization: enableRbacAuthorization
-    networkAcls: {
-      ipRules: [for ip in allowIps : {
-        value: ip
-      }]
-    }
-  }
+	name: name
+	location: location
+	properties: {
+		tenantId: subscription().tenantId
+		sku: {
+			name: skuName
+			family: skuFamily
+		}
+		enableRbacAuthorization: enableRbacAuthorization
+		networkAcls: {
+			ipRules: [for ip in allowIps : {
+				value: ip
+			}]
+		}
+	}
 }
 
 // create role assignments for the specified principalIds

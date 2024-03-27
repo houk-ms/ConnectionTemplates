@@ -30,3 +30,11 @@ class Binding():
         binding.key = json.get('key')
 
         return binding
+
+    def get_identifier(self) -> str:
+        identifier = f'{self.source.get_identifier()}/{self.target.get_identifier()}/{self.connection.value}'
+        
+        if self.store is not None:
+            identifier = f'{identifier}/{self.store.get_identifier()}'
+        
+        return identifier

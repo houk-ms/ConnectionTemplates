@@ -19,8 +19,7 @@ class Payload():
             payload.resources.extend(Resource.from_json(resource))
         
         # for resource reference in bindings and services
-        resource_dict = {f'{resource.type}.{resource.name}' if resource.name else resource.type: \
-                         resource for resource in payload.resources}
+        resource_dict = {resource.get_identifier(): resource for resource in payload.resources}
         
         # optional properties
         if 'bindings' in json:

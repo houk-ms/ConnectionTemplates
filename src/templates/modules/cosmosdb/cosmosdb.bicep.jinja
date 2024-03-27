@@ -10,39 +10,39 @@ param secretName string = ''
 
 // create cosmos account
 resource cosmosAccount 'Microsoft.DocumentDB/databaseAccounts@2023-11-15' = {
-  name: name
-  location: location
-  kind: 'MongoDB'
-  properties: {
-    databaseAccountOfferType: 'Standard'
-    locations: [
-      {
-        locationName: location
-        failoverPriority: 0
-      }
-    ]
-    ipRules: [
-      for ip in allowIps: {
-        ipAddressOrRange: ip
-      }
-    ]
-    consistencyPolicy: {
-      defaultConsistencyLevel: 'Session'
-    }
-    enableAutomaticFailover: true
-  }
+	name: name
+	location: location
+	kind: 'MongoDB'
+	properties: {
+		databaseAccountOfferType: 'Standard'
+		locations: [
+			{
+				locationName: location
+				failoverPriority: 0
+			}
+		]
+		ipRules: [
+			for ip in allowIps: {
+				ipAddressOrRange: ip
+			}
+		]
+		consistencyPolicy: {
+			defaultConsistencyLevel: 'Session'
+		}
+		enableAutomaticFailover: true
+	}
 }
 
 // create mongoDB database
 resource mongoDB 'Microsoft.DocumentDB/databaseAccounts/mongodbDatabases@2023-11-15' = {
-  parent: cosmosAccount
-  name: databaseName
-  properties: {
-    resource: {
-      id: databaseName
-    }
-    options: {}
-  }
+	parent: cosmosAccount
+	name: databaseName
+	properties: {
+		resource: {
+			id: databaseName
+		}
+		options: {}
+	}
 }
 
 // create role assignments for the specified principalIds

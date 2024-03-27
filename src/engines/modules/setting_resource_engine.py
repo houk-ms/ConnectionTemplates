@@ -13,4 +13,8 @@ class SettingResourceEngine(BaseResourceEngine):
 
     # add app settings to the resource of current engine
     def add_app_settings(self, app_settings: List[tuple]) -> None:
-        self.module_params_app_settings.extend(app_settings)
+        # add and deduplicate app settings
+        existing_setting_names = [setting[0] for setting in self.module_params_app_settings]
+        for app_setting in app_settings:
+            if app_setting[0] not in existing_setting_names:
+                self.module_params_app_settings.append(app_setting)

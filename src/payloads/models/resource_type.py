@@ -5,7 +5,7 @@ class ResourceType(str, Enum):
     AZURE_APP_SERVICE = "appservice"
     AZURE_APPLICATION_INSIGHTS = "appinsights"
     AZURE_CONTAINER_APP = "containerapp"
-    AZURE_COSMOS_DB = "cosmosdb"
+    AZURE_COSMOS_DB = "cosmos"
     AZURE_FUNCTION_APP = "functionapp"
     AZURE_KEYVAULT = "keyvault"
     AZURE_POSTGRESQL_DB = "postgresqldb"

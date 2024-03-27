@@ -42,10 +42,11 @@ class BindingHandler():
             self.setting_engine.add_app_settings(app_settings)
 
         elif self.binding.connection == ConnectionType.SECRET:
-            # target engine depends on store engine
-            self.target_engine.add_dependency_engine(self.store_engine)
-            store = self.store_engine.get_store_name()
-            self.target_engine.save_secret(store)
+            if self.store_engine is not None:
+                # target engine depends on store engine
+                self.target_engine.add_dependency_engine(self.store_engine)
+                store = self.store_engine.get_store_name()
+                self.target_engine.save_secret(store)
 
             # target engine depends on source engine
             self.target_engine.add_dependency_engine(self.source_engine)

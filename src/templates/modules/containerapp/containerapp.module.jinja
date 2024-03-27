@@ -17,8 +17,7 @@ module {{engine.module_name}} 'containerapp.bicep' = {
 	}{% if engine.depend_engines %}
 	dependsOn: [{% for dep in engine.depend_engines %}
 		{{dep.module_name}}{% endfor %}
-	]
-	{% endif %}
+	]{% endif %}
 }{% if engine.module_var_principal_id %}
 var {{engine.module_var_principal_id_name}} = {{engine.module_name}}.outputs.identityPrincipalId{% endif %}{% if engine.module_var_outbound_ip %}
 var {{engine.module_var_outbound_ip_name}} = {{engine.module_name}}.outputs.outboundIps{% endif %}

@@ -1,6 +1,7 @@
 from payloads.models.resource_type import ResourceType
+from payloads.resources.base_resource import BaseResource
 
-class KeyVaultResource():
+class KeyVaultResource(BaseResource):
     def __init__(self):
         self.type = ResourceType.AZURE_KEYVAULT
         self.name = ''

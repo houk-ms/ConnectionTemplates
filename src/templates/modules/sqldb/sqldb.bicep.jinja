@@ -15,33 +15,33 @@ param secretName string = ''
 
 // create a SQL server
 resource sqlServer 'Microsoft.Sql/servers@2021-11-01' = {
-    name: name
-    location: location
-    properties: {
-        administratorLogin: adminName
-        administratorLoginPassword: adminPassword
-    }
+	name: name
+	location: location
+	properties: {
+		administratorLogin: adminName
+		administratorLoginPassword: adminPassword
+	}
 }
 
 // create a SQL database
 resource sqlDB 'Microsoft.Sql/servers/databases@2021-11-01' = {
-    parent: sqlServer
-    name: databaseName
-    location: location
-    sku: {
-        name: databaseSkuName
-        tier: databaseSkuTier
-    }
+	parent: sqlServer
+	name: databaseName
+	location: location
+	sku: {
+		name: databaseSkuName
+		tier: databaseSkuTier
+	}
 }
 
 // create firewall rules
 resource symbolicname 'Microsoft.Sql/servers/firewallRules@2021-11-01' = [for ip in allowIps : {
-  name: uniqueString(ip)
-  parent: sqlServer
-  properties: {
-    endIpAddress: ip
-    startIpAddress: ip
-  }
+	name: uniqueString(ip)
+	parent: sqlServer
+	properties: {
+		endIpAddress: ip
+		startIpAddress: ip
+	}
 }]
 
 // create key vault and secret if keyVaultName is specified
@@ -57,7 +57,7 @@ resource keyVaultSecret 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = if (key
 			enabled: true
 		}
 		contentType: 'string'
-    // TODO: generate connection string per client type, now hard code to .NET
+		// TODO: generate connection string per client type, now hard code to .NET
 		value: 'Data Source=${name}.database.windows.net,1433;Initial Catalog=${databaseName};User ID=${adminName};Password=${adminPassword}'
 	}
 }

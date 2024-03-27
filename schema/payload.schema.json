@@ -77,9 +77,9 @@
         "items": {
           "type": "object",
           "properties": {
-            "name": {
+            "host": {
               "type": "string",
-              "description": "The service name"
+              "description": "The compute resource that will host the service. With the form `${resourceType}` or `${resourceType.resourceName}`"
             },
             "language": {
               "type": "string",
@@ -91,7 +91,7 @@
               "description": "The project path"
             }
           },
-          "required": ["name", "language", "project"]
+          "required": ["host", "language", "project"]
         }
       }
     },

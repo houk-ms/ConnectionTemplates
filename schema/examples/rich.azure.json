@@ -41,7 +41,7 @@
         "source": "${containerapp.api}",
         "target": "${cosmos.todo}",
         "connection": "secret",
-        "store": "${keyvault.keyvault1}",
+        "store": "${keyvault.todo}",
         "key": "AZURE_COSMOS_CONNECTION_STRING"
       },
       {
@@ -71,12 +71,12 @@
     ],
     "services": [
       {
-        "name": "api",
+        "host": "${containerapp.api}",
         "language": "ts",
         "project": "src/api"
       },
       {
-        "name": "web",
+        "host": "${containerapp.web}",
         "language": "ts",
         "project": "src/web"
       }

@@ -51,8 +51,9 @@ resource keyVaultSecret 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = if (key
 
 output id string = applicationInsights.id
 output identityConnectionString string = replace(
-    applicationInsights.properties.ConnectionString, 
-    applicationInsights.properties.InstrumentationKey, 
-    '00000000-0000-0000-0000-000000000000')
+	applicationInsights.properties.ConnectionString, 
+	applicationInsights.properties.InstrumentationKey, 
+	'00000000-0000-0000-0000-000000000000')
+output ikeyConnectionString string = applicationInsights.properties.ConnectionString
 output appServiceSecretReference string = '@Microsoft.KeyVault(SecretUri=${keyVaultSecret.properties.secretUriWithVersion})'
 output containerAppSecretReference string = keyVaultSecret.properties.secretUriWithVersion

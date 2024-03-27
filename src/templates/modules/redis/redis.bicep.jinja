@@ -14,25 +14,25 @@ param secretName string = ''
 
 // create redis cache
 resource redis 'Microsoft.Cache/redis@2023-08-01' = {
-  name: name
-  location: location
-  properties: {
-    sku: {
-      name: skuName
-      family: SkuFamily
-      capacity: SkuCapacity
-    }
-  }
+	name: name
+	location: location
+	properties: {
+		sku: {
+			name: skuName
+			family: SkuFamily
+			capacity: SkuCapacity
+		}
+	}
 }
 
 // create firewall rules
 resource redisFirewall 'Microsoft.Cache/redis/firewallRules@2023-08-01' = [for ip in allowIps : {
-  name: uniqueString(ip)
-  parent: redis
-  properties: {
-    endIP: ip
-    startIP: ip
-  }
+	name: uniqueString(ip)
+	parent: redis
+	properties: {
+		endIP: ip
+		startIP: ip
+	}
 }]
 
 // create role assignments for the specified principalIds

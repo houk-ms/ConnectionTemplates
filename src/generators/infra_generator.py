@@ -110,6 +110,7 @@ class InfraGenerator(BaseGenerator):
 
 
     def _get_resource_engine_by_resource(self, resource: Resource):
+        # TODO: support engine identifier
         for engine in self.resource_engines:
             if engine.resource == resource:
                 return engine
