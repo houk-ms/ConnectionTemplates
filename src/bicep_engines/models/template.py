@@ -34,3 +34,5 @@ class Template(str, Enum):
     SQL_DB_MODULE = "modules/sqldb/sqldb.module.jinja"
     STORAGE_ACCOUNT_BICEP = "modules/storageaccount/storageaccount.bicep.jinja"
     STORAGE_ACCOUNT_MODULE = "modules/storageaccount/storageaccount.module.jinja"
+    MYSQL_BICEP = "modules/mysql/mysql.bicep.jinja"
+    MYSQL_MODULE = "modules/mysql/mysql.module.jinja"

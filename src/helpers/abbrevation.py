@@ -14,3 +14,4 @@ class Abbreviation(str, Enum):
     SQL_DB = "sql-"
     STORAGE_ACCOUNT = "st"
     KEYVAULT = "kv"
+    MYSQL_DB = "mysql-"

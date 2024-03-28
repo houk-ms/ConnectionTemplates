@@ -12,6 +12,7 @@ class ResourceType(str, Enum):
     AZURE_REDIS_CACHE = "azurecacheforredis"
     AZURE_SQL_DB = "azuresqldatabase"
     AZURE_STORAGE_ACCOUNT = "azurestorageaccount"
+    AZURE_MYSQL_DB = "azuremysqldatabase"
 
 
     def is_compute(self):
@@ -29,4 +30,5 @@ class ResourceType(str, Enum):
             ResourceType.AZURE_REDIS_CACHE, 
             ResourceType.AZURE_SQL_DB, 
             ResourceType.AZURE_STORAGE_ACCOUNT, 
+            ResourceType.AZURE_MYSQL_DB,
         ]
