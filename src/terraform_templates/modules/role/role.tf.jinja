@@ -1,0 +1,5 @@
+resource "azurerm_role_assignment" "{{engine.module_name}}" {
+  scope                = {{engine.module_params_scope}}
+  role_definition_id   = {{engine.module_params_role_definition_id}}
+  principal_id         = {{engine.module_params_principal_id}}
+}

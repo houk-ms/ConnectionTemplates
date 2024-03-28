@@ -1,10 +1,14 @@
 from generators.base_generator import BaseGenerator
-from bicep_engines import engine_factory
-from bicep_engines.main_engine import MainEngine
+from terraform_engines import engine_factory
+from terraform_engines.main_engine import MainEngine
+from terraform_engines.output_engine import OutputsEngine
+from terraform_engines.variable_engine import VariablesEngine
 from helpers import file_helper
-from handlers.bicep_binding_handler import BicepBindingHandler
+from handlers.terraform_binding_handler import TerraformBindingHandler
 from payloads.payload import Payload
 from payloads.resource import Resource
+from payloads.models.connection_type import ConnectionType
+
 
 class TerraformGenerator(BaseGenerator):
     def __init__(self, payload: Payload):
@@ -15,10 +19,12 @@ class TerraformGenerator(BaseGenerator):
         # engines for each target resource's filrewall settings
         # split from resource_engines to avoid circular dependency
         self.firewall_engines = []
+        # engine for each role assignment
+        self.role_engines = []
         # engines for dependent resource deployments
         self.dependency_engines = []
         # engines for main parameters
-        self.param_engines = []
+        self.variable_engines = []
         # engines for main outputs
         self.output_engines = []
     
@@ -30,10 +36,18 @@ class TerraformGenerator(BaseGenerator):
             self.resource_engines.append(resource_engine(resource))
             
             # create firewall engines for target resources if they are as the binding targets
-            if resource.type.is_target_with_firewall() and \
-                resource in [binding.target for binding in self.payload.bindings]:
+            if resource in [binding.target for binding in self.payload.bindings]:
                 firewall_engine = engine_factory.get_firewall_engine_from_type(resource.type)
-                self.firewall_engines.append(firewall_engine(resource))
+                # target may not support separated firewall settings
+                if firewall_engine is not None:
+                    self.firewall_engines.append(firewall_engine(resource))
+
+            # create role engines for target resources if they are as the binding targets
+            # and the connection is system identity
+            if resource in [binding.target for binding in self.payload.bindings \
+                            if binding.connection == ConnectionType.SYSTEMIDENTITY]:
+                role_engine = engine_factory.get_role_engine()
+                self.role_engines.append(role_engine(resource))
 
 
     def init_dependency_engines(self):
@@ -49,60 +63,66 @@ class TerraformGenerator(BaseGenerator):
         self.dependency_engines = self._dedup_engines_by_type(self.dependency_engines)
 
 
-    def init_param_engines(self):
+    def init_variable_engines(self):
         # Create param engines from each resource engine
-        for engine in self.resource_engines:
-            self.param_engines.extend(engine.get_param_engines())
-
-        for engine in self.dependency_engines:
-            self.param_engines.extend(engine.get_param_engines())
+        engines = self.resource_engines \
+            + self.dependency_engines \
+            + self.firewall_engines \
+            + self.role_engines
+        for engine in engines:
+            self.variable_engines.extend(engine.get_variable_engines())
         
-        self.param_engines = self._dedup_engines_by_name(self.param_engines)
-    
 
     def init_output_engines(self):
         # Create output engines from each resource engine
-        for engine in self.resource_engines:
-            self.output_engines.extend(engine.get_output_engines())
-        
-        for engine in self.dependency_engines:
-            self.output_engines.extend(engine.get_output_engines())
-        
+        engines = self.resource_engines \
+            + self.dependency_engines \
+            + self.firewall_engines \
+            + self.role_engines
+        for engine in engines:
+            self.variable_engines.extend(engine.get_output_engines())
         self.output_engines = self._dedup_engines_by_name(self.output_engines)
  
 
     def process_bindings(self):
         # process bindings and engines
         for binding in self.payload.bindings:
-            binding_handler = BicepBindingHandler(binding, 
+            binding_handler = TerraformBindingHandler(binding, 
                 self._get_resource_engine_by_resource(binding.source), 
                 self._get_resource_engine_by_resource(binding.target), 
                 self._get_resource_engine_by_resource(binding.store),
+                self._get_role_engine_by_resource(binding.target),
                 self._get_firewall_engine_by_resource(binding.target))
             binding_handler.process_engines()
 
 
     def generate_biceps(self, output_folder: str):
-        delployment_engines = self.dependency_engines + self.resource_engines + self.firewall_engines
-
-        # generate main.bicep file
+        # generate main.tf file
         main_engine = MainEngine()
-        main_engine.params = [engine.render_template() for engine in self.param_engines]
-        main_engine.outputs = [engine.render_template() for engine in self.output_engines]
-        main_engine.deployments = [engine.render_module() for engine in delployment_engines]
-        file_helper.create_file('{}/main.bicep'.format(output_folder), main_engine.render_template())
+        main_engine.resources = [engine.render() for engine in self.resource_engines]
+        file_helper.create_file('{}/main.tf'.format(output_folder), main_engine.render())
+
+        # generate variables.tf file
+        variables_engine = VariablesEngine()
+        variables_engine.variables = [engine.render() for engine in self.variable_engines]
+        file_helper.create_file('{}/variables.tf'.format(output_folder), variables_engine.render())
+
+        # generate outputs.tf file
+        outputs_engine = OutputsEngine()
+        outputs_engine.outputs = [engine.render() for engine in self.output_engines]
+        file_helper.create_file('{}/outputs.tf'.format(output_folder), outputs_engine.render())
         
-        # generate dependency bicep files
+        # generate dependency .tf files
         # duplicated engines does not matter as the bicep file will be overwritten
-        for engine in delployment_engines:
-            bicep_file_name = engine.bicep_template.split('/')[-1].replace('.jinja', '')
-            file_helper.create_file('{}/{}'.format(output_folder, bicep_file_name), engine.render_bicep())
+        for engine in self.dependency_engines:
+            tf_file_name = engine.template.split('/')[-1].replace('.jinja', '')
+            file_helper.create_file('{}/{}'.format(output_folder, tf_file_name), engine.render())
 
 
     def generate(self, output_folder: str='./'):
         self.init_resource_engines()
         self.init_dependency_engines()
-        self.init_param_engines()
+        self.init_variable_engines()
         self.init_output_engines()
         self.process_bindings()
         self.generate_biceps(output_folder)
@@ -111,6 +131,12 @@ class TerraformGenerator(BaseGenerator):
     def _get_resource_engine_by_resource(self, resource: Resource):
         # TODO: support engine identifier
         for engine in self.resource_engines:
+            if engine.resource == resource:
+                return engine
+        return None
+
+    def _get_role_engine_by_resource(self, resource: Resource):
+        for engine in self.role_engines:
             if engine.resource == resource:
                 return engine
         return None

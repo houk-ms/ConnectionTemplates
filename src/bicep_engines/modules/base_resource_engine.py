@@ -13,7 +13,6 @@ class BaseResourceEngine(BaseEngine):
 
         # resource.module states and variables
         self.module_name = None
-        self.module_depends_on = []
         
         # main.bicep states and variables
         self.main_params = []
@@ -23,7 +22,7 @@ class BaseResourceEngine(BaseEngine):
         self.depend_engines = []
 
 
-    # add a module name as a dependency to current engine's module
+    # add a engine as a dependency to current engine
     # this is used to control module provision order
     def add_dependency_engine(self, engine: BaseEngine) -> None:
         if engine not in self.depend_engines:

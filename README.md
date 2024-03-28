@@ -14,3 +14,4 @@ python ./main.py
 3. TF framwork set up
 4. Bicep resource coverage
 5. TF resource coverage
+6. bug when target secret not saved into key vault

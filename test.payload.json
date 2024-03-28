@@ -1,7 +1,7 @@
 {
     "resources": [
       {
-        "type": "containerapp",
+        "type": "azurecontainerapp",
         "instances": [
           {
             "name": "api"
@@ -12,7 +12,7 @@
         ]
       },
       {
-        "type": "appinsights",
+        "type": "azureapplicationinsights",
         "instances": [
           {
             "name": "todo"
@@ -20,7 +20,7 @@
         ]
       },
       {
-        "type": "keyvault",
+        "type": "azurekeyvault",
         "instances": [
           {
             "name": "todo"
@@ -28,7 +28,7 @@
         ]
       },
       {
-        "type": "cosmos",
+        "type": "azurecosmosdb",
         "instances": [
           {
             "name": "todo"
@@ -38,45 +38,45 @@
     ],
     "bindings": [
       {
-        "source": "${containerapp.api}",
-        "target": "${cosmos.todo}",
+        "source": "${azurecontainerapp.api}",
+        "target": "${azurecosmosdb.todo}",
         "connection": "secret",
-        "store": "${keyvault.todo}",
-        "key": "AZURE_COSMOS_CONNECTION_STRING"
+        "store": "${azurekeyvault.todo}",
+        "key": "AZURE_azurecosmosdb_CONNECTION_STRING"
       },
       {
-        "source": "${containerapp.api}",
-        "target": "${appinsights.todo}",
+        "source": "${azurecontainerapp.api}",
+        "target": "${azureapplicationinsights.todo}",
         "connection": "secret",
         "key": "APPLICATIONINSIGHTS_CONNECTION_STRING"
       },
       {
-        "source": "${containerapp.api}",
-        "target": "${keyvault.todo}",
+        "source": "${azurecontainerapp.api}",
+        "target": "${azurekeyvault.todo}",
         "connection": "system-identity",
         "key": "AZURE_KEY_VAULT_ENDPOINT"
       },
       {
-        "source": "${containerapp.web}",
-        "target": "${appinsights.todo}",
+        "source": "${azurecontainerapp.web}",
+        "target": "${azureapplicationinsights.todo}",
         "connection": "secret",
         "key": "APPLICATIONINSIGHTS_CONNECTION_STRING"
       },
       {
-        "source": "${containerapp.web}",
-        "target": "${containerapp.api}",
+        "source": "${azurecontainerapp.web}",
+        "target": "${azurecontainerapp.api}",
         "connection": "http",
         "key": "SERVICE_API_URL"
       }
     ],
     "services": [
       {
-        "host": "${containerapp.api}",
+        "host": "${azurecontainerapp.api}",
         "language": "ts",
         "project": "src/api"
       },
       {
-        "host": "${containerapp.web}",
+        "host": "${azurecontainerapp.web}",
         "language": "ts",
         "project": "src/web"
       }

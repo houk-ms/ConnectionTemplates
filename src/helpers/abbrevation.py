@@ -10,6 +10,7 @@ class Abbreviation(str, Enum):
     COSMOS_DB = 'cosmos_'
     POSTGRESQL_DB = "psql-"
     REDIS_CACHE = "redis-"
+    RESOURCE_GROUP = "rg-"
     SQL_DB = "sql-"
     STORAGE_ACCOUNT = "st"
     KEYVAULT = "kv"

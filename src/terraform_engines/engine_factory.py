@@ -11,7 +11,7 @@ from terraform_engines.modules.redis.redis_engine import RedisEngine
 from terraform_engines.modules.sqldb.sqldb_engine import SqlDbEngine
 from terraform_engines.modules.postgresqldb.postgresqldb_engine import PostgreSqlDbEngine
 from terraform_engines.modules.storageaccount.storageaccount_engine import StorageAccountEngine
-
+from terraform_engines.modules.role_resource_engine import RoleResourceEngine
 
 
 RESOURCE_ENGINES = {
@@ -26,7 +26,7 @@ RESOURCE_ENGINES = {
     ResourceType.AZURE_STORAGE_ACCOUNT: StorageAccountEngine
 }
 
-SETTING_ENGINES = {
+FIREWALL_ENGINES = {
     ResourceType.AZURE_APP_SERVICE: AppServiceSettingsEngine,
     ResourceType.AZURE_CONTAINER_APP: ContainerAppSettingsEngine,
 }
@@ -34,5 +34,8 @@ SETTING_ENGINES = {
 def get_resource_engine_from_type(resource_type: ResourceType):
     return RESOURCE_ENGINES[resource_type]
 
-def get_setting_engine_from_type(resource_type: ResourceType):
-    return SETTING_ENGINES[resource_type]
+def get_firewall_engine_from_type(resource_type: ResourceType):
+    return FIREWALL_ENGINES.get(resource_type)
+
+def get_role_engine():
+    return RoleResourceEngine

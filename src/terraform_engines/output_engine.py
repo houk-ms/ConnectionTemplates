@@ -8,9 +8,6 @@ class OutputEngine(BaseEngine):
         self.name = None
         self.value = None
 
-    def render_template(self) -> str:
-        return self.render(self.template)
-
     def from_tuple(otuple) -> BaseEngine:
         param_engine = OutputEngine()
         param_engine.name = otuple[0]
@@ -23,6 +20,3 @@ class OutputsEngine(BaseEngine):
         super().__init__(Template.OUTPUTS.value)
     
         self.outputs = []
-    
-    def render_template(self) -> str:
-        return self.render(self.template)

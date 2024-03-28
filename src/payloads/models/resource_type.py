@@ -2,16 +2,16 @@ from enum import Enum
 
 
 class ResourceType(str, Enum):
-    AZURE_APP_SERVICE = "appservice"
-    AZURE_APPLICATION_INSIGHTS = "appinsights"
-    AZURE_CONTAINER_APP = "containerapp"
-    AZURE_COSMOS_DB = "cosmos"
-    AZURE_FUNCTION_APP = "functionapp"
-    AZURE_KEYVAULT = "keyvault"
-    AZURE_POSTGRESQL_DB = "postgresqldb"
-    AZURE_REDIS_CACHE = "redis"
-    AZURE_SQL_DB = "sqldb"
-    AZURE_STORAGE_ACCOUNT = "storageaccount"
+    AZURE_APP_SERVICE = "azureappservice"
+    AZURE_APPLICATION_INSIGHTS = "azureapplicationinsights"
+    AZURE_CONTAINER_APP = "azurecontainerapp"
+    AZURE_COSMOS_DB = "azurecosmosdb"
+    AZURE_FUNCTION_APP = "azurefunctions"
+    AZURE_KEYVAULT = "azurekeyvault"
+    AZURE_POSTGRESQL_DB = "azuredatabaseforpostgresql"
+    AZURE_REDIS_CACHE = "azurecacheforredis"
+    AZURE_SQL_DB = "azuresqldatabase"
+    AZURE_STORAGE_ACCOUNT = "azurestorageaccount"
 
 
     def is_compute(self):

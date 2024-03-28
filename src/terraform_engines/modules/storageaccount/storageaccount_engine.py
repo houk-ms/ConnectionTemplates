@@ -13,25 +13,18 @@ from helpers import string_helper
 class StorageAccountEngine(TargetResourceEngine):
 
     def __init__(self, resource: StorageAccountResource) -> None:
-        super().__init__(Template.STORAGE_ACCOUNT_BICEP.value,
-                         Template.STORAGE_ACCOUNT_MODULE.value)
+        super().__init__(Template.STORAGE_ACCOUNT_TF.value)
         self.resource = resource
 
-        # resource.module states and variables
-        self.module_name = string_helper.format_module_name('storageAccount', self.resource.name)
-        self.module_deployment_name = string_helper.format_deployment_name('storage-account', self.resource.name)
-        self.module_params_name = string_helper.format_camel('storageAccount', self.resource.name, "Name")
-        self.module_params_secret_name = string_helper.format_kv_secret_name('storage-account', self.resource.name)
+        # resource module states and variables
+        self.module_name = string_helper.format_snake('sa', self.resource.name)
         
-        # main.bicep states and variables
+        # main.tf variables and outputs
         self.main_params = [
-            ('location', 'string', string_helper.get_location(), False),
-            (self.module_params_name, 'string', 
-                string_helper.format_resource_name(self.resource.name or Abbreviation.STORAGE_ACCOUNT.value)),
+            ('storage_account_name', Abbreviation.STORAGE_ACCOUNT + string_helper.get_random_string(5)),
         ]
         self.main_outputs = [
-            (string_helper.format_camel('storageAccount', self.resource.name, "Id"), 
-             'string', '{}.outputs.id'.format(self.module_name))]
+            ('storage_account_id', 'azurerm_storage_account.storage_account.id')]
 
 
     # return the app settings needed by identity connection

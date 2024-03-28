@@ -3,13 +3,10 @@ from terraform_engines.models.template import Template
 
 class VariableEngine(BaseEngine):
     def __init__(self):
-        self.template = Template.VARIABLE.value
+        super.__init__(Template.VARIABLE.value)
 
         self.name = None
         self.value = None
-
-    def render_template(self) -> str:
-        return self.render(self.template)
 
     def from_tuple(ptuple):
         param_engine = VariableEngine()
@@ -21,9 +18,6 @@ class VariableEngine(BaseEngine):
 
 class VariablesEngine(BaseEngine):
     def __init__(self):
-        self.template = Template.VARIABLES.value
+        super.__init__(Template.VARIABLES.value)
     
         self.variables = []
-    
-    def render_template(self) -> str:
-        return self.render(self.template)

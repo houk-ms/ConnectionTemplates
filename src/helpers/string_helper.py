@@ -24,8 +24,19 @@ def format_kv_secret_name(default_name: str, instance_name: str):
 def format_camel(*args):
     return args[0] + ''.join(word.capitalize() for word in args[1:])
 
+def format_snake(*args):
+    return '_'.join([word.lower() for word in args if word])
+
 def format_resource_name(prefix: str):
     return prefix + '${uniqueString(resourceGroup().id)}'
 
 def get_location():
     return 'resourceGroup().location'
+
+def get_random_str(length: int):
+    import random
+    import string
+
+    alphabet = string.ascii_letters + string.digits
+    return ''.join(random.choice(alphabet) for i in range(length))
+

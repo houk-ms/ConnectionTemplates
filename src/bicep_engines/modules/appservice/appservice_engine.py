@@ -27,8 +27,8 @@ class AppServiceEngine(SourceResourceEngine, TargetResourceEngine):
         self.module_name = string_helper.format_module_name('appService', self.resource.name)
         self.module_deployment_name = string_helper.format_deployment_name('app-service', self.resource.name)
         self.module_params_name = string_helper.format_camel('appService', self.resource.name, "Name")
-        self.module_var_principal_id_name = string_helper.format_camel('appService', self.resource.name, "Principal", "Id")
-        self.module_var_outbound_ip_name = string_helper.format_camel('appService', self.resource.name, "Outbound", "Ip")
+        self.module_var_principal_id_name = '{}.outputs.identityPrincipalId'.format(self.module_name)
+        self.module_var_outbound_ip_name = '{}.outputs.outboundIps'.format(self.module_name)
 
         # main.bicep states and variables
         self.main_params = [

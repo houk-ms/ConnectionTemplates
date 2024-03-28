@@ -1,6 +1,6 @@
 // The template to create an Azure Container App environment
 
-param name string = 'acaenv_${uniqueString(resourceGroup().id)}'
+param name string = 'env_${uniqueString(resourceGroup().id)}'
 param location string = resourceGroup().location
 param logAnalyticsName string = 'log-${uniqueString(resourceGroup().id)}'
 param logAnalyticsSKU string = 'PerGB2018'

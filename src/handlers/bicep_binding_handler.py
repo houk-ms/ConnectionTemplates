@@ -35,9 +35,8 @@ class BicepBindingHandler():
             self.setting_engine.add_app_settings(app_settings)
 
         elif self.binding.connection == ConnectionType.HTTP:
-            # target engine depends on source engine
             # setting engine depends on target engine
-            self.target_engine.add_dependency_engine(self.source_engine)
+            self.setting_engine.add_dependency_engine(self.target_engine)
             app_settings = self.target_engine.get_app_settings_http(self.binding)
             self.setting_engine.add_app_settings(app_settings)
 

@@ -27,8 +27,8 @@ class ContainerAppEngine(SourceResourceEngine, TargetResourceEngine):
         self.module_name = string_helper.format_module_name('containerApp', self.resource.name)
         self.module_deployment_name = string_helper.format_deployment_name('container-app', self.resource.name)
         self.module_params_name = string_helper.format_camel('containerApp', self.resource.name, "Name")
-        self.module_var_principal_id_name = string_helper.format_camel('containerApp', self.resource.name, "Principal", "Id")
-        self.module_var_outbound_ip_name = string_helper.format_camel('containerApp', self.resource.name, "Outbound", "Ip")
+        self.module_var_principal_id_name = '{}.outputs.identityPrincipalId'.format(self.module_name)
+        self.module_var_outbound_ip_name = '{}.outputs.outboundIps'.format(self.module_name)
 
         # main.bicep states and variables
         self.main_params = [
