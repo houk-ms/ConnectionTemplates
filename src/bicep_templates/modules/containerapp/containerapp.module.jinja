@@ -1,0 +1,29 @@
+// Deploy an Azure Container App
+
+module {{engine.module_name}} 'containerapp.bicep' = {
+	name: '{{engine.module_deployment_name}}'
+	params: {
+		location: location
+		name: {{engine.module_params_name}} {% if engine._get_module_params_secrets() %}
+		secrets: [{% for key, value in engine._get_module_params_secrets() %}
+			{
+				name: '{{key}}'
+				keyVaultUrl: {{value}}
+				identity: 'system'
+			}{% endfor %}
+		]{% endif %}
+		containerAppEnvId: containerAppEnvId
+		containerRegistryName: containerRegistryName {% if engine.module_params_app_settings %}
+		containerEnv: [{% for setting in engine.module_params_app_settings %}
+			{
+				name: '{{setting.name}}'
+				{% if setting.is_raw_value() %}value: {{setting.value}}{% else %}secretRef: '{{setting.secret_name}}'{% endif %}
+			}{% endfor %}
+		]{% endif %}
+	}{% if engine.depend_engines %}
+	dependsOn: [{% for dep in engine.depend_engines %}
+		{{dep.module_name}}{% endfor %}
+	]{% endif %}
+}{% if engine.module_var_principal_id %}
+var {{engine.module_var_principal_id_name}} = {{engine.module_name}}.outputs.identityPrincipalId{% endif %}{% if engine.module_var_outbound_ip %}
+var {{engine.module_var_outbound_ip_name}} = {{engine.module_name}}.outputs.outboundIps{% endif %}

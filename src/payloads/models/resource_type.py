@@ -21,3 +21,12 @@ class ResourceType(str, Enum):
             ResourceType.AZURE_FUNCTION_APP, 
         ]
 
+    # targets that supports TF firewall rules
+    def is_target_with_firewall(self):
+        return self in [
+            ResourceType.AZURE_COSMOS_DB, 
+            ResourceType.AZURE_POSTGRESQL_DB, 
+            ResourceType.AZURE_REDIS_CACHE, 
+            ResourceType.AZURE_SQL_DB, 
+            ResourceType.AZURE_STORAGE_ACCOUNT, 
+        ]

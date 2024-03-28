@@ -1,6 +1,6 @@
 import json
 from payloads.payload import Payload
-from generators.infra_generator import InfraGenerator
+from generators.bicep_generator import BicepGenerator
 
 def main():
     input_file = '../test.payload.json'
@@ -8,7 +8,7 @@ def main():
     input_json = json.loads(content)
 
     payload = Payload.from_json(input_json)
-    infra_generator = InfraGenerator(payload)
+    infra_generator = BicepGenerator(payload)
     infra_generator.generate('../output')
 
 if __name__ == '__main__':
