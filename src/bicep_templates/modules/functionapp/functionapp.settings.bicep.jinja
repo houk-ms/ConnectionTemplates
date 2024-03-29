@@ -1,0 +1,14 @@
+// The template to create function app settings
+
+param appName string
+param appSettings object = {}
+
+resource functionApp 'Microsoft.Web/sites@2022-09-01' existing = {
+	name: appName
+}
+
+resource functionAppSettings 'Microsoft.Web/sites/config@2022-09-01' = {
+	name: 'appsettings'
+	parent: functionApp
+	properties: appSettings
+}
