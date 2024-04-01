@@ -7,5 +7,5 @@ class BaseEngine:
     
     def render(self) -> str:
         env = Environment(loader=FileSystemLoader('terraform_templates/'))
-        template = env.get_template()
+        template = env.get_template(self.template)
         return template.render(engine=self)

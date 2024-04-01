@@ -3,13 +3,11 @@ from payloads.binding import Binding
 from terraform_engines.modules.base_resource_engine import BaseResourceEngine
 
 class TargetResourceEngine(BaseResourceEngine):
-    def __init__(self,
-                 bicep_template: str,
-                 module_template: str) -> None:
-        super().__init__(bicep_template, module_template)
+    def __init__(self, template_path: str) -> None:
+        super().__init__(template_path)
 
-    # return the current resource scope for role assignment
-    def get_role_scope(self) -> str:
+    # return the current resource scope and role for role assignment
+    def get_role_scope(self) -> tuple:
         raise NotImplementedError('Resource engine does not implement the method')
 
     # return the secrets to be stored in key vault

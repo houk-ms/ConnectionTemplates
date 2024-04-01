@@ -1,13 +1,14 @@
 from generators.base_generator import BaseGenerator
 from terraform_engines import engine_factory
 from terraform_engines.main_engine import MainEngine
-from terraform_engines.output_engine import OutputsEngine
-from terraform_engines.variable_engine import VariablesEngine
+from terraform_engines.blocks_engine import BlocksEngine
+from terraform_engines.modules.resourcegroup.resourcegroup_engine import ResourceGroupEngine
 from helpers import file_helper
 from handlers.terraform_binding_handler import TerraformBindingHandler
 from payloads.payload import Payload
 from payloads.resource import Resource
 from payloads.models.connection_type import ConnectionType
+from payloads.models.resource_type import ResourceType
 
 
 class TerraformGenerator(BaseGenerator):
@@ -27,9 +28,19 @@ class TerraformGenerator(BaseGenerator):
         self.variable_engines = []
         # engines for main outputs
         self.output_engines = []
-    
+
+
+    def complete_payloads(self):
+        for binding in self.payload.bindings:
+            # container app does not support keyvault store
+            if binding.source.type == ResourceType.AZURE_CONTAINER_APP \
+                and binding.store is not None :
+                binding.store = None
 
     def init_resource_engines(self):
+        # Create engine for resource group
+        self.resource_engines.append(ResourceGroupEngine())
+
         # Create engines for each resource deployments
         for resource in self.payload.resources:
             resource_engine = engine_factory.get_resource_engine_from_type(resource.type)
@@ -80,7 +91,7 @@ class TerraformGenerator(BaseGenerator):
             + self.firewall_engines \
             + self.role_engines
         for engine in engines:
-            self.variable_engines.extend(engine.get_output_engines())
+            self.output_engines.extend(engine.get_output_engines())
         self.output_engines = self._dedup_engines_by_name(self.output_engines)
  
 
@@ -90,28 +101,46 @@ class TerraformGenerator(BaseGenerator):
             binding_handler = TerraformBindingHandler(binding, 
                 self._get_resource_engine_by_resource(binding.source), 
                 self._get_resource_engine_by_resource(binding.target), 
-                self._get_resource_engine_by_resource(binding.store),
                 self._get_role_engine_by_resource(binding.target),
                 self._get_firewall_engine_by_resource(binding.target))
             binding_handler.process_engines()
 
 
     def generate_biceps(self, output_folder: str):
-        # generate main.tf file
+        # generate main.tf file (only include compute resources)
         main_engine = MainEngine()
-        main_engine.resources = [engine.render() for engine in self.resource_engines]
+        source_engines = [engine for engine in self.resource_engines 
+                          if (not engine.resource or engine.resource.type.is_compute())]
+        main_engine.resources = [engine.render() for engine in source_engines]
         file_helper.create_file('{}/main.tf'.format(output_folder), main_engine.render())
 
+        # generate <target>.tf files
+        target_engines = [engine for engine in (
+                self.resource_engines + 
+                self.firewall_engines + 
+                self.role_engines) if engine not in source_engines]
+        target_engine_map = dict()
+        for engine in target_engines:
+            if engine.template not in target_engine_map:
+                target_engine_map[engine.template] = []
+            target_engine_map[engine.template].append(engine)
+        
+        for template, engines in target_engine_map.items():
+            targets_engine = BlocksEngine()
+            targets_engine.blocks = [engine.render() for engine in engines]
+            tf_file_name = template.split('/')[-1].replace('.jinja', '')
+            file_helper.create_file('{}/{}'.format(output_folder, tf_file_name), targets_engine.render())
+
         # generate variables.tf file
-        variables_engine = VariablesEngine()
-        variables_engine.variables = [engine.render() for engine in self.variable_engines]
+        variables_engine = BlocksEngine()
+        variables_engine.blocks = [engine.render() for engine in self.variable_engines]
         file_helper.create_file('{}/variables.tf'.format(output_folder), variables_engine.render())
 
         # generate outputs.tf file
-        outputs_engine = OutputsEngine()
-        outputs_engine.outputs = [engine.render() for engine in self.output_engines]
+        outputs_engine = BlocksEngine()
+        outputs_engine.blocks = [engine.render() for engine in self.output_engines]
         file_helper.create_file('{}/outputs.tf'.format(output_folder), outputs_engine.render())
-        
+
         # generate dependency .tf files
         # duplicated engines does not matter as the bicep file will be overwritten
         for engine in self.dependency_engines:

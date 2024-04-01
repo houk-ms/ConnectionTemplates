@@ -1,4 +1,6 @@
 __pycache__/
 output/
+src/build/
+src/dist/
 *.py[cod]
 *$py.class

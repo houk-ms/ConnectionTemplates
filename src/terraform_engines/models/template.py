@@ -3,9 +3,8 @@ from enum import Enum
 class Template(str, Enum):
     MAIN = "main.tf.jinja"	
     VARIABLE = "variable.tf.jinja"
-    VARIABLES = "variables.tf.jinja"
     OUTPUT = "output.tf.jinja"
-    OUTPUTS = "outputs.tf.jinja"
+    BLOCKS = "blocks.tf.jinja"
     APP_INSIGHTS_TF = "modules/applicationinsights/applicationinsights.tf.jinja"
     APP_SERVICE_TF = "modules/appservice/appservice.tf.jinja"
     APP_SERVICE_PLAN_TF = "modules/appserviceplan/appserviceplan.tf.jinja"
@@ -23,3 +22,4 @@ class Template(str, Enum):
     ROLE_TF = "modules/role/role.tf.jinja"
     SQL_DB_TF = "modules/sqldb/sqldb.tf.jinja"
     STORAGE_ACCOUNT_TF = "modules/storageaccount/storageaccount.tf.jinja"
+    STORAGE_ACCOUNT_FIREWALL_TF = "modules/storageaccount/storageaccount.firewall.tf.jinja"

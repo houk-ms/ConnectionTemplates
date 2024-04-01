@@ -27,8 +27,8 @@ class Payload():
                 payload.bindings.append(Binding.from_json(binding, resource_dict))
         
         # optional properties
-        if 'services' in json:
-            for service in json['services']:
-                payload.services.append(Service.from_json(service, resource_dict))
+        # if 'services' in json:
+        #     for service in json['services']:
+        #         payload.services.append(Service.from_json(service, resource_dict))
         
         return payload

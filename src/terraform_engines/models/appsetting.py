@@ -3,7 +3,7 @@ from enum import Enum
 
 class AppSettingType(str, Enum):
     KeyValue = "keyvalue"
-    KeyVaultReference = "keyvaultreference"
+    SecretReference = "secretreference"
 
 
 class AppSetting():
@@ -22,4 +22,4 @@ class AppSetting():
         return self.type == AppSettingType.KeyValue
 
     def get_secret_name(self) -> str:
-        return self.value.split('.')[0].replace('Deployment', '-connstr').lower()
+        return self.name.lower().replace('_', '-')
