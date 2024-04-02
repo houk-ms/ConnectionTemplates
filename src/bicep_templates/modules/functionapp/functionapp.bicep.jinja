@@ -24,8 +24,7 @@ resource functionapp 'Microsoft.Web/sites@2022-09-01' = {
 					name: '{{app_settings.name}}'
 					value: {{app_settings.value}}
 				}
-				{% endfor %}]
-			)
+			{% endfor %}])
 		}
 	}
 	identity: {

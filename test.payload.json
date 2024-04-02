@@ -1,50 +1,84 @@
 {
-    "resources": [
-      {
-        "type": "azurefunctions",
-        "instances": [
-          {
-            "name": "web"
-          }
-        ]
-      },
-      {
-        "type": "azurekeyvault",
-        "instances": [
-          {
-            "name": "todo"
-          }
-        ]
-      },
+	"resources": [
 	  {
-		"type": "azurestorageaccount",
+		"type": "azurecontainerapp",
 		"instances": [
-			{
-				"name": "test"
-			}
+		  {
+			"name": "api"
+		  },
+		  {
+			"name": "web"
+		  }
+		]
+	  },
+	  {
+		"type": "azureapplicationinsights",
+		"instances": [
+		  {
+			"name": "todo"
+		  }
+		]
+	  },
+	  {
+		"type": "azurekeyvault",
+		"instances": [
+		  {
+			"name": "todo"
+		  }
+		]
+	  },
+	  {
+		"type": "azurecosmosdb",
+		"instances": [
+		  {
+			"name": "todo"
+		  }
 		]
 	  }
-    ],
-    "bindings": [
-      {
-        "source": "${azurefunctions.web}",
-        "target": "${azurestorageaccount.test}",
-        "connection": "secret",
-        "store": "${azurekeyvault.todo}",
-        "key": "AZURE_STORAGE_CONNECTION_STRING"
-      },
-      {
-        "source": "${azurefunctions.web}",
-        "target": "${azurekeyvault.todo}",
-        "connection": "system-identity",
-        "key": "AZURE_KEY_VAULT_ENDPOINT"
-      }
-    ],
-    "services": [
-      {
-        "host": "${azurefunctions.web}",
-        "language": "ts",
-        "project": "src/web"
-      }
-    ]
+	],
+	"bindings": [
+	  {
+		"source": "${azurecontainerapp.api}",
+		"target": "${azurecosmosdb.todo}",
+		"connection": "secret",
+		"store": "${azurekeyvault.todo}",
+		"key": "AZURE_azurecosmosdb_CONNECTION_STRING"
+	  },
+	  {
+		"source": "${azurecontainerapp.api}",
+		"target": "${azureapplicationinsights.todo}",
+		"connection": "secret",
+		"key": "APPLICATIONINSIGHTS_CONNECTION_STRING"
+	  },
+	  {
+		"source": "${azurecontainerapp.api}",
+		"target": "${azurekeyvault.todo}",
+		"connection": "system-identity",
+		"key": "AZURE_KEY_VAULT_ENDPOINT"
+	  },
+	  {
+		"source": "${azurecontainerapp.web}",
+		"target": "${azureapplicationinsights.todo}",
+		"connection": "secret",
+		"key": "APPLICATIONINSIGHTS_CONNECTION_STRING"
+	  },
+	  {
+		"source": "${azurecontainerapp.web}",
+		"target": "${azurecontainerapp.api}",
+		"connection": "http",
+		"key": "SERVICE_API_URL"
+	  }
+	],
+	"services": [
+	  {
+		"name": "${azurecontainerapp.api}",
+		"language": "ts",
+		"project": "src/api"
+	  },
+	  {
+		"name": "${azurecontainerapp.web}",
+		"language": "ts",
+		"project": "src/web"
+	  }
+	]
   }
