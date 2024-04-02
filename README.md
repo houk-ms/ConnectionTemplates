@@ -4,7 +4,7 @@ To run the IaC template generator,
 
 ```cmd
 cd ./src
-python ./main.py
+python ./command.py
 ```
 
 To build the generator,
