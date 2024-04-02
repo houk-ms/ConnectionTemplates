@@ -9,8 +9,10 @@ def main(payload_path='../test.payload.json', output_path='../output'):
     input_json = json.loads(content)
 
     payload = Payload.from_json(input_json)
-    infra_generator = TerraformGenerator(payload)
-    infra_generator.generate(output_path+'/infra')
+    bicep_generator = BicepGenerator(payload)
+    bicep_generator.generate(output_path+'/infra_bicep')
+    terraform_generator = TerraformGenerator(payload)
+    terraform_generator.generate(output_path+'/infra_terraform')
 
 
 if len(sys.argv) > 2:

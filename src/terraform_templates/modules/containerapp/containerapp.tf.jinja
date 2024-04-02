@@ -1,38 +1,43 @@
-resource "azurerm_container_app" "{{engine.module_name}}" {
-  name                         = "{{engine.module_params_name}}"
-  container_app_environment_id = azurerm_container_app_environment.env.id
-  resource_group_name          = azurerm_resource_group.rg.name
-  revision_mode                = "Single"
-  ingress {
-    external_enabled = true
-    target_port      = 80
-    traffic_weight {
-      latest_revision = true
-      percentage      = 100
-    }
-  }{% if engine._get_module_params_secrets() %}
-  {% for key, value in engine._get_module_params_secrets() %}
-  secret {
-    name  = "{{key}}"
-    value = {{value}}
-  }{% endfor %}
-  {% endif %}
-  template {
-    container {
-      name   = "examplecontainerapp"
-      image  = "mcr.microsoft.com/azuredocs/containerapps-helloworld:latest"
-      cpu    = 0.25
-      memory = "0.5Gi"{% if engine.module_params_app_settings %}
-      {% for setting in engine.module_params_app_settings %}
-      env {
-        name        = "{{setting.name}}"{% if setting.is_raw_value() %}
-        value       = {{setting.value}}{% else %}
-        secret_name = "{{setting.secret_name}}"{% endif %}
-      }{% endfor %}{% endif %}
-    }
-  }
+# Create an Azure Container App
 
-  identity {
-    type = "SystemAssigned"
-  }
+resource "azurerm_container_app" "{{engine.module_name}}" {
+	name							=	"{{engine.module_params_name}}"
+	container_app_environment_id	=	azurerm_container_app_environment.env.id
+	resource_group_name				=	azurerm_resource_group.rg.name
+	revision_mode					=	"Single"
+
+	ingress {
+		external_enabled	=	true
+		target_port			=	80
+
+		traffic_weight {
+			latest_revision	=	true
+			percentage		=	100
+		}
+	}
+	{% if engine._get_module_params_secrets() %}
+	{% for key, value in engine._get_module_params_secrets() %}
+	secret {
+		name	=	"{{key}}"
+		value	=	{{value}}
+	}{% endfor %}
+	{% endif %}
+	template {
+		container {
+			name	=	"examplecontainerapp"
+			image	=	"mcr.microsoft.com/azuredocs/containerapps-helloworld:latest"
+			cpu		=	0.25
+			memory	=	"0.5Gi"{% if engine.module_params_app_settings %}
+			{% for setting in engine.module_params_app_settings %}
+			env {
+				name		=	"{{setting.name}}"{% if setting.is_raw_value() %}
+				value		=	{{setting.value}}{% else %}
+				secret_name	=	"{{setting.secret_name}}"{% endif %}
+			}{% endfor %}{% endif %}
+		}
+	}
+
+	identity {
+		type	=	"SystemAssigned"
+	}
 }

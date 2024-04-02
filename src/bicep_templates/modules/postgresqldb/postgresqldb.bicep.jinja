@@ -16,7 +16,7 @@ param availabilityZone string = '1'
 param charset string = 'UTF8'
 param allowIps array = []
 param keyVaultName string = ''
-param secretName string = ''
+param secretName string = 'myvault/mysecret'
 
 
 // create a postgresql server
@@ -78,4 +78,4 @@ resource keyVaultSecret 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = if (key
 
 
 output id string = postgresqlServer.id
-output keyVaultSecretUri string = keyVaultSecret.properties.secretUriWithVersion
+output keyVaultSecretUri string = (keyVaultName != '' ? keyVaultSecret.properties.secretUriWithVersion : '')

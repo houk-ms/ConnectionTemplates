@@ -10,7 +10,7 @@ param databaseSkuName string = 'Standard'
 param databaseSkuTier string = 'Standard'
 param allowIps array = []
 param keyVaultName string = ''
-param secretName string = ''
+param secretName string = 'myvault/mysecret'
 
 
 // create a SQL server
@@ -64,4 +64,4 @@ resource keyVaultSecret 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = if (key
 
 
 output id string = sqlDB.id
-output keyVaultSecretUri string = keyVaultSecret.properties.secretUriWithVersion
+output keyVaultSecretUri string = (keyVaultName != '' ? keyVaultSecret.properties.secretUriWithVersion : '')
