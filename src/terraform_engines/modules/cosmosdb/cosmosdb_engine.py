@@ -13,7 +13,8 @@ from helpers.abbrevation import Abbreviation
 # TODO: enable firewall when creating resource
 class CosmosDbEngine(TargetResourceEngine):
 
-    CosmosAccountContributorRole = '5bd9cd88-fe45-4216-938b-f97437e15450'
+    CosmosAccountContributorRoleId = '5bd9cd88-fe45-4216-938b-f97437e15450'
+    CosmosAccountContributorRole = 'DocumentDB Account Contributor'
 
     def __init__(self, resource: CosmosDBResource) -> None:
         super().__init__(Template.COSMOS_DB_TF.value)
