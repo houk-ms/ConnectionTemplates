@@ -6,9 +6,9 @@ param kind string = 'StorageV2'
 param skuName string = 'Standard_LRS'
 param allowIps array = []
 param principalIds array = []
-param roleDefinitionId string = 'ba92f5b4-2d11-453d-a403-e96b0029c9fe'  // storage blob data contributor role
+param roleDefinitionId string = 'c12c1c16-33a1-487b-954d-41c89c60f349'  // Reader and Data Access role
 param keyVaultName string = ''
-param secretName string = ''
+param secretName string = 'myvault/mysecret'
 
 
 // create storage account with network ACLs
@@ -64,4 +64,4 @@ output blobEndpoint string = storageAccount.properties.primaryEndpoints.blob
 output fileEndpoint string = storageAccount.properties.primaryEndpoints.queue
 output queueEndpoint string = storageAccount.properties.primaryEndpoints.file
 output tableEndpoint string = storageAccount.properties.primaryEndpoints.table
-output keyVaultSecretUri string = keyVaultSecret.properties.secretUriWithVersion
+output keyVaultSecretUri string = (keyVaultName != '' ? keyVaultSecret.properties.secretUriWithVersion : '')

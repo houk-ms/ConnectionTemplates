@@ -38,5 +38,5 @@ def get_random_str(length: int):
     import string
 
     alphabet = string.ascii_letters + string.digits
-    return ''.join(random.choice(alphabet) for i in range(length))
+    return ''.join(random.choice(alphabet) for i in range(length)).lower()
 

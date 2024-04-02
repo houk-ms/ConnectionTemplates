@@ -5,7 +5,7 @@ param allowIps array = []
 param principalIds array = []
 param roleDefinitionId string = '5bd9cd88-fe45-4216-938b-f97437e15450'  // cosmos account contributor role
 param keyVaultName string = ''
-param secretName string = ''
+param secretName string = 'myvault/mysecret'
 
 
 // create cosmos account
@@ -75,4 +75,4 @@ resource keyVaultSecret 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = if (key
 
 output id string = cosmosAccount.id
 output endpoint string = cosmosAccount.properties.documentEndpoint
-output keyVaultSecretUri string = keyVaultSecret.properties.secretUriWithVersion
+output keyVaultSecretUri string = (keyVaultName != '' ? keyVaultSecret.properties.secretUriWithVersion : '')

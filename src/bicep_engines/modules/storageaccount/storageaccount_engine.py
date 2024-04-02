@@ -39,15 +39,20 @@ class StorageAccountEngine(TargetResourceEngine):
     def get_app_settings_identity(self, binding: Binding) -> List[tuple]:
         # TODO: support multiple keys customizations
         return [
-            ('AZURE_STORAGEBLOB_RESOURCEENDPOINT', '{}.outputs.blobEndpoint'.format(self.module_name)),
-            ('AZURE_STORAGETABLE_RESOURCEENDPOINT', '{}.outputs.tableEndpoint'.format(self.module_name)),
-            ('AZURE_STORAGEQUEUE_RESOURCEENDPOINT', '{}.outputs.queueEndpoint'.format(self.module_name)),
-            ('AZURE_STORAGEFILE_RESOURCEENDPOINT', '{}.outputs.fileEndpoint'.format(self.module_name))
+            AppSetting(AppSettingType.KeyValue, 'AZURE_STORAGEBLOB_RESOURCEENDPOINT', 
+                       '{}.outputs.blobEndpoint'.format(self.module_name)),
+            AppSetting(AppSettingType.KeyValue, 'AZURE_STORAGETABLE_RESOURCEENDPOINT', 
+                       '{}.outputs.tableEndpoint'.format(self.module_name)),
+            AppSetting(AppSettingType.KeyValue, 'AZURE_STORAGEQUEUE_RESOURCEENDPOINT', 
+                       '{}.outputs.queueEndpoint'.format(self.module_name)),
+            AppSetting(AppSettingType.KeyValue, 'AZURE_STORAGEFILE_RESOURCEENDPOINT', 
+                       '{}.outputs.fileEndpoint'.format(self.module_name))
         ]
     
     # return the app settings needed by secret connection
     def get_app_settings_secret(self, binding: Binding) -> List[tuple]:
-        app_setting_key = binding.key if binding.key else 'AZURE_REDIS_CONNECTIONSTRING'
+        # TODO: support key names for multiple targets of same type
+        app_setting_key = binding.key if binding.key else 'AZURE_STORAGE_CONNECTIONSTRING'
 
         return [
             AppSetting(AppSettingType.KeyVaultReference, app_setting_key,

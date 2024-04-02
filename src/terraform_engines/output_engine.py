@@ -13,10 +13,3 @@ class OutputEngine(BaseEngine):
         param_engine.name = otuple[0]
         param_engine.value = otuple[1]
         return param_engine
-
-
-class OutputsEngine(BaseEngine):
-    def __init__(self):
-        super().__init__(Template.OUTPUTS.value)
-    
-        self.outputs = []

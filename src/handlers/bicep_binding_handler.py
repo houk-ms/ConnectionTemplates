@@ -1,3 +1,4 @@
+from bicep_engines.modules.functionapp.functionapp_engine import FunctionAppEngine
 from payloads.binding import Binding
 from payloads.models.connection_type import ConnectionType
 from bicep_engines.modules.source_resource_engine import SourceResourceEngine

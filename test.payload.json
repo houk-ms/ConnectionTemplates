@@ -16,22 +16,22 @@
           }
         ]
       },
-      {
-        "type": "azurecosmosdb",
-        "instances": [
-          {
-            "name": "todo"
-          }
-        ]
-      }
+	  {
+		"type": "azurestorageaccount",
+		"instances": [
+			{
+				"name": "test"
+			}
+		]
+	  }
     ],
     "bindings": [
       {
         "source": "${azurefunctions.web}",
-        "target": "${azurecosmosdb.todo}",
+        "target": "${azurestorageaccount.test}",
         "connection": "secret",
         "store": "${azurekeyvault.todo}",
-        "key": "AZURE_azurecosmosdb_CONNECTION_STRING"
+        "key": "AZURE_STORAGE_CONNECTION_STRING"
       },
       {
         "source": "${azurefunctions.web}",

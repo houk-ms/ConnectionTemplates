@@ -1,7 +1,9 @@
+# Create firewall rules to allow traffics to access the storage account
+
 resource "azurerm_storage_account_network_rules" "{{engine.module_name}}" {
-	storage_account_id = azurerm_storage_account.storage_account.id
-	default_action     = "Deny"
-	ip_rules           = concat({% for ip in engine.module_params_allow_ips %}
+	storage_account_id	=	azurerm_storage_account.{{engine.params_parent_module_name}}.id
+	default_action		=	"Deny"
+	ip_rules			=	concat({% for ip in engine.module_params_allow_ips %}
 		{{ip}}
 	{% endfor %})
 }

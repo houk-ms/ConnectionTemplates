@@ -12,6 +12,7 @@ from payloads.resources.redis import RedisResource
 from payloads.resources.spring_app import SpringAppResource
 from payloads.resources.sql_db import SqlDbResource
 from payloads.resources.storage_account import StorageAccountResource
+from payloads.resources.mysql_db import MySqlDbResource
 
 
 RESOURCES = {
@@ -24,7 +25,8 @@ RESOURCES = {
     ResourceType.AZURE_POSTGRESQL_DB: PostgreSqlDbResource,
     ResourceType.AZURE_REDIS_CACHE: RedisResource,
     ResourceType.AZURE_SQL_DB: SqlDbResource,
-    ResourceType.AZURE_STORAGE_ACCOUNT: StorageAccountResource
+    ResourceType.AZURE_STORAGE_ACCOUNT: StorageAccountResource,
+    ResourceType.AZURE_MYSQL_DB: MySqlDbResource
 }
 
 

@@ -10,12 +10,14 @@ from helpers import string_helper
 class ResourceGroupEngine(BaseResourceEngine):
     def __init__(self) -> None:
         super().__init__(Template.RESOURCE_GROUP_TF.value)
+        self.resource = None
 
         # resource.module states and variables
         self.module_name = 'rg'
+        self.module_params_name = Abbreviation.RESOURCE_GROUP + '${var.resource_suffix}'
 
         # main.tf variables and outputs
         self.main_variables = [
-            ('resource_group_name', Abbreviation.RESOURCE_GROUP + string_helper.get_random_string(5)),
+            ('resource_suffix', string_helper.get_random_str(5)),
             ('location', 'eastus'),
         ]

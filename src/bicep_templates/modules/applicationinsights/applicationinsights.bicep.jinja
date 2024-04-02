@@ -6,9 +6,9 @@ param kind string = 'web'
 param applicationType string = 'web'
 param requestSource string = 'rest'
 param principalIds array = []
-param roleDefinitionId string = 'ba92f5b4-2d11-453d-a403-e96b0029c9fe'  // storage blob data contributor role
+param roleDefinitionId string = 'ae349356-3a1b-4a5e-921d-050484c6347e'  // Application Insights Component Contributor
 param keyVaultName string = ''
-param secretName string = ''
+param secretName string = 'myvault/mysecret'
 
 
 // create the application insights
@@ -55,4 +55,4 @@ output identityConnectionString string = replace(
 	applicationInsights.properties.InstrumentationKey, 
 	'00000000-0000-0000-0000-000000000000')
 output ikeyConnectionString string = applicationInsights.properties.ConnectionString
-output keyVaultSecretUri string = keyVaultSecret.properties.secretUriWithVersion
+output keyVaultSecretUri string = (keyVaultName != '' ? keyVaultSecret.properties.secretUriWithVersion : '')

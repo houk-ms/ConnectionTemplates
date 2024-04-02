@@ -1,4 +1,5 @@
 from typing import List
+from bicep_engines.models.appsetting import AppSetting, AppSettingType
 from payloads.resources.function_app import FunctionAppResource
 
 from bicep_engines.models.template import Template
@@ -16,4 +17,3 @@ class FunctionAppSettingsEngine(SettingResourceEngine):
         self.module_name = string_helper.format_module_name('functionAppSettings', self.resource.name)
         self.module_deployment_name = string_helper.format_deployment_name('function-app-settings', self.resource.name)
         self.module_params_app_name = string_helper.format_camel('functionapp', self.resource.name, "Name")
-

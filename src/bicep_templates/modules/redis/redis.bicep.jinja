@@ -9,7 +9,7 @@ param allowIps array = []
 param principalIds array = []
 param roleDefinitionId string = 'e0f68234-74aa-48ed-b826-c38b57376e17'  // redis cache contributor role
 param keyVaultName string = ''
-param secretName string = ''
+param secretName string = 'myvault/mysecret'
 
 
 // create redis cache
@@ -64,4 +64,4 @@ resource keyVaultSecret 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = if (key
 
 
 output id string = redis.id
-output keyVaultSecretUri string = keyVaultSecret.properties.secretUriWithVersion
+output keyVaultSecretUri string = (keyVaultName != '' ? keyVaultSecret.properties.secretUriWithVersion : '')

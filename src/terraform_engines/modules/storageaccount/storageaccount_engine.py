@@ -3,49 +3,58 @@ from payloads.binding import Binding
 from payloads.models.resource_type import ResourceType
 from payloads.resources.storage_account import StorageAccountResource
 
-from helpers.abbrevation import Abbreviation
+
 from terraform_engines.models.template import Template
+from terraform_engines.models.appsetting import AppSetting, AppSettingType
 from terraform_engines.modules.target_resource_engine import TargetResourceEngine
 
 from helpers import string_helper
+from helpers.abbrevation import Abbreviation
+
 
 
 class StorageAccountEngine(TargetResourceEngine):
+
+    StorageDataReaderAccessRole = 'Reader and Data Access'
 
     def __init__(self, resource: StorageAccountResource) -> None:
         super().__init__(Template.STORAGE_ACCOUNT_TF.value)
         self.resource = resource
 
         # resource module states and variables
-        self.module_name = string_helper.format_snake('sa', self.resource.name)
+        self.module_name = string_helper.format_snake(Abbreviation.STORAGE_ACCOUNT.value, self.resource.name)
+        self.module_params_name = (self.resource.name or Abbreviation.STORAGE_ACCOUNT.value) + '${var.resource_suffix}'
         
         # main.tf variables and outputs
-        self.main_params = [
-            ('storage_account_name', Abbreviation.STORAGE_ACCOUNT + string_helper.get_random_string(5)),
-        ]
         self.main_outputs = [
-            ('storage_account_id', 'azurerm_storage_account.storage_account.id')]
+            (string_helper.format_snake('storage', 'account', self.resource.name, 'id'), 
+                'azurerm_storage_account.{}.id'.format(self.module_name))
+        ]
 
+
+    # return the current resource scope and role for role assignment
+    def get_role_scope(self) -> tuple:
+        return ('azurerm_storage_account.{}.id'.format(self.module_name),
+                StorageAccountEngine.StorageDataReaderAccessRole)
 
     # return the app settings needed by identity connection
     def get_app_settings_identity(self, binding: Binding) -> List[tuple]:
-        # TODO: support multiple keys customizations
         return [
-            ('AZURE_STORAGEBLOB_RESOURCEENDPOINT', '{}.outputs.blobEndpoint'.format(self.module_name)),
-            ('AZURE_STORAGETABLE_RESOURCEENDPOINT', '{}.outputs.tableEndpoint'.format(self.module_name)),
-            ('AZURE_STORAGEQUEUE_RESOURCEENDPOINT', '{}.outputs.queueEndpoint'.format(self.module_name)),
-            ('AZURE_STORAGEFILE_RESOURCEENDPOINT', '{}.outputs.fileEndpoint'.format(self.module_name))
+            AppSetting(AppSettingType.KeyValue, 'AZURE_STORAGEBLOB_RESOURCEENDPOINT', 
+                       'azurerm_storage_account.{}.primary_blob_endpoint'.format(self.module_name)),
+            AppSetting(AppSettingType.KeyValue, 'AZURE_STORAGETABLE_RESOURCEENDPOINT', 
+                       'azurerm_storage_account.{}.primary_table_endpoint'.format(self.module_name)),
+            AppSetting(AppSettingType.KeyValue, 'AZURE_STORAGEQUEUE_RESOURCEENDPOINT', 
+                       'azurerm_storage_account.{}.primary_queue_endpoint'.format(self.module_name)),
+            AppSetting(AppSettingType.KeyValue, 'AZURE_STORAGEFILE_RESOURCEENDPOINT', 
+                       'azurerm_storage_account.{}.primary_file_endpoint'.format(self.module_name))
         ]
-    
+
     # return the app settings needed by secret connection
     def get_app_settings_secret(self, binding: Binding) -> List[tuple]:
-        app_setting_key = binding.key if binding.key else 'AZURE_REDIS_CONNECTIONSTRING'
+        app_setting_key = binding.key if binding.key else 'AZURE_STORAGE_CONNECTIONSTRING'
 
-        if binding.source.type == ResourceType.AZURE_APP_SERVICE:
-            return [
-                (app_setting_key, '{}.outputs.appServiceSecretReference'.format(self.module_name))
-            ]
-        elif binding.source.type == ResourceType.AZURE_CONTAINER_APP:
-            return [
-                (app_setting_key, '{}.outputs.containerAppSecretReference'.format(self.module_name))
-            ]
+        return [
+            AppSetting(AppSettingType.SecretReference, app_setting_key, 
+                'azurerm_storage_account.{}.primary_access_key'.format(self.module_name))
+        ]
