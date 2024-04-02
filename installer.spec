@@ -4,10 +4,13 @@
 
 block_cipher = None
 
-a = Analysis(['./main.py'],
-             pathex=['./main.py'],
+a = Analysis(['./src/command.py'],
+             pathex=['./src/command.py'],
              binaries=[],
-             datas=[('./bicep_templates', 'bicep_templates'), ('./terraform_templates', 'terraform_templates')],
+             datas=[
+                ('./src/bicep_templates', 'bicep_templates'), 
+                ('./src/terraform_templates', 'terraform_templates')
+             ],
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],

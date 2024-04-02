@@ -71,12 +71,12 @@
   ],
   "services": [
     {
-      "host": "${azurecontainerapp.api}",
+      "name": "${azurecontainerapp.api}",
       "language": "ts",
       "project": "src/api"
     },
     {
-      "host": "${azurecontainerapp.web}",
+      "name": "${azurecontainerapp.web}",
       "language": "ts",
       "project": "src/web"
     }

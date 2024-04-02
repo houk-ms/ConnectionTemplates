@@ -1,6 +1,7 @@
 __pycache__/
 output/
-src/build/
-src/dist/
+build/
+dist/
 *.py[cod]
 *$py.class
+*.egg-info/
