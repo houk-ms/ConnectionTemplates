@@ -1,0 +1,15 @@
+// Deploy an Azure MySQL server and with database
+
+module {{engine.module_name}} 'mysql.bicep' = {
+	name: '{{engine.module_deployment_name}}'
+	params: {
+		location: location
+		name: {{engine.module_params_name}}{% if engine.module_params_allow_ips %}
+		allowIps: concat({% for publicIp in engine.module_params_allow_ips %}{{publicIp}}{% if not loop.last %}, {% endif %}{% endfor %}){% endif %}{% if engine.module_params_keyvault_name %}
+		keyVaultName: {{engine.module_params_keyvault_name}}
+		secretName: '{{engine.module_params_secret_name}}'{% endif %}
+	}{% if engine.depend_engines %}
+	dependsOn: [{% for dep in engine.depend_engines %}
+		{{dep.module_name}}{% endfor %}
+	]{% endif %}
+}

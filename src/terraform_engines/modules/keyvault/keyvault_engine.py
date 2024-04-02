@@ -13,7 +13,7 @@ from helpers.abbrevation import Abbreviation
 
 class KeyVaultEngine(TargetResourceEngine):
 
-    KeyVaultSecretsOfficerRole = 'b86a8fe4-44ce-4948-aee5-eccb2c155cd7'
+    KeyVaultSecretsOfficerRole = 'Key Vault Secrets Officer'
 
     def __init__(self, resource: KeyVaultResource) -> None:
         super().__init__(Template.KEYVAULT_TF.value)

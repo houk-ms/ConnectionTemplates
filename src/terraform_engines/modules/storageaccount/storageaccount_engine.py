@@ -15,7 +15,7 @@ from helpers.abbrevation import Abbreviation
 
 class StorageAccountEngine(TargetResourceEngine):
 
-    StorageDataReaderAccessRole = 'c12c1c16-33a1-487b-954d-41c89c60f349'
+    StorageDataReaderAccessRole = 'Reader and Data Access'
 
     def __init__(self, resource: StorageAccountResource) -> None:
         super().__init__(Template.STORAGE_ACCOUNT_TF.value)

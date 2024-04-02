@@ -12,10 +12,10 @@ class RoleResourceEngine(BaseResourceEngine):
         self.module_name = self.resource.type.value.lower() + self.resource.name
         self.module_params_principal_id = None
         self.module_params_scope = None
-        self.module_params_role_definition_id = None
+        self.module_params_role_definition_name = None
 
     # allow the principal to access the resource scope with the role definition
-    def assign_role(self, principal_id: str, scope: str, role_definition_id: str) -> None:
+    def assign_role(self, principal_id: str, scope: str, role_definition_name: str) -> None:
         self.module_params_principal_id = principal_id
         self.module_params_scope = scope
-        self.module_params_role_definition_id = role_definition_id
+        self.module_params_role_definition_name = role_definition_name

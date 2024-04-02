@@ -11,6 +11,7 @@ from bicep_engines.modules.redis.redis_engine import RedisEngine
 from bicep_engines.modules.sqldb.sqldb_engine import SqlDbEngine
 from bicep_engines.modules.postgresqldb.postgresqldb_engine import PostgreSqlDbEngine
 from bicep_engines.modules.storageaccount.storageaccount_engine import StorageAccountEngine
+from bicep_engines.modules.mysqldb.mysqldb_engine import MySqlDbEngine
 
 
 
@@ -23,7 +24,8 @@ RESOURCE_ENGINES = {
     ResourceType.AZURE_POSTGRESQL_DB: PostgreSqlDbEngine,
     ResourceType.AZURE_REDIS_CACHE: RedisEngine,
     ResourceType.AZURE_SQL_DB: SqlDbEngine,
-    ResourceType.AZURE_STORAGE_ACCOUNT: StorageAccountEngine
+    ResourceType.AZURE_STORAGE_ACCOUNT: StorageAccountEngine,
+    ResourceType.AZURE_MYSQL_DB: MySqlDbEngine
 }
 
 SETTING_ENGINES = {
