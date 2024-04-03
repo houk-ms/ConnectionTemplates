@@ -1,6 +1,7 @@
 from payloads.models.resource_type import ResourceType
 
 
+from terraform_engines.modules.appservice.appservice_engine import AppServiceLinuxEngine
 from terraform_engines.modules.containerapp.containerapp_engine import ContainerAppEngine
 from terraform_engines.modules.storageaccount.storageaccount_engine import StorageAccountEngine
 from terraform_engines.modules.storageaccount.storageaccount_firewall_engine import StorageAccountFirewallEngine
@@ -11,6 +12,7 @@ from terraform_engines.modules.role.role_resource_engine import RoleResourceEngi
 
 
 RESOURCE_ENGINES = {
+    ResourceType.AZURE_APP_SERVICE: AppServiceLinuxEngine,
     ResourceType.AZURE_CONTAINER_APP: ContainerAppEngine,
     ResourceType.AZURE_STORAGE_ACCOUNT: StorageAccountEngine,
     ResourceType.AZURE_APPLICATION_INSIGHTS: ApplicationInsightsEngine,

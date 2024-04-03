@@ -6,7 +6,7 @@ class Template(str, Enum):
     OUTPUT = "output.tf.jinja"
     BLOCKS = "blocks.tf.jinja"
     APP_INSIGHTS_TF = "modules/applicationinsights/applicationinsights.tf.jinja"
-    APP_SERVICE_TF = "modules/appservice/appservice.tf.jinja"
+    APP_SERVICE_LINUX_TF = "modules/appservice/appservicelinux.tf.jinja"
     APP_SERVICE_PLAN_TF = "modules/appserviceplan/appserviceplan.tf.jinja"
     APP_SERVICE_SETTINGS_TF = "modules/appservice/appservice.settings.tf.jinja"
     CONTAINER_APP_TF = "modules/containerapp/containerapp.tf.jinja"

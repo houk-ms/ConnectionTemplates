@@ -11,6 +11,14 @@
         }
       ]
     },
+	{
+		"type": "azureappservice",
+		"instances": [
+			{
+				"name": "ser"
+			}
+		]
+	},
     {
       "type": "azureapplicationinsights",
       "instances": [
@@ -44,6 +52,13 @@
       "store": "${azurekeyvault.todo}",
       "key": "AZURE_azurecosmosdb_CONNECTION_STRING"
     },
+	{
+		"source": "${azureappservice.ser}",
+		"target": "${azurecosmosdb.todo}",
+		"connection": "secret",
+		"store": "${azurekeyvault.todo}",
+		"key": "AZURE_azurecosmosdb_CONNECTION_STRING"
+	},
     {
       "source": "${azurecontainerapp.api}",
       "target": "${azureapplicationinsights.todo}",
@@ -67,7 +82,13 @@
       "target": "${azurecontainerapp.api}",
       "connection": "http",
       "key": "SERVICE_API_URL"
-    }
+    },
+	{
+		"source": "${azurecontainerapp.web}",
+		"target": "${azureappservice.ser}",
+		"connection": "http",
+		"key": "SERVICE_ser_URL"
+	}
   ],
   "services": [
     {
