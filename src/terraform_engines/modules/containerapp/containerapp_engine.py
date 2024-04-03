@@ -56,7 +56,7 @@ class ContainerAppEngine(SourceResourceEngine, TargetResourceEngine):
             if not setting.is_raw_value():
                 secrets.append((setting.secret_name, setting.value))
                 
-		# add the container registry password
+        # add the container registry password
         secrets.append(('acr-password', 'azurerm_container_registry.{}.admin_password'.format(self.container_registry.module_name)))
 
         return secrets
