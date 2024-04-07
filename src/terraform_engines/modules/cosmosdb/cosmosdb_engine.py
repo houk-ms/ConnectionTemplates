@@ -46,12 +46,6 @@ class CosmosDbEngine(TargetResourceEngine):
     def get_app_settings_secret(self, binding: Binding) -> List[tuple]:
         app_setting_key = binding.key if binding.key else 'AZURE_COSMOS_CONNECTIONSTRING'
 
-        if binding.store is not None:
-            return [
-                AppSetting(AppSettingType.KeyVaultReference, app_setting_key, 
-					'azurerm_cosmosdb_account.{}.primary_mongodb_connection_string'.format(self.module_name))
-			]
-
         return [
             AppSetting(AppSettingType.SecretReference, app_setting_key, 
                 'azurerm_cosmosdb_account.{}.primary_mongodb_connection_string'.format(self.module_name))

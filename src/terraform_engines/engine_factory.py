@@ -3,6 +3,7 @@ from payloads.models.resource_type import ResourceType
 
 from terraform_engines.modules.appservice.appservice_engine import AppServiceLinuxEngine
 from terraform_engines.modules.containerapp.containerapp_engine import ContainerAppEngine
+from terraform_engines.modules.keyvault.keyvaultsecret_engine import KeyVaultSecretEngine
 from terraform_engines.modules.storageaccount.storageaccount_engine import StorageAccountEngine
 from terraform_engines.modules.storageaccount.storageaccount_firewall_engine import StorageAccountFirewallEngine
 from terraform_engines.modules.applicationinsights.applicationinsights_engine import ApplicationInsightsEngine
@@ -32,3 +33,6 @@ def get_firewall_engine_from_type(resource_type: ResourceType):
 
 def get_role_engine():
     return RoleResourceEngine
+
+def get_key_vault_secret_engine():
+    return KeyVaultSecretEngine

@@ -13,7 +13,7 @@ class AppServicePlanEngine(BaseResourceEngine):
         self.resource = resource
 
         # resource module states and variables
-        self.module_name = Abbreviation.APP_SERVICE.value + os_type.lower()
-        self.module_params_name = Abbreviation.APP_SERVICE.value + os_type.lower() + '${var.resource_suffix}'
+        self.module_name = Abbreviation.APP_SERVICE_PLAN.value + os_type.lower()
+        self.module_params_name = Abbreviation.APP_SERVICE_PLAN.value + os_type.lower() + '${var.resource_suffix}'
         self.module_params_os_type = os_type
 

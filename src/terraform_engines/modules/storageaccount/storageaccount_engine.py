@@ -58,3 +58,6 @@ class StorageAccountEngine(TargetResourceEngine):
             AppSetting(AppSettingType.SecretReference, app_setting_key, 
                 'azurerm_storage_account.{}.primary_access_key'.format(self.module_name))
         ]
+    
+    def get_secret_value(self):
+        return 'azurerm_storage_account.{}.primary_access_key'.format(self.module_name)

@@ -1,5 +1,8 @@
 from payloads.binding import Binding
 from payloads.models.connection_type import ConnectionType
+from payloads.models.resource_type import ResourceType
+from terraform_engines.models.appsetting import AppSetting, AppSettingType
+from terraform_engines.modules.keyvault.keyvaultsecret_engine import KeyVaultSecretEngine
 from terraform_engines.modules.source_resource_engine import SourceResourceEngine
 from terraform_engines.modules.target_resource_engine import TargetResourceEngine
 from terraform_engines.modules.firewall_resource_engine import FirewallResourceEngine
@@ -11,12 +14,14 @@ class TerraformBindingHandler():
                  source_engine: SourceResourceEngine,
                  target_engine: TargetResourceEngine,
                  role_engine: RoleResourceEngine,
-                 firewall_engine: FirewallResourceEngine):
+                 firewall_engine: FirewallResourceEngine,
+                 key_vault_secret_engine: KeyVaultSecretEngine):
         self.binding = binding
         self.source_engine = source_engine
         self.target_engine = target_engine
         self.role_engine = role_engine
         self.firewall_engine = firewall_engine
+        self.key_vault_secret_engine = key_vault_secret_engine
 
 
     def process_engines(self):
@@ -50,7 +55,13 @@ class TerraformBindingHandler():
         elif self.binding.connection == ConnectionType.SECRET:
             # source engine depends on target engine (--> app settings)
             self.source_engine.add_dependency_engine(self.target_engine)
-            app_settings = self.target_engine.get_app_settings_secret(self.binding)
+            # secret store
+            if self.binding.store is not None and self.binding.store.type == ResourceType.AZURE_KEYVAULT:
+                app_settings = self.key_vault_secret_engine.get_app_settings()
+            else:
+                app_settings = self.target_engine.get_app_settings_secret(self.binding)
+            
+
             self.source_engine.add_app_settings(app_settings)
             
             # firewall engine depends on source engine (--> outbound ips)

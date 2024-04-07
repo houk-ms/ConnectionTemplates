@@ -3,7 +3,7 @@ from enum import Enum
 class Abbreviation(str, Enum):
     APPLICATION_INSIGHTS = "ai"
     APP_SERVICE = "app"
-    APP_SERVICE_PLAN = "plan"
+    APP_SERVICE_PLAN = "appplan"
     CONTAINER_APP = "aca"
     CONTAINER_APP_ENV = "env"
     CONTAINER_REGISTRY = "acr"
@@ -14,4 +14,5 @@ class Abbreviation(str, Enum):
     SQL_DB = "sql"
     STORAGE_ACCOUNT = "st"
     KEYVAULT = "kv"
+    KEYVAULT_SECRET = "kvsec"
     MYSQL_DB = "mysql-"

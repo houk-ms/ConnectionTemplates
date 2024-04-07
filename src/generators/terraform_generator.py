@@ -1,4 +1,6 @@
 from generators.base_generator import BaseGenerator
+from payloads.binding import Binding
+from payloads.resources.keyvault import KeyVaultResource
 from terraform_engines import engine_factory
 from terraform_engines.main_engine import MainEngine
 from terraform_engines.blocks_engine import BlocksEngine
@@ -24,6 +26,8 @@ class TerraformGenerator(BaseGenerator):
         self.role_engines = []
         # engines for dependent resource deployments
         self.dependency_engines = []
+        # engines for each key vault secret
+        self.key_vault_secret_engines = []
         # engines for main parameters
         self.variable_engines = []
         # engines for main outputs
@@ -31,11 +35,45 @@ class TerraformGenerator(BaseGenerator):
 
 
     def complete_payloads(self):
+        keyvault_resource = KeyVaultResource()
+        is_existing_keyvault = False
+        for resource in self.payload.resources:
+            if resource.type == ResourceType.AZURE_KEYVAULT:
+                is_existing_keyvault = True
+                keyvault_resource = resource
+                break
+        
+        has_secret_binding = False
         for binding in self.payload.bindings:
             # container app does not support keyvault store
             if binding.source.type == ResourceType.AZURE_CONTAINER_APP \
                 and binding.store is not None :
                 binding.store = None
+            # only application insights support secret connection without a key vault
+            elif binding.connection == ConnectionType.SECRET \
+                and binding.target.type != ResourceType.AZURE_APPLICATION_INSIGHTS:
+                binding.store = keyvault_resource
+                self.key_vault_resource = keyvault_resource
+                has_secret_binding = True
+        
+        if not is_existing_keyvault and has_secret_binding:
+            self.payload.resources.append(keyvault_resource)
+            self.key_vault_resource = keyvault_resource  
+    
+    
+    def add_implicit_bindings(self):
+        # when binding store is keyvault, add implicit binding for source to keyvault
+        for binding in self.payload.bindings:
+            if binding.store is not None and binding.store.type == ResourceType.AZURE_KEYVAULT:
+                implicit_binding = Binding()
+                implicit_binding.source = binding.source
+                implicit_binding.target = binding.store
+                implicit_binding.connection = ConnectionType.SYSTEMIDENTITY
+                
+                # check duplicated binding
+                existing_bingdings = [binding.get_identifier() for binding in self.payload.bindings]
+                if implicit_binding.get_identifier() not in existing_bingdings:
+                    self.payload.bindings.append(implicit_binding)
 
     def init_resource_engines(self):
         # Create engine for resource group
@@ -44,7 +82,8 @@ class TerraformGenerator(BaseGenerator):
         # Create engines for each resource deployments
         for resource in self.payload.resources:
             resource_engine = engine_factory.get_resource_engine_from_type(resource.type)
-            self.resource_engines.append(resource_engine(resource))
+            engine = resource_engine(resource)
+            self.resource_engines.append(engine)
             
             # create firewall engines for target resources if they are as the binding targets
             if resource in [binding.target for binding in self.payload.bindings]:
@@ -60,6 +99,20 @@ class TerraformGenerator(BaseGenerator):
                 role_engine = engine_factory.get_role_engine()
                 self.role_engines.append(role_engine(resource))
 
+        # create key vault secret engine for each secret store binding
+        for binding in self.payload.bindings:
+            if binding.connection == ConnectionType.SECRET \
+                and binding.store is not None \
+                and binding.store.type == ResourceType.AZURE_KEYVAULT:
+                key_vault_secret_engine = engine_factory.get_key_vault_secret_engine()
+                target_resource_engine = self._get_resource_engine_by_resource(binding.target)
+                app_settings_secret = target_resource_engine.get_app_settings_secret(binding)
+                for index, app_setting in enumerate(app_settings_secret):
+                    self.key_vault_secret_engines.append(key_vault_secret_engine(resource,
+                                                                                self.key_vault_resource,
+                                                                                app_setting.name,
+                                                                                app_setting.value,
+                                                                                index))
 
     def init_dependency_engines(self):
         # Create dependency engines from each resource engine
@@ -79,7 +132,8 @@ class TerraformGenerator(BaseGenerator):
         engines = self.resource_engines \
             + self.dependency_engines \
             + self.firewall_engines \
-            + self.role_engines
+            + self.role_engines \
+            + self.key_vault_secret_engines
         for engine in engines:
             self.variable_engines.extend(engine.get_variable_engines())
         
@@ -89,7 +143,8 @@ class TerraformGenerator(BaseGenerator):
         engines = self.resource_engines \
             + self.dependency_engines \
             + self.firewall_engines \
-            + self.role_engines
+            + self.role_engines \
+            + self.key_vault_secret_engines
         for engine in engines:
             self.output_engines.extend(engine.get_output_engines())
         self.output_engines = self._dedup_engines_by_name(self.output_engines)
@@ -102,7 +157,8 @@ class TerraformGenerator(BaseGenerator):
                 self._get_resource_engine_by_resource(binding.source), 
                 self._get_resource_engine_by_resource(binding.target), 
                 self._get_role_engine_by_resource(binding.target),
-                self._get_firewall_engine_by_resource(binding.target))
+                self._get_firewall_engine_by_resource(binding.target),
+                self._get_key_vault_secret_engine_by_resource(binding.target))
             binding_handler.process_engines()
 
 
@@ -118,7 +174,8 @@ class TerraformGenerator(BaseGenerator):
         target_engines = [engine for engine in (
                 self.resource_engines + 
                 self.firewall_engines + 
-                self.role_engines) if engine not in source_engines]
+                self.role_engines +
+                self.key_vault_secret_engines) if engine not in source_engines]
         target_engine_map = dict()
         for engine in target_engines:
             if engine.template not in target_engine_map:
@@ -172,6 +229,13 @@ class TerraformGenerator(BaseGenerator):
 
     def _get_firewall_engine_by_resource(self, resource: Resource):
         for engine in self.firewall_engines:
+            if engine.resource == resource:
+                return engine
+        return None
+    
+    # determine by target resource?
+    def _get_key_vault_secret_engine_by_resource(self, resource: Resource):
+        for engine in self.key_vault_secret_engines:
             if engine.resource == resource:
                 return engine
         return None
