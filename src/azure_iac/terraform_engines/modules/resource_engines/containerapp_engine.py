@@ -8,6 +8,7 @@ from azure_iac.terraform_engines.models.template import Template
 from azure_iac.terraform_engines.modules.source_resource_engine import SourceResourceEngine
 from azure_iac.terraform_engines.modules.target_resource_engine import TargetResourceEngine
 from azure_iac.terraform_engines.modules.resource_engines.containerappenv_engine import ContainerAppEnvEngine
+from azure_iac.terraform_engines.modules.resource_engines.containerregistry_engine import ContainerRegistryEngine
 
 from azure_iac.helpers import string_helper
 from azure_iac.helpers.abbrevation import Abbreviation
@@ -31,9 +32,12 @@ class ContainerAppEngine(SourceResourceEngine, TargetResourceEngine):
              'azurerm_container_app.{}.id'.format(self.module_name))
         ]
         
+        self.container_registry = ContainerRegistryEngine(self.resource)
+
         # dependency engines
         self.depend_engines = [
-            ContainerAppEnvEngine(self.resource)
+            ContainerAppEnvEngine(self.resource),
+            self.container_registry
         ]
 
     def get_identity_id(self) -> str:
@@ -52,5 +56,9 @@ class ContainerAppEngine(SourceResourceEngine, TargetResourceEngine):
         for setting in self.module_params_app_settings:
             if not setting.is_raw_value():
                 secrets.append((setting.secret_name, setting.value))
+        
+        # add the container registry password in secrets, not used in env
+        secrets.append(('acr-password', 'azurerm_container_registry.{}.admin_password'.format(self.container_registry.module_name)))
+        
         return secrets
         
