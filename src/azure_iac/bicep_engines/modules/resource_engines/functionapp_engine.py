@@ -67,9 +67,9 @@ class FunctionAppEngine(SourceResourceEngine, TargetResourceEngine):
         # required app settings
         default_settings = {
             'FUNCTIONS_WORKER_RUNTIME': '\'node\'',  # 'node', 'dotnet', 'java'
-            'FUNCTIONS_EXTENSION_VERSION': '\'~4\'',
-            'WEBSITE_NODE_DEFAULT_VERSION': '\'~14\'',
-			# 'WEBSITE_CONTENTSHARE': 'toLower(name)', for Elastic Premium and Consumption plan
+			'FUNCTIONS_EXTENSION_VERSION': '\'~4\'',
+			'WEBSITE_NODE_DEFAULT_VERSION': '\'~14\'',
+            # 'WEBSITE_CONTENTSHARE': 'toLower(name)', for Elastic Premium and Consumption plan
 		}
 
         app_settings = [
