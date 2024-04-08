@@ -108,11 +108,11 @@ class TerraformGenerator(BaseGenerator):
                 target_resource_engine = self._get_resource_engine_by_resource(binding.target)
                 app_settings_secret = target_resource_engine.get_app_settings_secret(binding)
                 for index, app_setting in enumerate(app_settings_secret):
-                    self.key_vault_secret_engines.append(key_vault_secret_engine(resource,
-                                                                                self.key_vault_resource,
-                                                                                app_setting.name,
-                                                                                app_setting.value,
-                                                                                index))
+                    self.key_vault_secret_engines.append(key_vault_secret_engine(binding.target,
+                                                                                 self.key_vault_resource,
+                                                                                 app_setting.name,
+                                                                                 app_setting.value,
+                                                                                 index))
 
     def init_dependency_engines(self):
         # Create dependency engines from each resource engine

@@ -61,7 +61,7 @@ class TerraformBindingHandler():
             else:
                 app_settings = self.target_engine.get_app_settings_secret(self.binding)
             
-
+            print(app_settings[0].name, app_settings[0].value, self.binding.target.type)
             self.source_engine.add_app_settings(app_settings)
             
             # firewall engine depends on source engine (--> outbound ips)

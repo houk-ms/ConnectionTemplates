@@ -25,6 +25,3 @@ class TargetResourceEngine(BaseResourceEngine):
     # return the app settings needed by secret connection
     def get_app_settings_secret(self, binding: Binding) -> List[tuple]:
         raise NotImplementedError('Resource engine does not implement the method')
-
-    def get_secret_value(self):
-        pass

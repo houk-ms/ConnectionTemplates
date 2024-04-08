@@ -28,12 +28,12 @@ class KeyVaultSecretEngine(BaseResourceEngine):
 
         # main.tf variables and outputs
         self.main_outputs = [
-            (string_helper.format_snake('key', 'vault', 'secret', self.resource.name, 'id'), 
-                'azurerm_key_vault_secret.{}.resource_id'.format(self.module_name))
+            (string_helper.format_snake('key', 'vault', 'secret', self.resource.type, self.resource.name, 'id'), 
+                'azurerm_key_vault_secret.{}.id'.format(self.module_name))
         ]
 
     def get_secret_id(self):
-        return 'azurerm_key_vault_secret.{}.resource_id'.format(self.module_name)
+        return 'azurerm_key_vault_secret.{}.id'.format(self.module_name)
     
     def get_app_settings(self) -> List[tuple]:
         return [

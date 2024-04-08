@@ -1,13 +1,5 @@
 {
   "resources": [
-    {
-      "type": "azurecontainerapp",
-      "instances": [
-        {
-          "name": "api"
-        }
-      ]
-    },
 	{
 		"type": "azureappservice",
 		"instances": [
@@ -39,7 +31,15 @@
           "name": "todo"
         }
       ]
-    }
+    },
+	{
+		"type": "azurestorageaccount",
+		"instances": [
+			{
+				"name": "str"
+			}
+		]
+	}
   ],
   "bindings": [
 	{
@@ -49,12 +49,13 @@
 		"store": "${azurekeyvault.todo}",
 		"key": "AZURE_azurecosmosdb_CONNECTION_STRING"
 	},
-    {
-      "source": "${azurecontainerapp.api}",
-      "target": "${azureapplicationinsights.todo}",
-      "connection": "secret",
-      "key": "APPLICATIONINSIGHTS_CONNECTION_STRING"
-    },
+	{
+		"source": "${azureappservice.ser}",
+		"target": "${azurestorageaccount.str}",
+		"connection": "secret",
+		"store": "${azurekeyvault.todo}",
+		"key": "AZURE_azurestorageaccount_CONNECTION_STRING"
+	},
     {
       "source": "${azureappservice.ser}",
       "target": "${azurekeyvault.todo}",
@@ -66,20 +67,9 @@
       "target": "${azureapplicationinsights.todo}",
       "connection": "secret",
       "key": "APPLICATIONINSIGHTS_CONNECTION_STRING"
-    },
-	{
-		"source": "${azurecontainerapp.api}",
-		"target": "${azureappservice.ser}",
-		"connection": "http",
-		"key": "SERVICE_ser_URL"
-	}
+    }
   ],
   "services": [
-    {
-      "name": "${azurecontainerapp.api}",
-      "language": "ts",
-      "project": "src/api"
-    },
     {
       "name": "${azureappservice.ser}",
       "language": "ts",
