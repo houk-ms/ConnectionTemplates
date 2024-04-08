@@ -11,7 +11,7 @@ class Command:
     def __init__(self):
         pass
 
-    def execute(self, payload_path='../test.payload.json', output_path='../output'):
+    def execute(self, payload_path='../../test.payload.json', output_path='../../output'):
         content = open(payload_path, 'r').read()
         input_json = json.loads(content)
 
