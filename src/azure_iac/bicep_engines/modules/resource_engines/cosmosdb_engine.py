@@ -48,6 +48,6 @@ class CosmosDbEngine(TargetResourceEngine):
         app_setting_key = binding.key if binding.key else 'AZURE_COSMOS_CONNECTIONSTRING'
 
         return [
-            AppSetting(AppSettingType.KeyValue, app_setting_key, 
-                'azurerm_cosmosdb_account.{}.primary_mongodb_connection_string'.format(self.module_name))
+            AppSetting(AppSettingType.KeyVaultReference, app_setting_key,
+                '{}.outputs.keyVaultSecretUri'.format(self.module_name))
         ]
