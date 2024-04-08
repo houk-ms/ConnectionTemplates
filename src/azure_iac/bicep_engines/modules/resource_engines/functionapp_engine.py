@@ -67,14 +67,14 @@ class FunctionAppEngine(SourceResourceEngine, TargetResourceEngine):
         # required app settings
         default_settings = {
             'FUNCTIONS_WORKER_RUNTIME': '\'node\'',  # 'node', 'dotnet', 'java'
-			'FUNCTIONS_EXTENSION_VERSION': '\'~4\'',
-			'WEBSITE_NODE_DEFAULT_VERSION': '\'~14\'',
+            'FUNCTIONS_EXTENSION_VERSION': '\'~4\'',
+            'WEBSITE_NODE_DEFAULT_VERSION': '\'~14\'',
             # 'WEBSITE_CONTENTSHARE': 'toLower(name)', for Elastic Premium and Consumption plan
-		}
+        }
 
         app_settings = [
-            AppSetting(AppSettingType.KeyValue, key, value) for key, value in default_settings.items()	
-		]
+            AppSetting(AppSettingType.KeyValue, key, value) for key, value in default_settings.items()
+        ]
 
         storage_app_settings_name = ['AzureWebJobsStorage']  # 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING' for Elastic Premium and Consumption plan
         storage_app_settings_value = '\'DefaultEndpointsProtocol=https;AccountName=${storageAccountName};AccountKey=${storageAccount.listKeys().keys[0].value};'
