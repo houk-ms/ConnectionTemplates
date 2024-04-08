@@ -1,0 +1,10 @@
+// Deploy an Azure Functions hosting Plan
+
+module {{engine.module_name}} 'functionappplan.bicep' = {
+	name: 'fucntionapp-plan-deployment'
+	params: {
+		location: location
+		name: functionAppPlanName
+	}
+}
+var functionAppPlanId = functionAppPlan.outputs.id

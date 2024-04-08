@@ -1,8 +1,0 @@
-# Use the default behaviours of the Azure Provider
-provider "azurerm" {
-  features {}
-}
-
-{% for resource in engine.resources %}
-{{resource}}
-{% endfor %}
