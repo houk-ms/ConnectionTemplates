@@ -44,4 +44,4 @@ class AppServiceEngine(SourceResourceEngine, TargetResourceEngine):
             AppSetting(AppSettingType.KeyValue, app_setting_key,
                 '\"${{azurerm_linux_web_app.{}.name}}.azurewebsites.net\"'.format(self.module_name))
         ]
-        
+    

@@ -1,6 +1,5 @@
 from azure_iac.payloads.payload import Payload
 from azure_iac.payloads.resource import Resource
-from azure_iac.payloads.binding import Binding
 from azure_iac.payloads.models.connection_type import ConnectionType
 from azure_iac.payloads.models.resource_type import ResourceType
 
@@ -113,7 +112,7 @@ class TerraformGenerator(BaseGenerator):
 
     def process_bindings(self):
         # process bindings and engines
-        for binding in self.payload.bindings:       
+        for binding in self.payload.bindings:
             binding_handler = TerraformBindingHandler(binding, 
                 self._get_resource_engine_by_resource(binding.source), 
                 self._get_resource_engine_by_resource(binding.target), 
