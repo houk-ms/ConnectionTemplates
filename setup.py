@@ -5,7 +5,7 @@ with open('requirements.txt') as f:
     required = f.read().splitlines()
 
 setup(
-    name='azure-iac-generator',
+    name='azure_iac',
     version='0.1',
     packages=find_packages(where='src'),
     package_dir={'': 'src'},  # specify the src directory
@@ -13,4 +13,10 @@ setup(
     description='Azure resource infrastructure as code generator',
     long_description=open('README.md').read(),
     install_requires=required,  # read from requirements.txt
+    entry_points={
+        'console_scripts': [
+            'azure_iac=azure_iac.command:main',
+        ],
+    },
+    include_package_data=True,
 )

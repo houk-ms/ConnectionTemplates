@@ -4,12 +4,12 @@
 
 block_cipher = None
 
-a = Analysis(['./src/command.py'],
-             pathex=['./src/command.py'],
+a = Analysis(['./src/azure_iac/command.py'],
+             pathex=['./src/azure_iac/command.py'],
              binaries=[],
              datas=[
-                ('./src/bicep_templates', 'bicep_templates'), 
-                ('./src/terraform_templates', 'terraform_templates')
+                ('./src/azure_iac/bicep_templates', 'bicep_templates'), 
+                ('./src/azure_iac/terraform_templates', 'terraform_templates')
              ],
              hiddenimports=[],
              hookspath=[],

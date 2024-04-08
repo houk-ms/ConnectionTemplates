@@ -1,0 +1,2 @@
+recursive-include src/azure_iac/terraform_templates *
+recursive-include src/azure_iac/bicep_templates *
