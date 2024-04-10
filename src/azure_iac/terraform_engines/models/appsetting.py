@@ -4,6 +4,7 @@ from enum import Enum
 class AppSettingType(str, Enum):
     KeyValue = "keyvalue"
     SecretReference = "secretreference"
+    KeyVaultReference = "keyvaultreference"
 
 
 class AppSetting():
@@ -20,6 +21,9 @@ class AppSetting():
     
     def is_raw_value(self) -> bool:
         return self.type == AppSettingType.KeyValue
+    
+    def is_keyvault_reference(self) -> bool:
+        return self.type == AppSettingType.KeyVaultReference
 
     def get_secret_name(self) -> str:
         return self.name.lower().replace('_', '-')
