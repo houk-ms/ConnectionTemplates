@@ -25,3 +25,4 @@ class Template(str, Enum):
     SQL_DB_TF = "modules/sqldb/sqldb.tf.jinja"
     STORAGE_ACCOUNT_TF = "modules/storageaccount/storageaccount.tf.jinja"
     STORAGE_ACCOUNT_FIREWALL_TF = "modules/storageaccount/storageaccount.firewall.tf.jinja"
+    STATIC_WEB_APP_TF = "modules/staticwebapp/staticwebapp.tf.jinja"

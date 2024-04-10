@@ -9,6 +9,7 @@ from azure_iac.terraform_engines.modules.resource_engines.cosmosdb_engine import
 from azure_iac.terraform_engines.modules.resource_engines.keyvault_engine import KeyVaultEngine
 from azure_iac.terraform_engines.modules.resource_engines.keyvaultsecret_engine import KeyVaultSecretEngine
 from azure_iac.terraform_engines.modules.resource_engines.role_resource_engine import RoleResourceEngine
+from azure_iac.terraform_engines.modules.resource_engines.staticwebapp_engine import StaticWebAppEngine
 
 
 RESOURCE_ENGINES = {
@@ -18,6 +19,7 @@ RESOURCE_ENGINES = {
     ResourceType.AZURE_APPLICATION_INSIGHTS: ApplicationInsightsEngine,
     ResourceType.AZURE_COSMOS_DB: CosmosDbEngine,
     ResourceType.AZURE_KEYVAULT: KeyVaultEngine,
+    ResourceType.AZURE_STATIC_WEB_APP: StaticWebAppEngine,
 }
 
 FIREWALL_ENGINES = {
