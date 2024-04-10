@@ -32,12 +32,10 @@ class ContainerAppEngine(SourceResourceEngine, TargetResourceEngine):
              'azurerm_container_app.{}.id'.format(self.module_name))
         ]
         
-        self.container_registry = ContainerRegistryEngine(self.resource)
-
         # dependency engines
         self.depend_engines = [
             ContainerAppEnvEngine(self.resource),
-            self.container_registry
+            ContainerRegistryEngine(self.resource),
         ]
 
     def get_identity_id(self) -> str:
@@ -58,7 +56,8 @@ class ContainerAppEngine(SourceResourceEngine, TargetResourceEngine):
                 secrets.append((setting.secret_name, setting.value))
         
         # add the container registry password in secrets, not used in env
-        secrets.append(('acr-password', 'azurerm_container_registry.{}.admin_password'.format(self.container_registry.module_name)))
+        # use abbreviation for dependency container registry to avoid being deduplicated
+        secrets.append(('acr-password', 'azurerm_container_registry.{}.admin_password'.format(Abbreviation.CONTAINER_REGISTRY.value)))
         
         return secrets
         

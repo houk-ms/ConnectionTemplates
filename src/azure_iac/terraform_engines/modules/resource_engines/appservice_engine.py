@@ -42,6 +42,6 @@ class AppServiceEngine(SourceResourceEngine, TargetResourceEngine):
         
         return [
             AppSetting(AppSettingType.KeyValue, app_setting_key,
-                '\"${{azurerm_linux_web_app.{}.name}}.azurewebsites.net\"'.format(self.module_name))
+                'azurerm_linux_web_app.{}.default_hostname'.format(self.module_name))
         ]
     
