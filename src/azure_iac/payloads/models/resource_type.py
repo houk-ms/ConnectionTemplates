@@ -13,6 +13,7 @@ class ResourceType(str, Enum):
     AZURE_SQL_DB = "azuresqldatabase"
     AZURE_STORAGE_ACCOUNT = "azurestorageaccount"
     AZURE_MYSQL_DB = "azuremysqldatabase"
+    AZURE_SERVICE_BUS = "azureservicebus"
 
 
     def is_compute(self):
@@ -31,4 +32,5 @@ class ResourceType(str, Enum):
             ResourceType.AZURE_SQL_DB, 
             ResourceType.AZURE_STORAGE_ACCOUNT, 
             ResourceType.AZURE_MYSQL_DB,
+            ResourceType.AZURE_SERVICE_BUS,
         ]
