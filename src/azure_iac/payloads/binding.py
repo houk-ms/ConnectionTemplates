@@ -21,11 +21,9 @@ class Binding():
             raise ValueError(f'`target` property is not found in binding: {json}')
         binding.target = Resource.from_expression(json['target'], all_resources)
 
-        if 'connection' not in json:
-            raise ValueError(f'`connection` property is not found in binding: {json}')
-        binding.connection = ConnectionType(json['connection'])
-
         # optional properties
+        if 'connection' in json:
+            binding.connection = ConnectionType(json['connection'])
         if 'store' in json:
             binding.store = Resource.from_expression(json.get('store'), all_resources)
         binding.key = json.get('key')

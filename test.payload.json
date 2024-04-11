@@ -1,84 +1,16 @@
 {
 	"resources": [
-	  {
-		"type": "azurecontainerapp",
-		"instances": [
-		  {
-			"name": "api"
-		  },
-		  {
-			"name": "web"
-		  }
-		]
-	  },
-	  {
-		"type": "azureapplicationinsights",
-		"instances": [
-		  {
-			"name": "todo"
-		  }
-		]
-	  },
-	  {
-		"type": "azurekeyvault",
-		"instances": [
-		  {
-			"name": "todo"
-		  }
-		]
-	  },
-	  {
-		"type": "azurecosmosdb",
-		"instances": [
-		  {
-			"name": "todo"
-		  }
-		]
-	  }
+		{
+			"type": "azurebotservice"
+		},
+		{
+			"type": "azureappservice"
+		}
 	],
 	"bindings": [
-	  {
-		"source": "${azurecontainerapp.api}",
-		"target": "${azurecosmosdb.todo}",
-		"connection": "secret",
-		"store": "${azurekeyvault.todo}",
-		"key": "AZURE_azurecosmosdb_CONNECTION_STRING"
-	  },
-	  {
-		"source": "${azurecontainerapp.api}",
-		"target": "${azureapplicationinsights.todo}",
-		"connection": "secret",
-		"key": "APPLICATIONINSIGHTS_CONNECTION_STRING"
-	  },
-	  {
-		"source": "${azurecontainerapp.api}",
-		"target": "${azurekeyvault.todo}",
-		"connection": "system-identity",
-		"key": "AZURE_KEY_VAULT_ENDPOINT"
-	  },
-	  {
-		"source": "${azurecontainerapp.web}",
-		"target": "${azureapplicationinsights.todo}",
-		"connection": "secret",
-		"key": "APPLICATIONINSIGHTS_CONNECTION_STRING"
-	  },
-	  {
-		"source": "${azurecontainerapp.web}",
-		"target": "${azurecontainerapp.api}",
-		"connection": "http",
-		"key": "SERVICE_API_URL"
-	  }
-	],
-	"services": [
-	  {
-		"name": "${azurecontainerapp.api}",
-		"language": "ts",
-		"project": "src/api"
-	  },
-	  {
-		"name": "${azurecontainerapp.web}",
-		"language": "ts",
-		"project": "src/web"
-	  }
+		{
+			"source": "${azureappservice}",
+			"target": "${azurebotservice}"
+		}
 	]
-  }
+}

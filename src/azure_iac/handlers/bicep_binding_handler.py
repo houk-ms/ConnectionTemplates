@@ -58,6 +58,17 @@ class BicepBindingHandler():
             self.setting_engine.add_dependency_engine(self.target_engine)
             app_settings = self.target_engine.get_app_settings_secret(self.binding)
             self.setting_engine.add_app_settings(app_settings)
+        
+        elif self.binding.connection == ConnectionType.BOTREGISTRATION:
+            # target engine depends on source engine
+            self.target_engine.add_dependency_engine(self.source_engine)
+            endpoint = self.source_engine.get_endpoint()
+            self.target_engine.set_endpoint(endpoint)
+
+            # settings are static, no need to depend on target engine
+            # TODO: get_app_settings_... method can be boundled
+            app_settings = self.target_engine.get_app_settings_bot(self.binding)
+            self.setting_engine.add_app_settings(app_settings)
             
         else:
             raise ValueError('Invalid connection type: {}'.format(self.binding.connection_type))

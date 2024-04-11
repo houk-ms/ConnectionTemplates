@@ -1,4 +1,5 @@
 from azure_iac.payloads.payload import Payload
+from azure_iac.payloads.models.resource_type import TargetDefaultConnectionType
 
 
 class BaseGenerator:
@@ -13,7 +14,11 @@ class BaseGenerator:
         pass
     
     def complete_payloads(self):
-        pass
+        # if connection is not defined, set default connection type
+        for binding in self.payload.bindings:
+            if binding.connection is None:
+                binding.connection = TargetDefaultConnectionType.get(binding.target.type)
+        return True
 
     def add_implicit_bindings(self):
         pass

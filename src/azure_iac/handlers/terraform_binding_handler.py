@@ -69,7 +69,18 @@ class TerraformBindingHandler():
                 self.firewall_engine.add_dependency_engine(self.source_engine)
                 public_ip = self.source_engine.get_outbound_ip()
                 self.firewall_engine.allow_firewall(public_ip)
-            
+        
+        elif self.binding.connection == ConnectionType.BOTREGISTRATION:
+            # target engine depends on source engine
+            self.target_engine.add_dependency_engine(self.source_engine)
+            endpoint = self.source_engine.get_endpoint()
+            self.target_engine.set_endpoint(endpoint)
+
+            # settings are static, no need to depend on target engine
+            # TODO: get_app_settings_... method can be boundled
+            app_settings = self.target_engine.get_app_settings_bot(self.binding)
+            self.source_engine.add_app_settings(app_settings)
+
         else:
             raise ValueError('Invalid connection type: {}'.format(self.binding.connection_type))
     

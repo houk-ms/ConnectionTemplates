@@ -2,6 +2,7 @@ from azure_iac.payloads.models.resource_type import ResourceType
 
 from azure_iac.bicep_engines.modules.resource_engines.appservice_engine import AppServiceEngine
 from azure_iac.bicep_engines.modules.resource_engines.appservice_settings_engine import AppServiceSettingsEngine
+from azure_iac.bicep_engines.modules.resource_engines.botservice_engine import BotServiceEngine
 from azure_iac.bicep_engines.modules.resource_engines.containerapp_engine import ContainerAppEngine
 from azure_iac.bicep_engines.modules.resource_engines.containerapp_settings_engine import ContainerAppSettingsEngine
 from azure_iac.bicep_engines.modules.resource_engines.functionapp_engine import FunctionAppEngine
@@ -19,6 +20,7 @@ from azure_iac.bicep_engines.modules.resource_engines.mysqldb_engine import MySq
 RESOURCE_ENGINES = {
     ResourceType.AZURE_APPLICATION_INSIGHTS: ApplicationInsightsEngine,
     ResourceType.AZURE_APP_SERVICE: AppServiceEngine,
+    ResourceType.AZURE_BOT_SERVICE: BotServiceEngine,
     ResourceType.AZURE_CONTAINER_APP: ContainerAppEngine,
     ResourceType.AZURE_FUNCTION_APP: FunctionAppEngine,
     ResourceType.AZURE_COSMOS_DB: CosmosDbEngine,

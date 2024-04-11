@@ -1,0 +1,10 @@
+// Deploy an Azure Bot Service
+
+module {{engine.module_name}} 'botservice.bicep' = {
+	name: '{{engine.module_deployment_name}}'
+	params: {
+		name: {{engine.module_params_name}}
+		botAadAppClientId: {{engine.module_params_botaadappclientid}} {% if engine.module_params_botappdomain %}
+		botAppDomain: {{engine.module_params_botappdomain}}{% endif %}
+	}
+}

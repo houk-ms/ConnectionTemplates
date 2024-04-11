@@ -18,3 +18,7 @@ class SourceResourceEngine(BaseResourceEngine):
     # return the public ip variable name of current engine
     def get_outbound_ip(self) -> str:
         return self.module_var_outbound_ip_name
+
+    # return the endpoint variable name of current engine
+    def get_endpoint(self) -> str:
+        return self.module_var_endpoint_name

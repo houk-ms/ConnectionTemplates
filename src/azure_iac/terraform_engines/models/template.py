@@ -10,6 +10,7 @@ class Template(str, Enum):
     APP_SERVICE_LINUX_TF = "modules/appservice/appservicelinux.tf.jinja"
     APP_SERVICE_PLAN_TF = "modules/appserviceplan/appserviceplan.tf.jinja"
     APP_SERVICE_SETTINGS_TF = "modules/appservice/appservice.settings.tf.jinja"
+    BOT_SERVICE_TF = "modules/botservice/botservice.tf.jinja"
     CONTAINER_APP_TF = "modules/containerapp/containerapp.tf.jinja"
     CONTAINER_APP_ENV_TF = "modules/containerappenv/containerappenv.tf.jinja"
     CONTAINER_REGISTRY_TF = "modules/containerregistry/containerregistry.tf.jinja"

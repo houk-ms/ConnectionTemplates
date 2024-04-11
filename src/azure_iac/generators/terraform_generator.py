@@ -168,11 +168,10 @@ class TerraformGenerator(BaseGenerator):
     def generate(self, output_folder: str='./'):
         self.init_resource_engines()
         self.init_dependency_engines()
+        self.process_bindings()
         self.init_variable_engines()
         self.init_output_engines()
-        self.process_bindings()
         self.generate_terraforms(output_folder)
-
 
     def _get_resource_engine_by_resource(self, resource: Resource):
         # TODO: support engine identifier
