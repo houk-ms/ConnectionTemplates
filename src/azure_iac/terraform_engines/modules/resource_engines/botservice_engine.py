@@ -22,10 +22,6 @@ class BotServiceEngine(TargetResourceEngine):
         # main.tf variables
         self.main_var_botaadappclientid = 'bot_aad_app_client_id'
         self.main_var_botaadappclientsecret = 'bot_aad_app_client_secret'
-        self.main_var_aadappcilentid = 'aad_app_client_id'
-        self.main_var_aadappclientsecret = 'aad_app_client_secret'
-        self.main_var_aadapptenantid = 'aad_app_tenant_id'
-        self.main_var_aadappoauthauthorityhost = 'aad_app_oauth_authority_host'
 
         # resource module states and variables
         self.module_name = string_helper.format_snake(Abbreviation.BOT_SERVICE.value, self.resource.name)
@@ -47,10 +43,6 @@ class BotServiceEngine(TargetResourceEngine):
         self.main_variables.extend([
             (self.main_var_botaadappclientid, None),
             (self.main_var_botaadappclientsecret, None),
-            (self.main_var_aadappcilentid, None),
-            (self.main_var_aadappclientsecret, None),
-            (self.main_var_aadapptenantid, None),
-            (self.main_var_aadappoauthauthorityhost, None),
         ])
 
 
@@ -59,10 +51,6 @@ class BotServiceEngine(TargetResourceEngine):
             'BOT_ID': '"${var.' + self.main_var_botaadappclientid + '}"',
             'BOT_PASSWORD': '"${var.' + self.main_var_botaadappclientsecret + '}"',
             'BOT_DOMAIN': '"' + self.module_params_endpoint + '"',
-            'AAD_APP_CLIENT_ID': '"${var.' + self.main_var_aadappcilentid + '}"',
-            'AAD_APP_CLIENT_SECRET': '"${var.' + self.main_var_aadappclientsecret + '}"',
-            'AAD_APP_TENANT_ID': '"${var.' + self.main_var_aadapptenantid + '}"',
-            'AAD_APP_OAUTH_AUTHORITY_HOST': '"${var.' + self.main_var_aadappoauthauthorityhost + '}"',
         }
         
         return [AppSetting(AppSettingType.KeyValue, key, value) for key, value in bot_app_settings.items()]

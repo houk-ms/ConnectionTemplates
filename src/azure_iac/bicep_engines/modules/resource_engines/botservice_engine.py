@@ -21,10 +21,6 @@ class BotServiceEngine(TargetResourceEngine):
         # main.bicep states and variables
         self.main_var_botaadappclientid = 'botAadAppClientId'
         self.main_var_botaadappclientsecret = 'botAadAppClientSecret'
-        self.main_var_aadappcilentid = 'aadAppClientId'
-        self.main_var_aadappclientsecret = 'aadAppClientSecret'
-        self.main_var_aadapptenantid = 'aadAppTenantId'
-        self.main_var_aadappoauthauthorityhost = 'aadAppOauthAuthorityHost'
 
         # resource.module states and variables
         self.module_name = string_helper.format_module_name('bot', self.resource.name)
@@ -49,10 +45,6 @@ class BotServiceEngine(TargetResourceEngine):
         # extra variables needed when binding with compute service
         self.main_params.extend([
             (self.main_var_botaadappclientsecret, 'string', None, False, True),
-            (self.main_var_aadappcilentid, 'string', None, False),
-            (self.main_var_aadappclientsecret, 'string', None, False, True),
-            (self.main_var_aadapptenantid, 'string', None, False),
-            (self.main_var_aadappoauthauthorityhost, 'string', None, False),
         ])
 
 
@@ -61,10 +53,6 @@ class BotServiceEngine(TargetResourceEngine):
             'BOT_ID': self.main_var_botaadappclientid ,
             'BOT_PASSWORD': self.main_var_botaadappclientsecret,
             'BOT_DOMAIN': self.module_params_botappdomain,
-            'AAD_APP_CLIENT_ID': self.main_var_aadappcilentid,
-            'AAD_APP_CLIENT_SECRET': self.main_var_aadappclientsecret,
-            'AAD_APP_TENANT_ID': self.main_var_aadapptenantid,
-            'AAD_APP_OAUTH_AUTHORITY_HOST': self.main_var_aadappoauthauthorityhost,
         }
         
         return [AppSetting(AppSettingType.KeyValue, key, value) for key, value in bot_app_settings.items()]
