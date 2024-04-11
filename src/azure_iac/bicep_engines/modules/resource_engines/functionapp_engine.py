@@ -2,6 +2,7 @@ from typing import List
 
 from azure_iac.payloads.binding import Binding
 from azure_iac.payloads.resources.function_app import FunctionAppResource
+from azure_iac.payloads.resources.storage_account import StorageAccountResource
 
 from azure_iac.bicep_engines.models.appsetting import AppSetting, AppSettingType
 from azure_iac.bicep_engines.models.template import Template
@@ -17,6 +18,9 @@ from helpers import string_helper
 
 
 class FunctionAppEngine(SourceResourceEngine, TargetResourceEngine):
+    
+    STORAGE_DEPENDENCY_NAME = "funcdep"
+
     def __init__(self, resource: FunctionAppResource) -> None:
         SourceResourceEngine.__init__(self,
                                       Template.FUNCTION_APP_BICEP.value,
@@ -44,17 +48,14 @@ class FunctionAppEngine(SourceResourceEngine, TargetResourceEngine):
             (string_helper.format_camel('functionapp', self.resource.name, "Id"),
              'string', '{}.outputs.id'.format(self.module_name))]
 
-        # storage dependency
-        self.storage = StorageAccountEngine(self.resource)
-
         # dependency engines
         self.depend_engines = [
             FunctionAppPlanEngine(self.resource),
-            self.storage
+            StorageAccountEngine(StorageAccountResource(FunctionAppEngine.STORAGE_DEPENDENCY_NAME))
         ]
         
         self.module_default_app_settings = self.get_default_app_settings()
-        self.module_params_storage_name = self.storage.module_params_name
+        self.module_params_storage_name = string_helper.format_camel('storageAccount', FunctionAppEngine.STORAGE_DEPENDENCY_NAME, "Name")
 
     def get_app_settings_http(self, binding: Binding) -> List[tuple]:
         app_setting_key = binding.key if binding.key else 'SERVICE{}_URL'.format(self.resource.name.upper())
