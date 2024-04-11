@@ -10,7 +10,7 @@ from azure_iac.terraform_engines.models.template import Template
 from azure_iac.terraform_engines.modules.source_resource_engine import SourceResourceEngine
 from azure_iac.terraform_engines.modules.target_resource_engine import TargetResourceEngine
 from azure_iac.terraform_engines.modules.resource_engines.appserviceplan_engine import AppServicePlanEngine
-from azure_iac.terraform_engines.modules.resource_engines.functionstorageengine import FunctionStorageEngine
+from azure_iac.terraform_engines.modules.resource_engines.storageaccount_engine import StorageAccountEngine
 from azure_iac.terraform_engines.modules.resource_engines.applicationinsights_engine import ApplicationInsightsEngine
 
 from azure_iac.helpers import string_helper
@@ -39,8 +39,7 @@ class FunctionAppEngine(SourceResourceEngine, TargetResourceEngine):
         # dependency engines
         self.depend_engines = [
             AppServicePlanEngine(self.resource),
-            FunctionStorageEngine(StorageAccountResource()),
-            # ApplicationInsightsEngine(ApplicationInsightsResource())
+            StorageAccountEngine(StorageAccountResource(name="funcdep")),
         ]
     
     def get_app_settings_http(self, binding: Binding) -> List[tuple]:

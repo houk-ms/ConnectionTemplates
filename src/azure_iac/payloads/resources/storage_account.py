@@ -3,9 +3,9 @@ from azure_iac.payloads.resources.base_resource import BaseResource
 
 
 class StorageAccountResource(BaseResource):
-    def __init__(self):
+    def __init__(self, name=''):
         self.type = ResourceType.AZURE_STORAGE_ACCOUNT
-        self.name = ''
+        self.name = name
     
     def from_json(json):
         result = StorageAccountResource()

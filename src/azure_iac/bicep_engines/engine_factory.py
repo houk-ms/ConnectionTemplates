@@ -15,6 +15,8 @@ from azure_iac.bicep_engines.modules.resource_engines.sqldb_engine import SqlDbE
 from azure_iac.bicep_engines.modules.resource_engines.postgresqldb_engine import PostgreSqlDbEngine
 from azure_iac.bicep_engines.modules.resource_engines.storageaccount_engine import StorageAccountEngine
 from azure_iac.bicep_engines.modules.resource_engines.mysqldb_engine import MySqlDbEngine
+from azure_iac.bicep_engines.modules.resource_engines.servicebus_engine import ServiceBusEngine
+from azure_iac.bicep_engines.modules.resource_engines.staticwebapp_engine import StaticWebAppEngine
 
 
 RESOURCE_ENGINES = {
@@ -29,7 +31,9 @@ RESOURCE_ENGINES = {
     ResourceType.AZURE_REDIS_CACHE: RedisEngine,
     ResourceType.AZURE_SQL_DB: SqlDbEngine,
     ResourceType.AZURE_STORAGE_ACCOUNT: StorageAccountEngine,
-    ResourceType.AZURE_MYSQL_DB: MySqlDbEngine
+    ResourceType.AZURE_MYSQL_DB: MySqlDbEngine,
+    ResourceType.AZURE_SERVICE_BUS: ServiceBusEngine,
+    ResourceType.AZURE_STATIC_WEB_APP: StaticWebAppEngine,
 }
 
 SETTING_ENGINES = {

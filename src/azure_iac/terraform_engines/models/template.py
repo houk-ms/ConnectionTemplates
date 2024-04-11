@@ -16,7 +16,6 @@ class Template(str, Enum):
     CONTAINER_REGISTRY_TF = "modules/containerregistry/containerregistry.tf.jinja"
     COSMOS_DB_TF = "modules/cosmosdb/cosmosdb.tf.jinja"
     FUNCTION_APP_LINUX_TF = "modules/functionapp/functionapplinux.tf.jinja"
-    FUNCTION_STORAGE_ACCOUNT_TF = "modules/storageaccount/functionstorage.tf.jinja"
     KEYVAULT_TF = "modules/keyvault/keyvault.tf.jinja"
     KEYVAULTSECRET_TF = "modules/keyvault/keyvaultsecret.tf.jinja"
     LOG_ANALYTICS_TF = "modules/loganalytics/loganalytics.tf.jinja"

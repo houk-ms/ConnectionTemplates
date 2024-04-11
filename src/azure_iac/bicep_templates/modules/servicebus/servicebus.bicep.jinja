@@ -1,0 +1,97 @@
+param name string = 'servicebus_${uniqueString(resourceGroup().id)}'
+param location string = resourceGroup().location
+param queueName string = 'sbqueue_${uniqueString(resourceGroup().id)}'
+param networkName string = 'sbnetwork_${uniqueString(resourceGroup().id)}'
+param authName string = 'sbauth_${uniqueString(resourceGroup().id)}'
+param allowIps array = []
+param principalIds array = []
+param roleDefinitionId string = '090c5cfd-751d-490a-894a-3ce6f1109419'  // service bus data owner role
+param keyVaultName string = ''
+param secretName string = 'myvault/mysecret'
+
+resource serviceBusNamespace 'Microsoft.ServiceBus/namespaces@2022-01-01-preview' = {
+	name: name
+	location: location
+	sku: {
+		name: 'Standard'
+	}
+	properties: {
+	}
+}
+
+resource serviceBusQueue 'Microsoft.ServiceBus/namespaces/queues@2022-01-01-preview' = {
+	parent: serviceBusNamespace
+	name: queueName
+	properties: {
+		lockDuration: 'PT5M'
+		maxSizeInMegabytes: 1024
+		requiresDuplicateDetection: false
+		requiresSession: false
+		defaultMessageTimeToLive: 'P10675199DT2H48M5.4775807S'
+		deadLetteringOnMessageExpiration: false
+		duplicateDetectionHistoryTimeWindow: 'PT10M'
+		maxDeliveryCount: 10
+		autoDeleteOnIdle: 'P10675199DT2H48M5.4775807S'
+		enablePartitioning: false
+		enableExpress: false
+	}
+}
+
+resource serviceBusNetworkRuleSet 'Microsoft.ServiceBus/namespaces/networkRuleSets@2022-10-01-preview' = {
+  name: networkName
+  parent: serviceBusNamespace
+  properties: {
+    defaultAction: 'Deny'
+    ipRules: [
+		for ip in allowIps: {
+			action: 'Allow'
+			ipMask: ip
+		}
+    ]
+    publicNetworkAccess: 'Enabled'
+  }
+}
+
+resource serviceBusAuthRules 'Microsoft.ServiceBus/namespaces/AuthorizationRules@2022-10-01-preview' = {
+  name: authName
+  parent: serviceBusNamespace
+  properties: {
+    rights: [
+      'Listen'
+	  'Manage'
+	  'Send'
+    ]
+  }
+}
+
+// create role assignments for the specified principalIds
+resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = [for principalId in principalIds: {
+	scope: serviceBusNamespace
+	name: guid(name, principalId)
+	properties: {
+		roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', roleDefinitionId)
+		principalId: principalId
+	}
+}]
+
+// create key vault and secret if keyVaultName is specified
+resource keyVault 'Microsoft.KeyVault/vaults@2022-07-01' existing = if (keyVaultName != ''){
+	name: keyVaultName
+}
+
+resource keyVaultSecret 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = if (keyVaultName != ''){
+	name: secretName
+	parent: keyVault
+	properties: {
+		attributes: {
+			enabled: true
+		}
+		contentType: 'string'
+		value: serviceBusAuthRules.listKeys().keys[0].value
+	}
+}
+
+output id string = serviceBusNamespace.id
+output queueId string = serviceBusQueue.id
+output endpoint string = serviceBusNamespace.properties.serviceBusEndpoint
+output keyVaultSecretUri string = (keyVaultName != '' ? keyVaultSecret.properties.secretUriWithVersion : '')

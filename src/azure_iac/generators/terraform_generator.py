@@ -130,12 +130,13 @@ class TerraformGenerator(BaseGenerator):
         main_engine.resources = [engine.render() for engine in source_engines]
         file_helper.create_file('{}/main.tf'.format(output_folder), main_engine.render())
 
-        # generate <target>.tf files
+        # generate <target>.tf files for target and dependency engines
         target_engines = [engine for engine in (
                 self.resource_engines + 
                 self.firewall_engines + 
                 self.role_engines +
-                self.key_vault_secret_engines) if engine not in source_engines]
+                self.key_vault_secret_engines +
+                self.dependency_engines) if engine not in source_engines]
         target_engine_map = dict()
         for engine in target_engines:
             if engine.template not in target_engine_map:
@@ -157,13 +158,6 @@ class TerraformGenerator(BaseGenerator):
         outputs_engine = BlocksEngine()
         outputs_engine.blocks = [engine.render() for engine in self.output_engines]
         file_helper.create_file('{}/outputs.tf'.format(output_folder), outputs_engine.render())
-
-        # generate dependency .tf files
-        # duplicated engines does not matter as the bicep file will be overwritten
-        for engine in self.dependency_engines:
-            tf_file_name = engine.template.split('/')[-1].replace('.jinja', '')
-            file_helper.create_file('{}/{}'.format(output_folder, tf_file_name), engine.render())
-
 
     def generate(self, output_folder: str='./'):
         self.init_resource_engines()
