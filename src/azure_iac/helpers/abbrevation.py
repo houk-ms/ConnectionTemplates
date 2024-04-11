@@ -18,3 +18,4 @@ class Abbreviation(str, Enum):
     KEYVAULT_SECRET = "kvsec"
     MYSQL_DB = "mysql-"
     FUNCTION_APP = "func-"
+    SERVICE_BUS = "sb"
