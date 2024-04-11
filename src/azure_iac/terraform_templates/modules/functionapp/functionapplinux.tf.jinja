@@ -5,7 +5,7 @@ resource "azurerm_linux_function_app" "{{engine.module_name}}" {
 
     storage_account_name       = azurerm_storage_account.strg_funcdep.name
     storage_account_access_key = azurerm_storage_account.strg_funcdep.primary_access_key
-    service_plan_id            = azurerm_service_plan.planlinux.id
+    service_plan_id            = azurerm_service_plan.funcplanlinux.id
 
     site_config {}
 
