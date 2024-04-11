@@ -13,6 +13,8 @@ from azure_iac.payloads.resources.spring_app import SpringAppResource
 from azure_iac.payloads.resources.sql_db import SqlDbResource
 from azure_iac.payloads.resources.storage_account import StorageAccountResource
 from azure_iac.payloads.resources.mysql_db import MySqlDbResource
+from azure_iac.payloads.resources.service_bus import ServiceBusResource
+from azure_iac.payloads.resources.static_web_app import StaticWebAppResource
 
 
 RESOURCES = {
@@ -26,7 +28,9 @@ RESOURCES = {
     ResourceType.AZURE_REDIS_CACHE: RedisResource,
     ResourceType.AZURE_SQL_DB: SqlDbResource,
     ResourceType.AZURE_STORAGE_ACCOUNT: StorageAccountResource,
-    ResourceType.AZURE_MYSQL_DB: MySqlDbResource
+    ResourceType.AZURE_MYSQL_DB: MySqlDbResource,
+    ResourceType.AZURE_SERVICE_BUS: ServiceBusResource,
+    ResourceType.AZURE_STATIC_WEB_APP: StaticWebAppResource,
 }
 
 
