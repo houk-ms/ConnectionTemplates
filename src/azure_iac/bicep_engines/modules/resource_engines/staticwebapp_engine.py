@@ -3,6 +3,7 @@ from typing import List
 from azure_iac.payloads.resources.static_web_app import StaticWebAppResource
 
 from azure_iac.bicep_engines.models.template import Template
+from azure_iac.bicep_engines.models.appsetting import AppSetting, AppSettingType
 from azure_iac.bicep_engines.modules.source_resource_engine import SourceResourceEngine
 from azure_iac.bicep_engines.modules.target_resource_engine import TargetResourceEngine
 
@@ -37,3 +38,12 @@ class StaticWebAppEngine(SourceResourceEngine, TargetResourceEngine):
 
         # dependency engines
         self.depend_engines = []
+        
+	
+    def get_app_settings_http(self, binding):
+        app_setting_key = binding.key if binding.key else 'SERVICE{}_URL'.format(self.resource.name.upper())
+        
+        return [
+            AppSetting(AppSettingType.KeyValue, app_setting_key, 
+                '{}.outputs.requestUrl'.format(self.module_name))
+        ]
