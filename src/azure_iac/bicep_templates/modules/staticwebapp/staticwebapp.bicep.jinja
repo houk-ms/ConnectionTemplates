@@ -1,0 +1,12 @@
+// The template to create a static web app
+
+param name string = 'static-${uniqueString(resourceGroup().id)}'
+param location string = resourceGroup().location
+
+
+resource staticWebApp 'Microsoft.Web/staticSites@2021-01-15' = {
+  name: name
+  location: location
+}
+
+output id string = staticWebApp.id

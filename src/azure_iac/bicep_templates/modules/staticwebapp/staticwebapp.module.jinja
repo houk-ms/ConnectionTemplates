@@ -1,0 +1,19 @@
+// Deploy an Azure Static Web App
+
+module {{engine.module_name}} 'staticwebapp.bicep' = {
+	name: '{{engine.module_deployment_name}}'
+	params: {
+		location: location
+		name: {{engine.module_params_name}} {% if engine.module_params_app_settings %}
+		appSettings: [{% for key, value in engine.module_params_app_settings %}
+			{
+				name: '{{key}}'
+				value: {{value}}
+			}{% if not loop.last %},{% endif %}
+		{% endfor %}]
+		{% endif %}
+	}{% if engine.depend_engines %}
+	dependsOn: [{% for dep in engine.depend_engines %}
+		{{dep.module_name}}{% endfor %}
+	]{% endif %}
+}
