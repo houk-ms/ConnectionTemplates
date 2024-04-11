@@ -40,7 +40,7 @@ class FunctionAppEngine(SourceResourceEngine, TargetResourceEngine):
         self.depend_engines = [
             AppServicePlanEngine(self.resource),
             FunctionStorageEngine(StorageAccountResource()),
-            ApplicationInsightsEngine(ApplicationInsightsResource())
+            # ApplicationInsightsEngine(ApplicationInsightsResource())
         ]
     
     def get_app_settings_http(self, binding: Binding) -> List[tuple]:

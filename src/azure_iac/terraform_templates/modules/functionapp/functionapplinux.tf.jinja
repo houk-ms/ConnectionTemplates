@@ -7,9 +7,7 @@ resource "azurerm_linux_function_app" "{{engine.module_name}}" {
     storage_account_access_key = azurerm_storage_account.strg.primary_access_key
     service_plan_id            = azurerm_service_plan.appplanlinux.id
 
-    site_config {
-        application_insights_key = azurerm_application_insights.ai.instrumentation_key
-    }
+    site_config {}
 
     identity {
         type = "SystemAssigned"
