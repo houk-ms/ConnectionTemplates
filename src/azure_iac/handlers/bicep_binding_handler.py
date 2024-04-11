@@ -71,5 +71,5 @@ class BicepBindingHandler():
             self.setting_engine.add_app_settings(app_settings)
             
         else:
-            raise ValueError('Invalid connection type: {}'.format(self.binding.connection_type))
+            raise ValueError('Invalid connection type: {}'.format(self.binding.connection))
     

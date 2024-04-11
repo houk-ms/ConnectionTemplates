@@ -16,7 +16,10 @@ class Payload():
         if 'resources' not in json:
             raise ValueError('`resources` property is not found in payload')
         for resource in json['resources']:
-            payload.resources.extend(Resource.from_json(resource))
+            try:
+                payload.resources.extend(Resource.from_json(resource))
+            except Exception as e:
+                print(f'Warning: detect resource failed, resource: {resource}, error: {e}')
         
         # for resource reference in bindings and services
         resource_dict = {resource.get_identifier(): resource for resource in payload.resources}
@@ -24,7 +27,10 @@ class Payload():
         # optional properties
         if 'bindings' in json:
             for binding in json['bindings']:
-                payload.bindings.append(Binding.from_json(binding, resource_dict))
+                try:
+                    payload.bindings.append(Binding.from_json(binding, resource_dict))
+                except Exception as e:
+                    print(f'Warning: detect binding failed, binding: {binding}, error: {e}')
         
         # optional properties
         # if 'services' in json:
