@@ -19,3 +19,4 @@ class Abbreviation(str, Enum):
     MYSQL_DB = "mysql-"
     FUNCTION_APP = "func-"
     STATIC_WEB_APP = "swa"
+    SERVICE_BUS = "sb"
