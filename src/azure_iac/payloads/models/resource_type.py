@@ -13,6 +13,7 @@ class ResourceType(str, Enum):
     AZURE_SQL_DB = "azuresqldatabase"
     AZURE_STORAGE_ACCOUNT = "azurestorageaccount"
     AZURE_MYSQL_DB = "azuremysqldatabase"
+    AZURE_STATIC_WEB_APP = "azurestaticwebapp"
     AZURE_SERVICE_BUS = "azureservicebus"
 
 
