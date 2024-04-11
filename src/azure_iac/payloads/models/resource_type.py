@@ -52,6 +52,6 @@ TargetDefaultConnectionType = {
     ResourceType.AZURE_REDIS_CACHE: ConnectionType.SECRET,
     ResourceType.AZURE_SQL_DB: ConnectionType.SECRET,
     ResourceType.AZURE_STORAGE_ACCOUNT: ConnectionType.SYSTEMIDENTITY,
-    ResourceType.AZURE_SERVICE_BUS: ConnectionType.SYSTEMIDENTITY,
     ResourceType.AZURE_STATIC_WEB_APP: ConnectionType.HTTP,
+    ResourceType.AZURE_SERVICE_BUS: ConnectionType.SECRET,
 }

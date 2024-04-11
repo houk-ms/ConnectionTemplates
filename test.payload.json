@@ -1,16 +1,177 @@
 {
 	"resources": [
-		{
-			"type": "azurebotservice"
-		},
-		{
-			"type": "azureappservice"
-		}
+	  {
+		"type": "azurecontainerapp",
+		"instances": [
+		  {
+			"name": "aca1"
+		  },
+		  {
+			"name": "aca2"
+		  }
+		]
+	  },
+	  {
+		"type": "azureappservice",
+		"instances": [
+		  {
+			"name": "app1"
+		  },
+		  {
+			"name": "app2"
+		  }
+		]
+	  },
+	  {
+		"type": "azurefunctions",
+		"instances": [
+		  {
+			"name": "func1"
+		  },
+		  {
+			"name": "func2"
+		  }
+		]
+	  },
+	  {
+		"type": "azurestaticwebapp",
+		"instances": [
+		  {
+			"name": "swa1"
+		  },
+		  {
+			"name": "swa2"
+		  }
+		]
+	  },
+	  {
+		"type": "azurekeyvault",
+		"instances": [
+		  {
+			"name": "vault1"
+		  },
+		  {
+			"name": "vault2"
+		  }
+		]
+	  },
+	  {
+		"type": "azureapplicationinsights",
+		"instances": [
+		  {
+			"name": "insights1"
+		  },
+		  {
+			"name": "insights2"
+		  }
+		]
+	  },
+	  {
+		"type": "azurecosmosdb",
+		"instances": [
+		  {
+			"name": "cosmos1"
+		  },
+		  {
+			"name": "cosmos2"
+		  }
+		]
+	  },
+	  {
+		"type": "azurestorageaccount",
+		"instances": [
+		  {
+			"name": "storage1"
+		  },
+		  {
+			"name": "storage2"
+		  }
+		]
+	  },
+	  {
+		"type": "azureservicebus",
+		"instances": [
+		  {
+			"name": "servicebus1"
+		  },
+		  {
+			"name": "servicebus2"
+		  }
+		]
+	  },
+	  {
+		"type": "azurebotservice",
+		"instances": [
+		  {
+			"name": "bot1"
+		  },
+		  {
+			"name": "bot2"
+		  }
+		]
+	  }
 	],
 	"bindings": [
 		{
-			"source": "${azureappservice}",
-			"target": "${azurebotservice}"
+			"source": "${azurecontainerapp.aca1}",
+			"target": "${azurecontainerapp.aca2}"
+		},
+		{
+			"source": "${azureappservice.app1}",
+			"target": "${azureappservice.app2}"
+		},
+		{
+			"source": "${azurefunctions.func1}",
+			"target": "${azurefunctions.func2}"
+		},
+		{
+			"source": "${azurecontainerapp.aca2}",
+			"target": "${azurekeyvault.vault2}"
+		},
+		{
+			"source": "${azurecontainerapp.aca2}",
+			"target": "${azureapplicationinsights.insights2}"
+		},
+		{
+			"source": "${azurecontainerapp.aca2}",
+			"target": "${azurecosmosdb.cosmos2}"
+		},
+		{
+			"source": "${azurecontainerapp.aca2}",
+			"target": "${azurestorageaccount.storage2}"
+		},
+		{
+			"source": "${azurecontainerapp.aca2}",
+			"target": "${azureservicebus.servicebus2}"
+		},
+		{
+			"source": "${azurecontainerapp.aca2}",
+			"target": "${azurebotservice.bot2}"	
+		},
+		{
+			"source": "${azureappservice.app2}",
+			"target": "${azurekeyvault.vault1}"
+		},
+		{
+			"source": "${azureappservice.app2}",
+			"target": "${azureapplicationinsights.insights1}"
+		},
+		{
+			"source": "${azureappservice.app2}",
+			"target": "${azurecosmosdb.cosmos1}"
+		},
+		{
+			"source": "${azureappservice.app2}",
+			"target": "${azurestorageaccount.storage1}"
+		},
+		{
+			"source": "${azureappservice.app2}",
+			"target": "${azureservicebus.servicebus1}"
+		},
+		{
+			"source": "${azureappservice.app2}",
+			"target": "${azurebotservice.bot1}"	
 		}
 	]
 }
+  

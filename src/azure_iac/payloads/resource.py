@@ -58,7 +58,6 @@ class Resource():
                              'Supported expressions are: ${resource_type} or ${resource_type.resource_name}')
 
         if match.group(1) not in all_resources:
-            print(all_resources)
             raise ValueError(f'Resource not found: {expression}')
 
         return all_resources[match.group(1)]

@@ -20,8 +20,8 @@ class BotServiceEngine(TargetResourceEngine):
         self.resource = resource
 
         # main.tf variables
-        self.main_var_botaadappclientid = 'bot_aad_app_client_id'
-        self.main_var_botaadappclientsecret = 'bot_aad_app_client_secret'
+        self.main_var_botaadappclientid = (self.resource.name or Abbreviation.BOT_SERVICE.value) + '_aad_app_client_id'
+        self.main_var_botaadappclientsecret = (self.resource.name or Abbreviation.BOT_SERVICE.value) + '_aad_app_client_secret'
 
         # resource module states and variables
         self.module_name = string_helper.format_snake(Abbreviation.BOT_SERVICE.value, self.resource.name)
@@ -30,6 +30,9 @@ class BotServiceEngine(TargetResourceEngine):
         self.module_params_endpoint = 'example.com'
         
         # main.tf variables and outputs
+        self.main_variables = [
+            (self.main_var_botaadappclientid, None),
+        ]
         self.main_outputs = [
             (string_helper.format_snake('bot', 'service', self.resource.name, 'id'), 
                 'azurerm_bot_channels_registration.{}.id'.format(self.module_name))
@@ -41,7 +44,6 @@ class BotServiceEngine(TargetResourceEngine):
 
         # extra variables needed when binding with compute service
         self.main_variables.extend([
-            (self.main_var_botaadappclientid, None),
             (self.main_var_botaadappclientsecret, None),
         ])
 
