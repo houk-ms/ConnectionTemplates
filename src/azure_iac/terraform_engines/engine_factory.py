@@ -2,6 +2,9 @@ from azure_iac.payloads.models.resource_type import ResourceType
 
 from azure_iac.terraform_engines.modules.resource_engines.appservice_engine import AppServiceEngine
 from azure_iac.terraform_engines.modules.resource_engines.containerapp_engine import ContainerAppEngine
+from azure_iac.terraform_engines.modules.resource_engines.functionapp_engine import FunctionAppEngine
+from azure_iac.terraform_engines.modules.resource_engines.storageaccount_engine import StorageAccountEngine
+from azure_iac.terraform_engines.modules.resource_engines.storageaccount_firewall_engine import StorageAccountFirewallEngine
 from azure_iac.terraform_engines.modules.resource_engines.applicationinsights_engine import ApplicationInsightsEngine
 from azure_iac.terraform_engines.modules.resource_engines.botservice_engine import BotServiceEngine
 from azure_iac.terraform_engines.modules.resource_engines.containerapp_engine import ContainerAppEngine
@@ -19,6 +22,8 @@ from azure_iac.terraform_engines.modules.resource_engines.servicebus_network_eng
 RESOURCE_ENGINES = {
 	ResourceType.AZURE_APP_SERVICE: AppServiceEngine,
     ResourceType.AZURE_CONTAINER_APP: ContainerAppEngine,
+    ResourceType.AZURE_FUNCTION_APP: FunctionAppEngine,
+    ResourceType.AZURE_STORAGE_ACCOUNT: StorageAccountEngine,
     ResourceType.AZURE_APPLICATION_INSIGHTS: ApplicationInsightsEngine,
     ResourceType.AZURE_BOT_SERVICE: BotServiceEngine,
     ResourceType.AZURE_CONTAINER_APP: ContainerAppEngine,

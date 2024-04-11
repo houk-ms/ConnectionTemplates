@@ -38,8 +38,8 @@ resource "azurerm_container_app" "{{engine.module_name}}" {
 	}
 
 	registry {
-		server = azurerm_container_registry.{{engine.container_registry.module_name}}.login_server
-		username = azurerm_container_registry.{{engine.container_registry.module_name}}.admin_username
+		server = azurerm_container_registry.acr.login_server
+		username = azurerm_container_registry.acr.admin_username
 		password_secret_name = "acr-password"
   	}
 
