@@ -1,0 +1,70 @@
+from typing import List
+
+from azure_iac.payloads.binding import Binding
+from azure_iac.payloads.resources.bot_service import BotServiceResource
+
+from azure_iac.bicep_engines.models.appsetting import AppSetting, AppSettingType
+from azure_iac.bicep_engines.models.template import Template
+from azure_iac.bicep_engines.modules.target_resource_engine import TargetResourceEngine
+
+from azure_iac.helpers import string_helper
+from azure_iac.helpers.abbrevation import Abbreviation
+
+
+class BotServiceEngine(TargetResourceEngine):
+
+    def __init__(self, resource: BotServiceResource) -> None:
+        super().__init__(Template.BOT_SERVICE_BICEP.value,
+                         Template.BOT_SERVICE_MODULE.value)
+        self.resource = resource
+
+        # main.bicep states and variables
+        self.main_var_botaadappclientid = 'botAadAppClientId'
+        self.main_var_botaadappclientsecret = 'botAadAppClientSecret'
+        self.main_var_aadappcilentid = 'aadAppClientId'
+        self.main_var_aadappclientsecret = 'aadAppClientSecret'
+        self.main_var_aadapptenantid = 'aadAppTenantId'
+        self.main_var_aadappoauthauthorityhost = 'aadAppOauthAuthorityHost'
+
+        # resource.module states and variables
+        self.module_name = string_helper.format_module_name('bot', self.resource.name)
+        self.module_deployment_name = string_helper.format_deployment_name('bot', self.resource.name)
+        self.module_params_name = string_helper.format_camel('bot', self.resource.name, "Name")
+        self.module_params_botaadappclientid = self.main_var_botaadappclientid
+        
+        # main.bicep states and variables
+        self.main_params = [
+            (self.module_params_name, 'string', 
+                string_helper.format_resource_name(self.resource.name or Abbreviation.BOT_SERVICE.value)),
+            (self.main_var_botaadappclientid, 'string', None, False),
+        ]
+        self.main_outputs = [
+            (string_helper.format_camel('bot', self.resource.name, "Id"), 
+             'string', '{}.outputs.id'.format(self.module_name))]
+
+
+    def set_endpoint(self, endpoint: str) -> None:
+        self.module_params_botappdomain = endpoint
+
+        # extra variables needed when binding with compute service
+        self.main_params.extend([
+            (self.main_var_botaadappclientsecret, 'string', None, False, True),
+            (self.main_var_aadappcilentid, 'string', None, False),
+            (self.main_var_aadappclientsecret, 'string', None, False, True),
+            (self.main_var_aadapptenantid, 'string', None, False),
+            (self.main_var_aadappoauthauthorityhost, 'string', None, False),
+        ])
+
+
+    def get_app_settings_bot(self, binding: Binding) -> List[AppSetting]:
+        bot_app_settings = {
+            'BOT_ID': self.main_var_botaadappclientid ,
+            'BOT_PASSWORD': self.main_var_botaadappclientsecret,
+            'BOT_DOMAIN': self.module_params_botappdomain,
+            'AAD_APP_CLIENT_ID': self.main_var_aadappcilentid,
+            'AAD_APP_CLIENT_SECRET': self.main_var_aadappclientsecret,
+            'AAD_APP_TENANT_ID': self.main_var_aadapptenantid,
+            'AAD_APP_OAUTH_AUTHORITY_HOST': self.main_var_aadappoauthauthorityhost,
+        }
+        
+        return [AppSetting(AppSettingType.KeyValue, key, value) for key, value in bot_app_settings.items()]

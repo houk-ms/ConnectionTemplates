@@ -3,13 +3,13 @@ from typing import List
 from azure_iac.payloads.models.resource_type import ResourceType
 from azure_iac.payloads.resources.app_service import AppServiceResource
 from azure_iac.payloads.resources.application_insights import ApplicationInsightsResource
+from azure_iac.payloads.resources.bot_service import BotServiceResource
 from azure_iac.payloads.resources.container_app import ContainerAppResource
 from azure_iac.payloads.resources.cosmos_db import CosmosDBResource
 from azure_iac.payloads.resources.function_app import FunctionAppResource
 from azure_iac.payloads.resources.keyvault import KeyVaultResource
 from azure_iac.payloads.resources.postgresql_db import PostgreSqlDbResource
 from azure_iac.payloads.resources.redis import RedisResource
-from azure_iac.payloads.resources.spring_app import SpringAppResource
 from azure_iac.payloads.resources.sql_db import SqlDbResource
 from azure_iac.payloads.resources.storage_account import StorageAccountResource
 from azure_iac.payloads.resources.mysql_db import MySqlDbResource
@@ -18,6 +18,7 @@ from azure_iac.payloads.resources.mysql_db import MySqlDbResource
 RESOURCES = {
     ResourceType.AZURE_APP_SERVICE: AppServiceResource,
     ResourceType.AZURE_APPLICATION_INSIGHTS: ApplicationInsightsResource,
+    ResourceType.AZURE_BOT_SERVICE: BotServiceResource,
     ResourceType.AZURE_CONTAINER_APP: ContainerAppResource,
     ResourceType.AZURE_COSMOS_DB: CosmosDBResource,
     ResourceType.AZURE_FUNCTION_APP: FunctionAppResource,
@@ -53,6 +54,7 @@ class Resource():
                              'Supported expressions are: ${resource_type} or ${resource_type.resource_name}')
 
         if match.group(1) not in all_resources:
+            print(all_resources)
             raise ValueError(f'Resource not found: {expression}')
 
         return all_resources[match.group(1)]

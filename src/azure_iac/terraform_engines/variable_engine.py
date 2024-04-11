@@ -15,3 +15,7 @@ class VariableEngine(BaseEngine):
         param_engine.value = ptuple[1]
 
         return param_engine
+
+    def get_name_placeholder(self):
+        # name placeholder for user to fill in (used in variables.tf file)
+        return '<...>'

@@ -7,6 +7,7 @@ from azure_iac.payloads.resources.keyvault import KeyVaultResource
 
 from azure_iac.bicep_engines import engine_factory
 from azure_iac.bicep_engines.main_engine import MainEngine
+from azure_iac.bicep_engines.mainparam_engine import MainParamEngine
 
 from azure_iac.generators.base_generator import BaseGenerator
 from azure_iac.handlers.bicep_binding_handler import BicepBindingHandler
@@ -30,6 +31,8 @@ class BicepGenerator(BaseGenerator):
         self.output_engines = []
     
     def complete_payloads(self):
+        super().complete_payloads()        
+        
         # add a keyvault resource if secret binding exists and there is 
         # not a keyvault resource in the payload
         keyvault_resource = KeyVaultResource()
@@ -134,7 +137,13 @@ class BicepGenerator(BaseGenerator):
         main_engine.outputs = [engine.render_template() for engine in self.output_engines]
         main_engine.deployments = [engine.render_module() for engine in delployment_engines]
         file_helper.create_file('{}/main.bicep'.format(output_folder), main_engine.render_template())
-        
+
+        # generate main.bicepparam bicep file
+        mainparam_engine = MainParamEngine()
+        mainparam_engine.params = [engine.render_template(False) for engine in self.param_engines if engine.value is None]
+        if mainparam_engine.params:
+            file_helper.create_file('{}/main.bicepparam'.format(output_folder), mainparam_engine.render_template())
+
         # generate dependency bicep files
         # duplicated engines does not matter as the bicep file will be overwritten
         for engine in delployment_engines:
@@ -145,9 +154,9 @@ class BicepGenerator(BaseGenerator):
     def generate(self, output_folder: str='./'):
         self.init_resource_engines()
         self.init_dependency_engines()
+        self.process_bindings()
         self.init_param_engines()
         self.init_output_engines()
-        self.process_bindings()
         self.generate_biceps(output_folder)
 
 

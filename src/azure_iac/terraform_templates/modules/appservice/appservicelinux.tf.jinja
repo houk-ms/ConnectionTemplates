@@ -9,7 +9,7 @@ resource "azurerm_linux_web_app" "{{engine.module_name}}" {
 	site_config {}
 	
 	app_settings = { {% for setting in engine.module_params_app_settings %}
-		"{{setting.name}}" = {% if setting.is_keyvault_reference() %} "@Microsoft.KeyVault(SecretUri=${ {{setting.value}} })" {% else %} {{setting.value}} {% endif %}{% endfor %}
+		"{{setting.name}}" = {% if setting.is_keyvault_reference() %}"@Microsoft.KeyVault(SecretUri=${ {{setting.value}} })"{% else %}{{setting.value}}{% endif %}{% endfor %}
 	}
 
 	identity {

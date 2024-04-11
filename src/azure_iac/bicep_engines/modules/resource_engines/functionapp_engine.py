@@ -32,6 +32,7 @@ class FunctionAppEngine(SourceResourceEngine, TargetResourceEngine):
         self.module_params_name = string_helper.format_camel('functionapp', self.resource.name, "Name")
         self.module_var_principal_id_name = '{}.outputs.identityPrincipalId'.format(self.module_name)
         self.module_var_outbound_ip_name = '{}.outputs.outboundIps'.format(self.module_name)
+        self.module_var_endpoint_name = '{}.outputs.requestUrl'.format(self.module_name)
 
         # main.bicep states and variables
         self.main_params = [
@@ -64,25 +65,19 @@ class FunctionAppEngine(SourceResourceEngine, TargetResourceEngine):
         ]
     
     def get_default_app_settings(self):
-        # required app settings
+        # function required app settings
         default_settings = {
-            'FUNCTIONS_WORKER_RUNTIME': '\'node\'',  # 'node', 'dotnet', 'java'
-            'FUNCTIONS_EXTENSION_VERSION': '\'~4\'',
-            'WEBSITE_NODE_DEFAULT_VERSION': '\'~14\'',
-            # 'WEBSITE_CONTENTSHARE': 'toLower(name)', for Elastic Premium and Consumption plan
+            # TODO: runtime customizations, tier supports
+            'FUNCTIONS_WORKER_RUNTIME': "'node'",
+            'FUNCTIONS_EXTENSION_VERSION': "'~4'",
+            'WEBSITE_NODE_DEFAULT_VERSION': "'~14'",
+            'AzureWebJobsStorage': "'DefaultEndpointsProtocol=https;AccountName=${storageAccountName};AccountKey=${storageAccount.listKeys().keys[0].value};"+
+                "BlobEndpoint=${storageAccount.properties.primaryEndpoints.blob};"+
+                "TableEndpoint=${storageAccount.properties.primaryEndpoints.table};"+
+                "QueueEndpoint=${storageAccount.properties.primaryEndpoints.queue};"+
+                "FileEndpoint=${storageAccount.properties.primaryEndpoints.file};'", 
         }
 
-        app_settings = [
+        return [
             AppSetting(AppSettingType.KeyValue, key, value) for key, value in default_settings.items()
         ]
-
-        storage_app_settings_name = ['AzureWebJobsStorage']  # 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING' for Elastic Premium and Consumption plan
-        storage_app_settings_value = '\'DefaultEndpointsProtocol=https;AccountName=${storageAccountName};AccountKey=${storageAccount.listKeys().keys[0].value};'
-        api_types = ['Blob', 'Table', 'Queue', 'File']
-        for api_type in api_types:
-            storage_app_settings_value += '{}Endpoint=${{storageAccount.properties.primaryEndpoints.{}}};'.format(api_type, api_type.lower())
-        storage_app_settings_value += '\''
-        
-        return app_settings + [
-            AppSetting(AppSettingType.KeyValue, name, storage_app_settings_value) for name in storage_app_settings_name
-		]

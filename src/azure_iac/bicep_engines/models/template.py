@@ -1,7 +1,8 @@
 from enum import Enum
 
 class Template(str, Enum):
-    MAIN = "main.jinja"	
+    MAIN = "main.jinja"
+    MAINPARAM = "mainparam.jinja"
     PARAM = "param.jinja"
     OUTPUT = "output.jinja"
     APP_INSIGHTS_BICEP = "modules/applicationinsights/applicationinsights.bicep.jinja"
@@ -12,6 +13,8 @@ class Template(str, Enum):
     APP_SERVICE_PLAN_MODULE = "modules/appserviceplan/appserviceplan.module.jinja"
     APP_SERVICE_SETTINGS_BICEP = "modules/appservice/appservice.settings.bicep.jinja"
     APP_SERVICE_SETTINGS_MODULE = "modules/appservice/appservice.settings.module.jinja"
+    BOT_SERVICE_BICEP = "modules/botservice/botservice.bicep.jinja"
+    BOT_SERVICE_MODULE = "modules/botservice/botservice.module.jinja"
     CONTAINER_APP_BICEP = "modules/containerapp/containerapp.bicep.jinja"
     CONTAINER_APP_MODULE = "modules/containerapp/containerapp.module.jinja"
     CONTAINER_APP_ENV_BICEP = "modules/containerappenv/containerappenv.bicep.jinja"

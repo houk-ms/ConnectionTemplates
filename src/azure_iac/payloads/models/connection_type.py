@@ -5,3 +5,4 @@ class ConnectionType(str, Enum):
     HTTP = 'http'
     SECRET = 'secret'
     SYSTEMIDENTITY = 'system-identity'
+    BOTREGISTRATION = 'bot-registration'

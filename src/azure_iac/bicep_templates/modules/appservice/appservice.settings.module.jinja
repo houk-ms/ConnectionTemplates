@@ -5,7 +5,7 @@ module {{engine.module_name}} 'appservice.settings.bicep' = {
 	params: {
 		appName: {{engine.module_params_app_name}} {% if engine.module_params_app_settings %}
 		appSettings: { {% for setting in engine.module_params_app_settings %}
-			{{setting.name}}: {% if setting.is_raw_value() %} {{setting.value}} {% else %} '@Microsoft.KeyVault(SecretUri=${ {{setting.value}} })' {% endif %} {% endfor %}
+			{{setting.name}}: {% if setting.is_raw_value() %}{{setting.value}}{% else %}'@Microsoft.KeyVault(SecretUri=${ {{setting.value}} })'{% endif %}{% endfor %}
 		}{% endif %}
 	}{% if engine.depend_engines %}
 	dependsOn: [{% for dep in engine.depend_engines %}

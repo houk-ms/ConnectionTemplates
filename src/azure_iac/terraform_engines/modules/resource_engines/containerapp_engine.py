@@ -25,6 +25,8 @@ class ContainerAppEngine(SourceResourceEngine, TargetResourceEngine):
         self.module_params_name = (self.resource.name or Abbreviation.CONTAINER_APP.value) + '${var.resource_suffix}'
         self.module_var_principal_id_name = 'azurerm_container_app.{}.identity.0.principal_id'.format(self.module_name)
         self.module_var_outbound_ip_name = 'azurerm_container_app.{}.outbound_ip_addresses'.format(self.module_name)
+        # TODO: may have issue when binding with bot service
+        self.module_var_endpoint_name = 'azurerm_container_app.{}.ingress.0.fqdn'.format(self.module_name)
 
         # main.tf variables and outputs
         self.main_outputs = [
@@ -40,8 +42,6 @@ class ContainerAppEngine(SourceResourceEngine, TargetResourceEngine):
             self.container_registry
         ]
 
-    def get_identity_id(self) -> str:
-        return super().get_identity_id()
     
     def get_app_settings_http(self, binding: Binding) -> List[tuple]:
         app_setting_key = binding.key if binding.key else 'SERVICE{}_URL'.format(self.resource.name.upper())
@@ -58,7 +58,9 @@ class ContainerAppEngine(SourceResourceEngine, TargetResourceEngine):
                 secrets.append((setting.secret_name, setting.value))
         
         # add the container registry password in secrets, not used in env
-        secrets.append(('acr-password', 'azurerm_container_registry.{}.admin_password'.format(self.container_registry.module_name)))
+        secrets.append(
+            ('acr-password', 'azurerm_container_registry.{}.admin_password'.format(self.container_registry.module_name))
+        )
         
         return secrets
         
