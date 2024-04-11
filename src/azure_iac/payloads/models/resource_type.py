@@ -16,6 +16,8 @@ class ResourceType(str, Enum):
     AZURE_REDIS_CACHE = "azurecacheforredis"
     AZURE_SQL_DB = "azuresqldatabase"
     AZURE_STORAGE_ACCOUNT = "azurestorageaccount"
+    AZURE_STATIC_WEB_APP = "azurestaticwebapp"
+    AZURE_SERVICE_BUS = "azureservicebus"
 
 
     def is_compute(self):
@@ -34,8 +36,8 @@ class ResourceType(str, Enum):
             ResourceType.AZURE_SQL_DB, 
             ResourceType.AZURE_STORAGE_ACCOUNT, 
             ResourceType.AZURE_MYSQL_DB,
+            ResourceType.AZURE_SERVICE_BUS,
         ]
-
 
 TargetDefaultConnectionType = {
     ResourceType.AZURE_APP_SERVICE: ConnectionType.HTTP,
