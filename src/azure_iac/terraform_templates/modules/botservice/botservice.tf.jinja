@@ -10,7 +10,7 @@ resource "azurerm_bot_channels_registration" "{{engine.module_name}}" {
 	endpoint			=	"{{engine.module_params_endpoint}}"	
 }
 
-resource "azurerm_bot_channel_ms_teams" "example" {
+resource "azurerm_bot_channel_ms_teams" "{{engine.module_name}}example" {
 	bot_name			=	azurerm_bot_channels_registration.{{engine.module_name}}.name
 	location			=	azurerm_bot_channels_registration.{{engine.module_name}}.location
 	resource_group_name	=	azurerm_resource_group.rg.name

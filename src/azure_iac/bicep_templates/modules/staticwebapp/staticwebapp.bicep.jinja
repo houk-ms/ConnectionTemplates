@@ -10,3 +10,4 @@ resource staticWebApp 'Microsoft.Web/staticSites@2021-01-15' = {
 }
 
 output id string = staticWebApp.id
+output requestUrl string = staticWebApp.properties.defaultHostname

@@ -10,20 +10,20 @@ class TargetResourceEngine(BaseResourceEngine):
 
     # return the current resource scope and role for role assignment
     def get_role_scope(self) -> tuple:
-        raise NotImplementedError('Resource engine does not implement the method')
+        raise NotImplementedError('Resource engine {} does not implement the method'.format(self.__class__.__name__))
 
     # return the secrets to be stored in key vault
     def get_store_secrets(self) -> List[tuple]:
-        raise NotImplementedError('Resource engine does not implement the method')
+        raise NotImplementedError('Resource engine {} does not implement the method'.format(self.__class__.__name__))
     
     # return the app settings needed by identity connection
     def get_app_settings_identity(self, binding: Binding) -> List[tuple]:
-        raise NotImplementedError('Resource engine does not implement the method')
+        raise NotImplementedError('Resource engine {} does not implement the method'.format(self.__class__.__name__))
     
     # return the app settings needed by http connection
     def get_app_settings_http(self, binding: Binding) -> List[tuple]:
-        raise NotImplementedError('Resource engine does not implement the method')
+        raise NotImplementedError('Resource engine {} does not implement the method'.format(self.__class__.__name__))
     
     # return the app settings needed by secret connection
     def get_app_settings_secret(self, binding: Binding) -> List[tuple]:
-        raise NotImplementedError('Resource engine does not implement the method')
+        raise NotImplementedError('Resource engine {} does not implement the method'.format(self.__class__.__name__))

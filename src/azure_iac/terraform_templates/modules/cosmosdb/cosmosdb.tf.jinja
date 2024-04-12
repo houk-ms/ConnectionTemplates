@@ -23,7 +23,7 @@ resource "azurerm_cosmosdb_account" "{{engine.module_name}}" {
 
 # Create a MongoDB database
 
-resource "azurerm_cosmosdb_mongo_database" "mongo" {
+resource "azurerm_cosmosdb_mongo_database" "{{engine.module_name}}mongo" {
 	name				=	"mongo${var.resource_suffix}"
 	resource_group_name	=	azurerm_resource_group.rg.name
 	account_name		=	azurerm_cosmosdb_account.{{engine.module_name}}.name
