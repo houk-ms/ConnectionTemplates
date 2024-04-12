@@ -29,6 +29,8 @@ class FunctionAppEngine(SourceResourceEngine, TargetResourceEngine):
         self.module_params_name = (self.resource.name or Abbreviation.FUNCTION_APP.value) + '${var.resource_suffix}'
         self.module_var_principal_id_name = 'azurerm_linux_function_app.{}.identity[0].principal_id'.format(self.module_name)
         self.module_var_outbound_ip_name = 'azurerm_linux_function_app.{}.possible_outbound_ip_address_list'.format(self.module_name)
+        # format the endpoint name rather than get it from output to avoid circular dependency
+        self.module_var_endpoint_name = self.module_params_name + '.azurewebsites.net'
 
         # main.tf variables and outputs
         self.main_outputs = [
