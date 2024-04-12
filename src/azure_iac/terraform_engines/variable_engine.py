@@ -8,13 +8,18 @@ class VariableEngine(BaseEngine):
 
         self.name = None
         self.value = None
+        # if the param value is a secure string
+        self.value_is_secure = False
 
     def from_tuple(ptuple):
-        param_engine = VariableEngine()
-        param_engine.name = ptuple[0]
-        param_engine.value = ptuple[1]
+        var_engine = VariableEngine()
+        var_engine.name = ptuple[0]
+        var_engine.value = ptuple[1]
 
-        return param_engine
+        if len(ptuple) > 2:
+            var_engine.value_is_secure = ptuple[2]
+        
+        return var_engine
 
     def get_name_placeholder(self):
         # name placeholder for user to fill in (used in variables.tf file)

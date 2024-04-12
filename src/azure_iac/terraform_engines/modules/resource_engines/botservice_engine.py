@@ -44,7 +44,7 @@ class BotServiceEngine(TargetResourceEngine):
 
         # extra variables needed when binding with compute service
         self.main_variables.extend([
-            (self.main_var_botaadappclientsecret, None),
+            (self.main_var_botaadappclientsecret, None, True),
         ])
 
 
