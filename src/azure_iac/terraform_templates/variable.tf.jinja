@@ -1,3 +1,5 @@
 variable "{{engine.name}}" {
+  type = string{% if engine.value_is_secure %}
+  sensitive = true{% endif %}
   default = {% if engine.value %}"{{engine.value}}"{% else %}"{{engine.get_name_placeholder()}}"{% endif %}
 }
