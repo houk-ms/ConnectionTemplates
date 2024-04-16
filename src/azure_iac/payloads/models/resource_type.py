@@ -37,6 +37,7 @@ class ResourceType(str, Enum):
             ResourceType.AZURE_STORAGE_ACCOUNT, 
             ResourceType.AZURE_MYSQL_DB,
             ResourceType.AZURE_SERVICE_BUS,
+            ResourceType.AZURE_MYSQL_DB,
         ]
 
 TargetDefaultConnectionType = {
@@ -54,4 +55,5 @@ TargetDefaultConnectionType = {
     ResourceType.AZURE_STORAGE_ACCOUNT: ConnectionType.SYSTEMIDENTITY,
     ResourceType.AZURE_STATIC_WEB_APP: ConnectionType.HTTP,
     ResourceType.AZURE_SERVICE_BUS: ConnectionType.SECRET,
+    ResourceType.AZURE_MYSQL_DB: ConnectionType.SECRET,
 }

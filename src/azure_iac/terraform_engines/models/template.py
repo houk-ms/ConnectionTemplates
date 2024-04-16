@@ -29,3 +29,5 @@ class Template(str, Enum):
     STATIC_WEB_APP_TF = "modules/staticwebapp/staticwebapp.tf.jinja"
     SERVICE_BUS_TF = "modules/servicebus/servicebus.tf.jinja"
     SERVICE_BUS_NETWORK_TF = "modules/servicebus/servicebus.network.tf.jinja"
+    MYSQL_DB_TF = "modules/mysqldb/mysqldb.tf.jinja"
+    MYSQL_DB_FIREWALL_TF = "modules/mysqldb/mysqldb.firewall.tf.jinja"

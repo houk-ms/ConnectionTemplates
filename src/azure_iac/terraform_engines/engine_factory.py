@@ -17,6 +17,8 @@ from azure_iac.terraform_engines.modules.resource_engines.storageaccount_firewal
 from azure_iac.terraform_engines.modules.resource_engines.staticwebapp_engine import StaticWebAppEngine
 from azure_iac.terraform_engines.modules.resource_engines.servicebus_engine import ServiceBusEngine
 from azure_iac.terraform_engines.modules.resource_engines.servicebus_network_engine import ServiceBusNetworkEngine
+from azure_iac.terraform_engines.modules.resource_engines.mysql_engine import MySqlDbEngine
+from azure_iac.terraform_engines.modules.resource_engines.mysql_firewall_engine import MySqlDbFirewallEngine
 
 
 RESOURCE_ENGINES = {
@@ -32,11 +34,13 @@ RESOURCE_ENGINES = {
     ResourceType.AZURE_STORAGE_ACCOUNT: StorageAccountEngine,
     ResourceType.AZURE_STATIC_WEB_APP: StaticWebAppEngine,
     ResourceType.AZURE_SERVICE_BUS: ServiceBusEngine,
+    ResourceType.AZURE_MYSQL_DB: MySqlDbEngine,
 }
 
 FIREWALL_ENGINES = {
     ResourceType.AZURE_STORAGE_ACCOUNT: StorageAccountFirewallEngine,
     ResourceType.AZURE_SERVICE_BUS: ServiceBusNetworkEngine,
+    ResourceType.AZURE_MYSQL_DB: MySqlDbFirewallEngine,
 }
 
 def get_resource_engine_from_type(resource_type: ResourceType):
