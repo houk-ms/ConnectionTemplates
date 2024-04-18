@@ -19,6 +19,10 @@ from azure_iac.terraform_engines.modules.resource_engines.servicebus_engine impo
 from azure_iac.terraform_engines.modules.resource_engines.servicebus_network_engine import ServiceBusNetworkEngine
 from azure_iac.terraform_engines.modules.resource_engines.mysql_engine import MySqlDbEngine
 from azure_iac.terraform_engines.modules.resource_engines.mysql_firewall_engine import MySqlDbFirewallEngine
+from azure_iac.terraform_engines.modules.resource_engines.postgresql_engine import PostgreSqlDbEngine
+from azure_iac.terraform_engines.modules.resource_engines.postgresql_firewall_engine import PostgreSqlDbFirewallEngine
+from azure_iac.terraform_engines.modules.resource_engines.sql_engine import SqlDbEngine
+from azure_iac.terraform_engines.modules.resource_engines.sql_firewall_engine import SqlDbFirewallEngine
 
 
 RESOURCE_ENGINES = {
@@ -35,12 +39,16 @@ RESOURCE_ENGINES = {
     ResourceType.AZURE_STATIC_WEB_APP: StaticWebAppEngine,
     ResourceType.AZURE_SERVICE_BUS: ServiceBusEngine,
     ResourceType.AZURE_MYSQL_DB: MySqlDbEngine,
+    ResourceType.AZURE_POSTGRESQL_DB: PostgreSqlDbEngine,
+    ResourceType.AZURE_SQL_DB: SqlDbEngine,
 }
 
 FIREWALL_ENGINES = {
     ResourceType.AZURE_STORAGE_ACCOUNT: StorageAccountFirewallEngine,
     ResourceType.AZURE_SERVICE_BUS: ServiceBusNetworkEngine,
     ResourceType.AZURE_MYSQL_DB: MySqlDbFirewallEngine,
+    ResourceType.AZURE_POSTGRESQL_DB: PostgreSqlDbFirewallEngine,
+    ResourceType.AZURE_SQL_DB: SqlDbFirewallEngine,
 }
 
 def get_resource_engine_from_type(resource_type: ResourceType):

@@ -1,0 +1,24 @@
+# Create an Azure SQL server and database
+
+resource "azurerm_mssql_server" "{{engine.module_name}}" {
+    name                         = "{{engine.module_params_name}}"
+    resource_group_name          = azurerm_resource_group.rg.name
+    location                     = azurerm_resource_group.rg.location
+    version                      = "12.0"
+    administrator_login          = "{{engine.module_params_administrator_login}}"
+    administrator_login_password = "{{engine.module_params_administrator_login_password}}"
+}
+
+resource "azurerm_mssql_database" "{{engine.module_name}}db" {
+    name           = "{{engine.module_name}}-db"
+    server_id      = azurerm_mssql_server.{{engine.module_name}}.id
+    collation      = "SQL_Latin1_General_CP1_CI_AS"
+    license_type   = "LicenseIncluded"
+    max_size_gb    = 5
+    sku_name       = "S0"
+
+    # prevent the possibility of accidental data loss
+    lifecycle {
+        prevent_destroy = true
+    }
+}

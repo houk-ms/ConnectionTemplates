@@ -14,4 +14,5 @@ class MySqlDbFirewallEngine(FirewallResourceEngine):
 
         # resource module states and variables
         self.module_name = string_helper.format_snake(Abbreviation.MYSQL_DB.value, self.resource.name)
+        self.module_params_name = (self.resource.name or Abbreviation.MYSQL_DB.value) + '${var.resource_suffix}' + '-rule'
         self.params_parent_module_name = string_helper.format_snake(Abbreviation.MYSQL_DB.value, self.resource.name)

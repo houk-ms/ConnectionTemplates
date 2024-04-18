@@ -20,10 +20,12 @@ class Template(str, Enum):
     KEYVAULTSECRET_TF = "modules/keyvault/keyvaultsecret.tf.jinja"
     LOG_ANALYTICS_TF = "modules/loganalytics/loganalytics.tf.jinja"
     POSTGRESQL_TF = "modules/postgresqldb/postgresqldb.tf.jinja"
+    POSTGRESQL_FIREWALL_TF = "modules/postgresqldb/postgresqldb.firewall.tf.jinja"
     REDIS_TF = "modules/redis/redis.tf.jinja"
     RESOURCE_GROUP_TF = "modules/resourcegroup/resourcegroup.tf.jinja"
     ROLE_TF = "modules/role/role.tf.jinja"
     SQL_DB_TF = "modules/sqldb/sqldb.tf.jinja"
+    SQL_DB_FIREWALL_TF = "modules/sqldb/sqldb.firewall.tf.jinja"
     STORAGE_ACCOUNT_TF = "modules/storageaccount/storageaccount.tf.jinja"
     STORAGE_ACCOUNT_FIREWALL_TF = "modules/storageaccount/storageaccount.firewall.tf.jinja"
     STATIC_WEB_APP_TF = "modules/staticwebapp/staticwebapp.tf.jinja"
@@ -31,3 +33,4 @@ class Template(str, Enum):
     SERVICE_BUS_NETWORK_TF = "modules/servicebus/servicebus.network.tf.jinja"
     MYSQL_DB_TF = "modules/mysqldb/mysqldb.tf.jinja"
     MYSQL_DB_FIREWALL_TF = "modules/mysqldb/mysqldb.firewall.tf.jinja"
+    
