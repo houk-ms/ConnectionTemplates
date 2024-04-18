@@ -8,6 +8,6 @@ resource "azurerm_servicebus_namespace_network_rule_set" "{{engine.module_name}}
     public_network_access_enabled = true
 
     ip_rules = concat({% for ip in engine.module_params_allow_ips %}
-		{{ip}}
-	{% endfor %})
+		{{ip}}{% if loop.index != engine.module_params_allow_ips|length %},{% endif %}{% endfor %}
+	)
 }
