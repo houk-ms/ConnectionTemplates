@@ -14,9 +14,7 @@ class ParamEngine(BaseEngine):
         # if the param value is a secure string
         self.value_is_secure = False
 
-    def render_template(self, in_bicep=True) -> str:
-        # param is in .bicep or .bicepparam file
-        self.in_bicep = in_bicep
+    def render_template(self) -> str:
         return self.render(self.template)
 
     def from_tuple(ptuple):
@@ -32,6 +30,6 @@ class ParamEngine(BaseEngine):
 
         return param_engine
     
-    def get_name_placeholder(self):
-        # name placeholder for user to fill in (used in .bicepparam file)
+    def get_value_placeholder(self):
+        # value placeholder for user to fill in (used in parameters.json file)
         return '<...>'

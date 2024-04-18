@@ -2,9 +2,10 @@
 
 param name string = 'acr_${uniqueString(resourceGroup().id)}'
 param location string = resourceGroup().location
-param sku string = 'Basic'
+param sku string = 'Standard'
 
-resource containerRegistry 'Microsoft.ContainerRegistry/registries@2023-07-01' = {
+// 2022-02-01-preview needed for anonymousPullEnabled
+resource containerRegistry 'Microsoft.ContainerRegistry/registries@2022-02-01-preview' = {
 	name: name
 	location: location
 	sku: {
@@ -12,5 +13,9 @@ resource containerRegistry 'Microsoft.ContainerRegistry/registries@2023-07-01' =
 	}
 	properties: {
 		adminUserEnabled: true
+		anonymousPullEnabled: true
 	}
 }
+
+output id string = containerRegistry.id
+output loginServer string = containerRegistry.properties.loginServer

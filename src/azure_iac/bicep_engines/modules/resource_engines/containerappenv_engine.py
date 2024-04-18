@@ -20,5 +20,5 @@ class ContainerAppEnvEngine(BaseResourceEngine):
         self.main_params = [
             ('location', 'string', string_helper.get_location(), False),
             ('containerAppEnvName', 'string', 
-                string_helper.format_resource_name(self.resource.name or Abbreviation.CONTAINER_APP_ENV.value)),
+                string_helper.format_resource_name(Abbreviation.CONTAINER_APP_ENV.value)),
         ]

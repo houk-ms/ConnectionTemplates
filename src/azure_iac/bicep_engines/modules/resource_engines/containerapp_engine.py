@@ -1,6 +1,7 @@
 from typing import List
 from azure_iac.payloads.binding import Binding
 from azure_iac.payloads.resources.container_app import ContainerAppResource
+from azure_iac.payloads.models.project_type import ProjectType
 
 from azure_iac.bicep_engines.models.appsetting import AppSetting, AppSettingType
 from azure_iac.bicep_engines.models.template import Template
@@ -26,7 +27,9 @@ class ContainerAppEngine(SourceResourceEngine, TargetResourceEngine):
         # resource.module states and variables
         self.module_name = string_helper.format_module_name('containerApp', self.resource.name)
         self.module_deployment_name = string_helper.format_deployment_name('container-app', self.resource.name)
-        self.module_params_name = string_helper.format_camel('containerApp', self.resource.name, "Name")
+        self.module_params_name = string_helper.format_camel('containerApp', self.resource.name, "Name")        
+        if self.resource.projectType == ProjectType.AZD:
+            self.module_params_service_name = self.resource.name
         self.module_var_principal_id_name = '{}.outputs.identityPrincipalId'.format(self.module_name)
         self.module_var_outbound_ip_name = '{}.outputs.outboundIps'.format(self.module_name)
         self.module_var_endpoint_name = '{}.outputs.requestUrl'.format(self.module_name)

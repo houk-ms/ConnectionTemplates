@@ -1,0 +1,10 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
+
+name: azure-iac-generator-detected-project
+metadata:
+    template: azd-init@1.5.0
+services:{% for service in engine.services %}
+    {{service.name}}:
+        project: {{service.project}}
+        host: {{service.host}}
+        language: {{service.language}}{% endfor %}

@@ -19,7 +19,8 @@ module {{engine.module_name}} 'containerapp.bicep' = {
 				name: '{{setting.name}}'
 				{% if setting.is_raw_value() %}value: {{setting.value}}{% else %}secretRef: '{{setting.secret_name}}'{% endif %}
 			}{% endfor %}
-		]{% endif %}
+		]{% endif %} {% if engine.module_params_service_name %}
+		tags: {'azd-service-name': '{{engine.module_params_service_name}}'}{% endif %}
 	}{% if engine.depend_engines %}
 	dependsOn: [{% for dep in engine.depend_engines %}
 		{{dep.module_name}}{% endfor %}

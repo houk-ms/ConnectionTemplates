@@ -1,3 +1,2 @@
 {% if engine.value_is_secure %}@secure()
-{% endif %}{% if engine.in_bicep %}param {{engine.name}} {{engine.type}}{% if engine.value %} = {% if engine.value_is_raw %}'{% endif %}{{engine.value}}{% if engine.value_is_raw %}'{% endif %}{% endif %}{% 
-else %}param {{engine.name}} = '{{engine.get_name_placeholder()}}' {% endif %}
+{% endif %}param {{engine.name}} {{engine.type}}{% if engine.value %} = {% if engine.value_is_raw %}'{% endif %}{{engine.value}}{% if engine.value_is_raw %}'{% endif %}{% endif %}

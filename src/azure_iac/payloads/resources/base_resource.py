@@ -1,6 +1,7 @@
 class BaseResource():
     def __init__(self):
-        self.type = ''
+        self.projectType = None
+        self.type = None
         self.name = ''
     
     def get_identifier(self) -> str:

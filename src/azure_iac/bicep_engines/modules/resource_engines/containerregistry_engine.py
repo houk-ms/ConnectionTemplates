@@ -1,4 +1,5 @@
 from azure_iac.payloads.resources.container_app import ContainerAppResource
+from azure_iac.payloads.models.project_type import ProjectType
 
 from azure_iac.bicep_engines.models.template import Template
 from azure_iac.bicep_engines.modules.base_resource_engine import BaseResourceEngine
@@ -20,5 +21,12 @@ class ContainerRegistryEngine(BaseResourceEngine):
         self.main_params = [
             ('location', 'string', string_helper.get_location(), False),
             ('containerRegistryName', 'string', 
-                string_helper.format_resource_name(self.resource.name or Abbreviation.CONTAINER_REGISTRY.value)),
+                string_helper.format_resource_name(Abbreviation.CONTAINER_REGISTRY.value)),
         ]
+        self.main_outputs = [
+            (string_helper.format_camel('containerRegistry', self.resource.name, "Id"), 'string',
+             '{}.outputs.id'.format(self.module_name))]
+
+        if self.resource.projectType == ProjectType.AZD:
+            self.main_outputs.append(('AZURE_CONTAINER_REGISTRY_ENDPOINT', 'string',
+             '{}.outputs.loginServer'.format(self.module_name)))

@@ -8,6 +8,7 @@ param containerImage string = 'mcr.microsoft.com/azuredocs/containerapps-hellowo
 param containerEnv array = []
 param containerAppEnvId string
 param containerRegistryName string
+param tags object = {}
 
 
 resource containerRegistry 'Microsoft.ContainerRegistry/registries@2023-07-01' existing = { 
@@ -51,6 +52,7 @@ resource containerApp 'Microsoft.App/containerApps@2023-05-01' = {
 			]
 		}
 	}
+	tags: tags
 }
 
 output id string = containerApp.id

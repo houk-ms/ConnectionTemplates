@@ -21,6 +21,6 @@ class VariableEngine(BaseEngine):
         
         return var_engine
 
-    def get_name_placeholder(self):
-        # name placeholder for user to fill in (used in variables.tf file)
+    def get_value_placeholder(self):
+        # value placeholder for user to fill in (used in variables.tf file)
         return '<...>'

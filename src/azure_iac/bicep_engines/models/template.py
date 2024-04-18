@@ -5,6 +5,7 @@ class Template(str, Enum):
     MAINPARAM = "mainparam.jinja"
     PARAM = "param.jinja"
     OUTPUT = "output.jinja"
+    AZURE_YAML = "azureyaml.jinja"
     APP_INSIGHTS_BICEP = "modules/applicationinsights/applicationinsights.bicep.jinja"
     APP_INSIGHTS_MODULE = "modules/applicationinsights/applicationinsights.module.jinja"
     APP_SERVICE_BICEP = "modules/appservice/appservice.bicep.jinja"

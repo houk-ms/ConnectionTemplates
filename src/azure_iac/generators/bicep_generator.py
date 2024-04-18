@@ -140,9 +140,8 @@ class BicepGenerator(BaseGenerator):
 
         # generate main.bicepparam bicep file
         mainparam_engine = MainParamEngine()
-        mainparam_engine.params = [engine.render_template(False) for engine in self.param_engines if engine.value is None]
-        if mainparam_engine.params:
-            file_helper.create_file('{}/main.bicepparam'.format(output_folder), mainparam_engine.render_template())
+        mainparam_engine.params = [engine for engine in self.param_engines if engine.value is None]
+        file_helper.create_file('{}/main.parameters.json'.format(output_folder), mainparam_engine.render_template())
 
         # generate dependency bicep files
         # duplicated engines does not matter as the bicep file will be overwritten
