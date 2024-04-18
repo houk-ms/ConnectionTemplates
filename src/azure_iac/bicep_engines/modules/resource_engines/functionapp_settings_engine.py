@@ -1,11 +1,9 @@
-from typing import List
-from bicep_engines.models.appsetting import AppSetting, AppSettingType
-from payloads.resources.function_app import FunctionAppResource
+from azure_iac.payloads.resources.function_app import FunctionAppResource
 
-from bicep_engines.models.template import Template
-from bicep_engines.modules.setting_resource_engine import SettingResourceEngine
+from azure_iac.bicep_engines.models.template import Template
+from azure_iac.bicep_engines.modules.setting_resource_engine import SettingResourceEngine
 
-from helpers import string_helper
+from azure_iac.helpers import string_helper
 
 class FunctionAppSettingsEngine(SettingResourceEngine):
     def __init__(self, resource: FunctionAppResource) -> None:

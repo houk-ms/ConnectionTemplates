@@ -13,8 +13,7 @@ from azure_iac.bicep_engines.modules.resource_engines.storageaccount_engine impo
 
 from azure_iac.helpers import string_helper
 from azure_iac.helpers.abbrevation import Abbreviation
-
-from helpers import string_helper
+from azure_iac.helpers import string_helper
 
 
 class FunctionAppEngine(SourceResourceEngine, TargetResourceEngine):

@@ -6,7 +6,7 @@ from azure_iac.bicep_engines.modules.base_resource_engine import BaseResourceEng
 from azure_iac.helpers import string_helper
 from azure_iac.helpers.abbrevation import Abbreviation
 
-from helpers import string_helper
+from azure_iac.helpers import string_helper
 
 
 class FunctionAppPlanEngine(BaseResourceEngine):

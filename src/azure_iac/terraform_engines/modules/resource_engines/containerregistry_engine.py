@@ -1,8 +1,10 @@
-from payloads.resources.container_app import ContainerAppResource
+from azure_iac.payloads.resources.container_app import ContainerAppResource
 
-from helpers.abbrevation import Abbreviation
-from terraform_engines.models.template import Template
-from terraform_engines.modules.base_resource_engine import BaseResourceEngine
+from azure_iac.terraform_engines.models.template import Template
+from azure_iac.terraform_engines.modules.base_resource_engine import BaseResourceEngine
+
+from azure_iac.helpers.abbrevation import Abbreviation
+
 
 class ContainerRegistryEngine(BaseResourceEngine):
     def __init__(self, resource: ContainerAppResource) -> None:
