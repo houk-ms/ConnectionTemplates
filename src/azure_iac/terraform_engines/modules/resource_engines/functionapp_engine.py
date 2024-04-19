@@ -32,6 +32,12 @@ class FunctionAppEngine(SourceResourceEngine, TargetResourceEngine):
         # format the endpoint name rather than get it from output to avoid circular dependency
         self.module_var_endpoint_name = self.module_params_name + '.azurewebsites.net'
 
+        if self.resource.settings:
+            app_settings = []
+            for setting in self.resource.settings:
+                app_settings.append(AppSetting(AppSettingType.KeyValue, setting.get('name'), setting.get('value', '<...>')))
+            self.add_app_settings(app_settings)
+
         # main.tf variables and outputs
         self.main_outputs = [
             (string_helper.format_snake('function', 'app', self.resource.name, 'id'), 

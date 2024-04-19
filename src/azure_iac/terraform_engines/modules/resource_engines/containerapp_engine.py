@@ -28,6 +28,12 @@ class ContainerAppEngine(SourceResourceEngine, TargetResourceEngine):
         # TODO: may have issue when binding with bot service
         self.module_var_endpoint_name = 'azurerm_container_app.{}.ingress.0.fqdn'.format(self.module_name)
 
+        if self.resource.settings:
+            app_settings = []
+            for setting in self.resource.settings:
+                app_settings.append(AppSetting(AppSettingType.KeyValue, setting.get('name'), setting.get('value', '<...>')))
+            self.add_app_settings(app_settings)
+
         # main.tf variables and outputs
         self.main_outputs = [
             (string_helper.format_snake('container', 'app', self.resource.name, 'id'), 

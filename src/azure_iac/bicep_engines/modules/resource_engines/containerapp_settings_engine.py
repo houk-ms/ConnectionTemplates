@@ -2,6 +2,7 @@ from typing import List
 
 from azure_iac.payloads.resources.app_service import AppServiceResource
 
+from azure_iac.bicep_engines.models.appsetting import AppSetting, AppSettingType
 from azure_iac.bicep_engines.models.template import Template
 from azure_iac.bicep_engines.modules.setting_resource_engine import SettingResourceEngine
 
@@ -18,6 +19,12 @@ class ContainerAppSettingsEngine(SettingResourceEngine):
         self.module_name = string_helper.format_module_name('containerAppSettings', self.resource.name)
         self.module_deployment_name = string_helper.format_deployment_name('container-app-settings', self.resource.name)
         self.module_params_name = string_helper.format_camel('containerApp', self.resource.name, "Name")
+
+        if self.resource.settings:
+            app_settings = []
+            for setting in self.resource.settings:
+                app_settings.append(AppSetting(AppSettingType.KeyValue, setting.get('name'), setting.get('value', '<...>')))
+            self.add_app_settings(app_settings)
     
     def _get_module_params_secrets(self) -> List[tuple]:
         secrets = []

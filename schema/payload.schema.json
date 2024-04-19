@@ -109,7 +109,7 @@
 			"items": {
 				"type": "object",
 				"properties": {
-					"source": {
+					"resource": {
 						"type": "string",
 						"description": "The setting source resource. With the form `${resourceType}` or `${resourceType.resourceName}`"
 					},
@@ -131,7 +131,7 @@
 						}
 					}
 				},
-				"required": ["source"]
+				"required": ["resource"]
 			}
 		}
 	},

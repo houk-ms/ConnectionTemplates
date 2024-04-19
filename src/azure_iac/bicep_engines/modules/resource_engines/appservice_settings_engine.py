@@ -1,5 +1,6 @@
 from azure_iac.payloads.resources.app_service import AppServiceResource
 
+from azure_iac.bicep_engines.models.appsetting import AppSetting, AppSettingType
 from azure_iac.bicep_engines.models.template import Template
 from azure_iac.bicep_engines.modules.setting_resource_engine import SettingResourceEngine
 
@@ -17,3 +18,8 @@ class AppServiceSettingsEngine(SettingResourceEngine):
         self.module_deployment_name = string_helper.format_deployment_name('app-service-settings', self.resource.name)
         self.module_params_app_name = string_helper.format_camel('appService', self.resource.name, "Name")
 
+        if self.resource.settings:
+            app_settings = []
+            for setting in self.resource.settings:
+                app_settings.append(AppSetting(AppSettingType.KeyValue, setting.get('name'), setting.get('value', '<...>')))
+            self.add_app_settings(app_settings)

@@ -1,8 +1,8 @@
 from azure_iac.payloads.models.resource_type import ResourceType
-from azure_iac.payloads.resources.base_resource import BaseResource
+from azure_iac.payloads.resources.compute_resource import ComputeResource
 
 
-class FunctionAppResource(BaseResource):
+class FunctionAppResource(ComputeResource):
     def __init__(self):
         self.type = ResourceType.AZURE_FUNCTION_APP
         self.name = ''

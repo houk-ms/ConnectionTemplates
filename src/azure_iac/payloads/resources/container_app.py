@@ -1,8 +1,8 @@
 from azure_iac.payloads.models.resource_type import ResourceType
-from azure_iac.payloads.resources.base_resource import BaseResource
+from azure_iac.payloads.resources.compute_resource import ComputeResource
 
 
-class ContainerAppResource(BaseResource):
+class ContainerAppResource(ComputeResource):
     def __init__(self):
         self.type = ResourceType.AZURE_CONTAINER_APP
         self.name = ''

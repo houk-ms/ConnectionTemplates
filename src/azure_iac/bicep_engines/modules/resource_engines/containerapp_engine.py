@@ -34,6 +34,12 @@ class ContainerAppEngine(SourceResourceEngine, TargetResourceEngine):
         self.module_var_outbound_ip_name = '{}.outputs.outboundIps'.format(self.module_name)
         self.module_var_endpoint_name = '{}.outputs.requestUrl'.format(self.module_name)
 
+        if self.resource.settings:
+            app_settings = []
+            for setting in self.resource.settings:
+                app_settings.append(AppSetting(AppSettingType.KeyValue, setting.get('name'), setting.get('value', '<...>')))
+            self.module_params_app_settings = app_settings
+
         # main.bicep states and variables
         self.main_params = [
             ('location', 'string', string_helper.get_location(), False),

@@ -53,4 +53,14 @@ class Payload():
                 except Exception as e:
                     print(f'Warning: detect service failed, service: {service}, error: {e}')
         
+        # optional property
+        if 'settings' in json:
+            for setting in json['settings']:
+                try:
+                    source = Resource.from_expression(setting.get('resource'), resource_dict)
+                    if source.type.is_compute():
+                        source.settings = setting.get('envs', [])                       
+                except Exception as e:
+                    print(f'Warning: detect setting failed, setting: {setting}, error: {e}')
+
         return payload
