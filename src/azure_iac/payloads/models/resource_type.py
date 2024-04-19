@@ -37,6 +37,9 @@ class ResourceType(str, Enum):
             ResourceType.AZURE_STORAGE_ACCOUNT, 
             ResourceType.AZURE_MYSQL_DB,
             ResourceType.AZURE_SERVICE_BUS,
+            ResourceType.AZURE_MYSQL_DB,
+            ResourceType.AZURE_POSTGRESQL_DB,
+            ResourceType.AZURE_SQL_DB,
         ]
 
 TargetDefaultConnectionType = {

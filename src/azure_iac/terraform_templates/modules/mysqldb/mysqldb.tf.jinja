@@ -1,0 +1,19 @@
+# Create an Azure MySQL flexible server and database
+
+resource "azurerm_mysql_flexible_server" "{{engine.module_name}}" {
+    name                   = "{{engine.module_params_name}}"
+    resource_group_name    = azurerm_resource_group.rg.name
+    location               = azurerm_resource_group.rg.location
+    administrator_login    = "{{engine.module_params_administrator_login}}"
+    administrator_password = "{{engine.module_params_administrator_login_password}}"
+    sku_name               = "B_Standard_B1s"
+	zone                   = "1"
+}
+
+resource "azurerm_mysql_flexible_database" "{{engine.module_name}}db" {
+    name                = "{{engine.module_params_name}}-db"
+    resource_group_name = azurerm_resource_group.rg.name
+    server_name         = azurerm_mysql_flexible_server.{{engine.module_name}}.name
+    charset             = "utf8"
+    collation           = "utf8_unicode_ci"
+}
