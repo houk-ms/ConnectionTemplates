@@ -4,6 +4,8 @@ from azure_iac.payloads.resources.base_resource import BaseResource
 
 class SpringAppResource(BaseResource):
     def __init__(self):
+        super().__init__()
+
         self.type = ResourceType.AZURE_SPRING_APP
         self.name = ''
     

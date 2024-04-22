@@ -2,6 +2,7 @@
 
 module {{engine.module_name}} 'appservice.settings.bicep' = {
 	name: '{{engine.module_deployment_name}}'
+	scope: resourceGroup
 	params: {
 		appName: {{engine.module_params_app_name}} {% if engine.module_params_app_settings %}
 		appSettings: { {% for setting in engine.module_params_app_settings %}

@@ -11,23 +11,42 @@ class Command:
     def __init__(self):
         pass
 
-    def execute(self, payload_path='../../test.payload.json', output_path='../../output'):
-        content = open(payload_path, 'r').read()
-        input_json = json.loads(content)
+    def execute(self,
+                payload=None,
+                payload_path=None, 
+                output_path=None,
+                generate_bicep=True,
+                generate_terraform=True):
+        
+        # payload validation
+        if not payload and not payload_path:
+            raise ValueError('`payload` or `payload_path` is required')
+        
+        # output path validation
+        if not output_path:
+            raise ValueError('`output_path` is required')
 
-        payload = Payload.from_json(input_json)
-        bicep_generator = BicepGenerator(payload)
-        bicep_generator.generate(output_path+'/infra_bicep')
-        terraform_generator = TerraformGenerator(payload)
-        terraform_generator.generate(output_path+'/infra_terraform')
+        if not payload:
+            content = open(payload_path, 'r').read()
+            input_json = json.loads(content)
+            payload = Payload.from_json(input_json)
+
+        if generate_bicep:
+            bicep_generator = BicepGenerator(payload)
+            bicep_generator.generate(output_path+'/infra_bicep')
+        
+        if generate_terraform:
+            terraform_generator = TerraformGenerator(payload)
+            terraform_generator.generate(output_path+'/infra_terraform')
 
 
 def main():
     command = Command()
     if len(sys.argv) > 2:
-        command.execute(sys.argv[1], sys.argv[2])
+        command.execute(
+            payload_path = sys.argv[1], 
+            output_path = sys.argv[2])
     else:
-        command.execute()
         from colorama import Fore, Style
         print(Fore.YELLOW + '''Please run command with correct syntax: 
               ./generator.exe <your-payload>.json <your-output-folder>''' + Style.RESET_ALL)

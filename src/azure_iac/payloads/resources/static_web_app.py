@@ -4,6 +4,8 @@ from azure_iac.payloads.resources.base_resource import BaseResource
 
 class StaticWebAppResource(BaseResource):
     def __init__(self):
+        super().__init__()
+
         self.type = ResourceType.AZURE_STATIC_WEB_APP
         self.name = ''
     

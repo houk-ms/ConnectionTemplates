@@ -2,6 +2,7 @@
 
 module {{engine.module_name}} 'functionapp.bicep' = {
 	name: '{{engine.module_deployment_name}}'
+	scope: resourceGroup
 	params: {
 		location: location
 		name: {{engine.module_params_name}}

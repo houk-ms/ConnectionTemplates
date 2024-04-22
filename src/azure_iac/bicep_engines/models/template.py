@@ -38,6 +38,8 @@ class Template(str, Enum):
     POSTGRESQL_MODULE = "modules/postgresqldb/postgresqldb.module.jinja"
     REDIS_BICEP = "modules/redis/redis.bicep.jinja"
     REDIS_MODULE = "modules/redis/redis.module.jinja"
+    RESOURCE_GROUP_BICEP = "modules/resourcegroup/resourcegroup.bicep.jinja"
+    RESOURCE_GROUP_MODULE = "modules/resourcegroup/resourcegroup.module.jinja"
     SQL_DB_BICEP = "modules/sqldb/sqldb.bicep.jinja"
     SQL_DB_MODULE = "modules/sqldb/sqldb.module.jinja"
     STORAGE_ACCOUNT_BICEP = "modules/storageaccount/storageaccount.bicep.jinja"

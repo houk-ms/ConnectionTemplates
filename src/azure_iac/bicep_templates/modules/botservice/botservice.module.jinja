@@ -2,6 +2,7 @@
 
 module {{engine.module_name}} 'botservice.bicep' = {
 	name: '{{engine.module_deployment_name}}'
+	scope: resourceGroup
 	params: {
 		name: {{engine.module_params_name}}
 		botAadAppClientId: {{engine.module_params_botaadappclientid}} {% if engine.module_params_botappdomain %}

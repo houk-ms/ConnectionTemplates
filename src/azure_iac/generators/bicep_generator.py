@@ -8,6 +8,7 @@ from azure_iac.payloads.resources.keyvault import KeyVaultResource
 from azure_iac.bicep_engines import engine_factory
 from azure_iac.bicep_engines.main_engine import MainEngine
 from azure_iac.bicep_engines.mainparam_engine import MainParamEngine
+from azure_iac.bicep_engines.modules.resource_engines.resourcegroup_engine import ResourceGroupEngine
 
 from azure_iac.generators.base_generator import BaseGenerator
 from azure_iac.handlers.bicep_binding_handler import BicepBindingHandler
@@ -17,7 +18,9 @@ from azure_iac.helpers import file_helper
 class BicepGenerator(BaseGenerator):
     def __init__(self, payload: Payload):
         super().__init__(payload)
-        
+
+        # resource group engine
+        self.resourcegroup_engine = ResourceGroupEngine()
         # engines for each resource deployments
         self.resource_engines = []
         # engines for each compute resource settings deployment
@@ -97,6 +100,8 @@ class BicepGenerator(BaseGenerator):
 
     def init_param_engines(self):
         # Create param engines from each resource engine
+        self.param_engines.extend(self.resourcegroup_engine.get_param_engines())
+
         for engine in self.resource_engines:
             self.param_engines.extend(engine.get_param_engines())
 
@@ -108,6 +113,8 @@ class BicepGenerator(BaseGenerator):
 
     def init_output_engines(self):
         # Create output engines from each resource engine
+        self.output_engines.extend(self.resourcegroup_engine.get_output_engines())
+
         for engine in self.resource_engines:
             self.output_engines.extend(engine.get_output_engines())
         
@@ -135,7 +142,7 @@ class BicepGenerator(BaseGenerator):
         main_engine = MainEngine()
         main_engine.params = [engine.render_template() for engine in self.param_engines]
         main_engine.outputs = [engine.render_template() for engine in self.output_engines]
-        main_engine.deployments = [engine.render_module() for engine in delployment_engines]
+        main_engine.deployments = [engine.render_module() for engine in ([self.resourcegroup_engine] + delployment_engines)]
         file_helper.create_file('{}/main.bicep'.format(output_folder), main_engine.render_template())
 
         # generate main.bicepparam bicep file

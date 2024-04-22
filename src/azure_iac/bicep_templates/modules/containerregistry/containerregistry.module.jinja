@@ -2,6 +2,7 @@
 
 module {{engine.module_name}} 'containerregistry.bicep' = {
 	name: 'container-registry-deployment'
+	scope: resourceGroup
 	params: {
 		location: location
 		name: containerRegistryName

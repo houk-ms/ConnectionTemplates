@@ -2,6 +2,7 @@
 
 module {{engine.module_name}} 'containerappenv.bicep' = {
 	name: 'container-app-env-deployment'
+	scope: resourceGroup
 	params: {
 		location: location
 		name: containerAppEnvName

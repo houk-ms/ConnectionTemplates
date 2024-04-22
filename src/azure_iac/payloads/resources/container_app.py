@@ -4,6 +4,8 @@ from azure_iac.payloads.resources.compute_resource import ComputeResource
 
 class ContainerAppResource(ComputeResource):
     def __init__(self):
+        super().__init__()
+
         self.type = ResourceType.AZURE_CONTAINER_APP
         self.name = ''
     
