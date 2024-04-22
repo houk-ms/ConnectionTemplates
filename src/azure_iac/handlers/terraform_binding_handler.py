@@ -10,6 +10,9 @@ from azure_iac.terraform_engines.modules.resource_engines.keyvaultsecret_engine 
 
 
 class TerraformBindingHandler():
+
+    ALLOW_AZURE_RESOURCES = [ResourceType.AZURE_POSTGRESQL_DB, ResourceType.AZURE_SQL_DB, ResourceType.AZURE_MYSQL_DB]
+
     def __init__(self, 
                  binding: Binding, 
                  source_engine: SourceResourceEngine,
@@ -37,8 +40,10 @@ class TerraformBindingHandler():
             # target may not support separated firewall settings
             if self.firewall_engine is not None:
                 self.firewall_engine.add_dependency_engine(self.source_engine)
-                public_ip = self.source_engine.get_outbound_ip()
-                self.firewall_engine.allow_firewall(public_ip)
+                # for DB. use allow azure rule
+                if self.firewall_engine.resource.type not in TerraformBindingHandler.ALLOW_AZURE_RESOURCES:
+                    public_ip = self.source_engine.get_outbound_ip()
+                    self.firewall_engine.allow_firewall(public_ip)
             
             # role engine depends on source and target engine (--> principal id, scope)
             self.role_engine.add_dependency_engine(self.source_engine)
@@ -67,8 +72,10 @@ class TerraformBindingHandler():
             # target may not support separated firewall settings
             if self.firewall_engine is not None:
                 self.firewall_engine.add_dependency_engine(self.source_engine)
-                public_ip = self.source_engine.get_outbound_ip()
-                self.firewall_engine.allow_firewall(public_ip)
+                # for DB. use allow azure rule
+                if self.firewall_engine.resource.type not in TerraformBindingHandler.ALLOW_AZURE_RESOURCES:
+                    public_ip = self.source_engine.get_outbound_ip()
+                    self.firewall_engine.allow_firewall(public_ip)
         
         elif self.binding.connection == ConnectionType.BOTREGISTRATION:
             # target engine depends on source engine

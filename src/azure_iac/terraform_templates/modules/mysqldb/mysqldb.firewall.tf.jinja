@@ -1,11 +1,10 @@
 # Create firewall rules to allow traffics to access the MySQL database
 
-# Use the first outbound IP of the compute service
-{% for ip in engine.module_params_allow_ips %}resource "azurerm_mysql_flexible_server_firewall_rule" "{{engine.module_name}}_{{loop.index}}" {
-    name                = "{{engine.module_params_name}}-{{loop.index}}"
+# Allow access from Azure
+resource "azurerm_mysql_flexible_server_firewall_rule" "{{engine.module_name}}" {
+    name                = "{{engine.module_params_name}}"
     resource_group_name = azurerm_resource_group.rg.name
     server_name         = azurerm_mysql_flexible_server.{{engine.params_parent_module_name}}.name
-    start_ip_address    = {{ip}}[0]
-    end_ip_address      = {{ip}}[0]
+    start_ip_address    = "0.0.0.0"
+    end_ip_address      = "0.0.0.0"
 }
-{% endfor %}
