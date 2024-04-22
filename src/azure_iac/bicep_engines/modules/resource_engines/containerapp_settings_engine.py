@@ -23,7 +23,9 @@ class ContainerAppSettingsEngine(SettingResourceEngine):
         if self.resource.settings:
             app_settings = []
             for setting in self.resource.settings:
-                app_settings.append(AppSetting(AppSettingType.KeyValue, setting.get('name'), setting.get('value', '<...>')))
+                app_settings.append(
+                    AppSetting(AppSettingType.KeyValue, setting.get('name'), "'{}'".format(setting.get('value', '<...>')))
+                )
             self.add_app_settings(app_settings)
     
     def _get_module_params_secrets(self) -> List[tuple]:

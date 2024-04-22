@@ -17,6 +17,6 @@ class ResourceGroupEngine(BaseResourceEngine):
         # main.bicep states and variables
         self.main_params = [
             ('location', 'string', 'eastus'),
-            ('resourceGroupName', 'string', '{}-{}'.format(Abbreviation.RESOURCE_GROUP.value, string_helper.get_random_str(5))),
+            ('resourceGroupName', 'string', 'rg-myenv'),
             ('resourceToken', 'string', 'toLower(uniqueString(subscription().id, location, resourceGroupName))', False)
         ]
