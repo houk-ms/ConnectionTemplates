@@ -64,7 +64,7 @@
 					"connection": {
 						"type": "string",
 						"enum": ["secret", "http", "system-identity", "bot-connection"],
-						"description": "The binding connection type"
+						"description": "The binding connection type. Default value depends on the target resource type"
 					},
 					"store":{
 						"type": "string",
