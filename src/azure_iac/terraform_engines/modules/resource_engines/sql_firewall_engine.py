@@ -13,6 +13,6 @@ class SqlDbFirewallEngine(FirewallResourceEngine):
         self.resource = resource
 
         # resource module states and variables
-        self.module_name = string_helper.format_snake(Abbreviation.SQL_DB.value, self.resource.name)
-        self.module_params_name = (self.resource.name or Abbreviation.SQL_DB.value) + '${var.resource_suffix}' + '-rule'
+        self.module_name = string_helper.format_snake(Abbreviation.SQL_DB.value, self.resource.name, 'rule')
+        self.module_params_name = (self.resource.name or Abbreviation.SQL_DB.value) + '${var.resource_suffix}' + '-allowAzure-rule'
         self.params_parent_module_name = string_helper.format_snake(Abbreviation.SQL_DB.value, self.resource.name)
