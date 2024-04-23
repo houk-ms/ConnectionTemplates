@@ -6,7 +6,7 @@ To run the generator with codes
 
 ```cmd
 cd ./src/azure_iac/
-python ./command.py <path-to-your-payload> <output-folder>
+python ./command_azd.py <path-to-your-payload> <output-folder>
 ```
 
 #### Binary execution

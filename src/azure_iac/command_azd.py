@@ -30,9 +30,10 @@ class CommandAzd:
 def main():
     command = CommandAzd()
     if len(sys.argv) > 2:
-        command.execute(sys.argv[1], sys.argv[2])
+        command.execute(
+            payload_path = sys.argv[1], 
+            output_path = sys.argv[2])
     else:
-        command.execute()
         from colorama import Fore, Style
         print(Fore.YELLOW + '''Please run command with correct syntax: 
               ./generator.exe <your-payload>.json <your-output-folder>''' + Style.RESET_ALL)

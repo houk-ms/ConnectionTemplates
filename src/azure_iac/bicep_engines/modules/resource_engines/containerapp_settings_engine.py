@@ -1,6 +1,7 @@
 from typing import List
 
 from azure_iac.payloads.resources.app_service import AppServiceResource
+from azure_iac.payloads.models.project_type import ProjectType
 
 from azure_iac.bicep_engines.models.appsetting import AppSetting, AppSettingType
 from azure_iac.bicep_engines.models.template import Template
@@ -19,6 +20,8 @@ class ContainerAppSettingsEngine(SettingResourceEngine):
         self.module_name = string_helper.format_module_name('containerAppSettings', self.resource.name)
         self.module_deployment_name = string_helper.format_deployment_name('container-app-settings', self.resource.name)
         self.module_params_name = string_helper.format_camel('containerApp', self.resource.name, "Name")
+        if self.resource.projectType == ProjectType.AZD:
+            self.module_params_service_name = self.resource.name
 
         if self.resource.settings:
             app_settings = []
