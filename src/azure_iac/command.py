@@ -1,3 +1,4 @@
+import copy
 import os
 import sys
 sys.path.append(os.path.abspath('../'))
@@ -32,7 +33,8 @@ class Command:
             payload = Payload.from_json(input_json)
 
         if generate_bicep:
-            bicep_generator = BicepGenerator(payload)
+            payload_copy = copy.deepcopy(payload)
+            bicep_generator = BicepGenerator(payload_copy)
             bicep_generator.generate(output_path+'/infra_bicep')
         
         if generate_terraform:

@@ -131,7 +131,8 @@ class BicepGenerator(BaseGenerator):
                 self._get_resource_engine_by_resource(binding.source), 
                 self._get_resource_engine_by_resource(binding.target), 
                 self._get_resource_engine_by_resource(binding.store),
-                self._get_setting_engine_by_resource(binding.source))
+                self._get_setting_engine_by_resource(binding.source),
+                self._get_language_by_resource(binding.source))
             binding_handler.process_engines()
 
 
@@ -177,6 +178,12 @@ class BicepGenerator(BaseGenerator):
         for engine in self.setting_engines:
             if engine.resource == resource:
                 return engine
+        return None
+    
+    def _get_language_by_resource(self, resource: Resource):
+        for service in self.payload.services:
+            if service.name == resource.name:
+                return service.language
         return None
     
     def _dedup_engines_by_name(self, engine_list):

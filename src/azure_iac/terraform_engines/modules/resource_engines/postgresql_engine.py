@@ -46,7 +46,7 @@ class PostgreSqlDbEngine(TargetResourceEngine):
         return None
 
     # return the app settings needed by secret connection
-    def get_app_settings_secret(self, binding: Binding) -> List[tuple]:
+    def get_app_settings_secret(self, binding: Binding, language: str) -> List[tuple]:
         app_setting_key = binding.key if binding.key else 'AZURE_POSTGRESQLDB_CONNECTIONSTRING'
         # hard code to .NET connection string
         conn_string = '\"Server=\'{}.postgres.database.azure.com\';Port=5432;UserID=\'{}\';Password=\'{}\';Database=\'{}\';SslMode=Required;\"'.format(

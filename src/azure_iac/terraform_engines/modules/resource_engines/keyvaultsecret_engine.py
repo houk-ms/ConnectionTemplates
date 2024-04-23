@@ -37,7 +37,6 @@ class KeyVaultSecretEngine(BaseResourceEngine):
         return 'azurerm_key_vault.{}.id'.format(string_helper.format_snake(Abbreviation.KEYVAULT.value, name))
     
     def set_key_vault_secret(self, binding: Binding, target_engine: TargetResourceEngine):
-        # assume one secret for one binding
         app_setting_secret = target_engine.get_app_settings_secret(binding)[0]
         self.app_setting_key = app_setting_secret.name
         self.module_params_value = app_setting_secret.value
@@ -47,3 +46,9 @@ class KeyVaultSecretEngine(BaseResourceEngine):
         return [
             AppSetting(AppSettingType.KeyVaultReference, self.app_setting_key, self.get_secret_id()) # format in source template
         ]
+
+    def set_key_vault_secret(self, secret_name, secret_value, store_name) -> AppSetting:
+        self.app_setting_key = secret_name
+        self.module_params_value = secret_value
+        self.module_params_key_vault_id = self.get_key_vault_id(store_name)
+        return AppSetting(AppSettingType.KeyVaultReference, self.app_setting_key, self.get_secret_id()) # format in source template

@@ -8,13 +8,15 @@ param skuTier string = 'GeneralPurpose'
 param version string = '8.0.21'
 @allowed(['Default', 'GeoRestore', 'PointInTimeRestore', 'Replica'])
 param createMode string = 'Default'
-param adminName string = 'administrator_${uniqueString(resourceGroup().id)}'
+param adminName string = ''
 @secure()
-param adminPassword string = 'Aa0!${newGuid()}'
+param adminPassword string = ''
 param availabilityZone string = '1'
 param allowIps array = []
 param keyVaultName string = ''
 param secretName string = ''
+@secure()
+param secretValue string = ''
 
 // create a mysql server
 resource mysqlServer 'Microsoft.DBforMySQL/flexibleServers@2023-10-01-preview' = {
@@ -62,8 +64,7 @@ resource keyVaultSecret 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = if (key
 			enabled: true
 		}
 		contentType: 'string'
-		// TODO: generate connection string per client type, now hard code to .NET
-		value: 'Server=${name}.mysql.database.azure.com;UserID=${adminName};Password=${adminPassword};Database=${databaseName};SSL Mode=Required;'
+		value: secretValue
 	}
 }
 

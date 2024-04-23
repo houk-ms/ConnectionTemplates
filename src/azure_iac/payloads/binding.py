@@ -9,6 +9,7 @@ class Binding():
         self.connection = None
         self.store = None
         self.key = None
+        self.customKeys = None
     
     def from_json(json: dict, all_resources: dict) -> 'Binding':
         binding = Binding()
@@ -26,7 +27,7 @@ class Binding():
             binding.connection = ConnectionType(json['connection'])
         if 'store' in json:
             binding.store = Resource.from_expression(json.get('store'), all_resources)
-        binding.key = json.get('key')
+        binding.customKeys = json.get('customKeys')
 
         return binding
 

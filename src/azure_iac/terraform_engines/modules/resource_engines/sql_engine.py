@@ -46,8 +46,8 @@ class SqlDbEngine(TargetResourceEngine):
         return None
 
     # return the app settings needed by secret connection
-    def get_app_settings_secret(self, binding: Binding) -> List[tuple]:
-        app_setting_key = binding.key if binding.key else 'AZURE_MYSQLDB_CONNECTIONSTRING'
+    def get_app_settings_secret(self, binding: Binding, language: str) -> List[tuple]:
+        app_setting_key = binding.key if binding.key else 'AZURE_SQLDB_CONNECTIONSTRING'
         # hard code to .NET connection string
         conn_string = '\"Server=tcp:{}.database.windows.net,1433;User ID=\'{}\';Password=\'{}\';Initial Catalog=\'{}\';SslMode=Required;Persist Security Info=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Authentication=\\"Active Directory Password\\";\"'.format(
                           self.module_params_name, 

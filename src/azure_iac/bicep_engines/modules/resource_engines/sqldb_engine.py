@@ -36,7 +36,7 @@ class SqlDbEngine(TargetResourceEngine):
 
 
     # return the app settings needed by secret connection
-    def get_app_settings_secret(self, binding: Binding) -> List[tuple]:
+    def get_app_settings_secret(self, binding: Binding, language: str) -> List[tuple]:
         app_setting_key = binding.key if binding.key else 'AZURE_SQL_CONNECTIONSTRING'
 
         return [
