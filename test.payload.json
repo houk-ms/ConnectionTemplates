@@ -35,7 +35,21 @@
 		"instances": [
 		  {
 			"name": "sql1"
+		  },
+		  {
+			"name": "sql2"
 		  }
+		]
+	  },
+	  {
+		"type": "azuredatabaseforpostgresql",
+		"instances": [
+			{
+				"name": "pg1"
+			},
+			{
+				"name": "pg2"
+			}
 		]
 	  },
 	  {
@@ -72,6 +86,32 @@
 		{
 			"source": "${azureappservice.app1}",
 			"target": "${azuresqldatabase.sql1}",
+			"connection": "secret"
+		},
+		{
+			"source": "${azureappservice.app2}",
+			"target": "${azuresqldatabase.sql2}",
+			"connection": "secret",
+			"customkeys": {
+				"AZURE_SQL_HOST": "testhost",
+				"AZURE_SQL_USERNAME": "testuser",
+				"AZURE_SQL_PASSWORD": "testpassword",
+				"AZURE_SQL_DATABASE": "testdb",
+				"AZURE_SQL_PORT": "0000"
+			}
+		},
+		{
+			"source": "${azureappservice.app1}",
+			"target": "${azuredatabaseforpostgresql.pg1}",
+			"connection": "secret",
+			"store": "${azurekeyvault.kv1}",
+			"customkeys": {
+				"AZURE_POSTGRESQL_CONNECTIONSTRING": "pgsqlconnstr"
+			}
+		},
+		{
+			"source": "${azureappservice.app2}",
+			"target": "${azuredatabaseforpostgresql.pg2}",
 			"connection": "secret"
 		},
 		{

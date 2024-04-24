@@ -11,6 +11,8 @@ param databaseSkuTier string = 'Standard'
 param allowIps array = []
 param keyVaultName string = ''
 param secretName string = 'myvault/mysecret'
+@secure()
+param secretValue string = ''
 
 
 // create a SQL server
@@ -57,8 +59,7 @@ resource keyVaultSecret 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = if (key
 			enabled: true
 		}
 		contentType: 'string'
-		// TODO: generate connection string per client type, now hard code to .NET
-		value: 'Data Source=${name}.database.windows.net,1433;Initial Catalog=${databaseName};User ID=${adminName};Password=${adminPassword}'
+		value: secretValue
 	}
 }
 

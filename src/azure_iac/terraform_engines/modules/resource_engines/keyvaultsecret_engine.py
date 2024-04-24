@@ -5,7 +5,7 @@ from azure_iac.terraform_engines.models.template import Template
 from azure_iac.terraform_engines.models.appsetting import AppSetting, AppSettingType
 
 from azure_iac.terraform_engines.modules.base_resource_engine import BaseResourceEngine
-from azure_iac.bicep_engines.modules.target_resource_engine import TargetResourceEngine
+from azure_iac.terraform_engines.modules.target_resource_engine import TargetResourceEngine
 
 from azure_iac.helpers import string_helper
 from azure_iac.helpers.abbrevation import Abbreviation
@@ -47,7 +47,7 @@ class KeyVaultSecretEngine(BaseResourceEngine):
             AppSetting(AppSettingType.KeyVaultReference, self.app_setting_key, self.get_secret_id()) # format in source template
         ]
 
-    def set_key_vault_secret(self, secret_name, secret_value, store_name) -> AppSetting:
+    def set_key_vault_secret_and_get_app_setting(self, secret_name, secret_value, store_name) -> AppSetting:
         self.app_setting_key = secret_name
         self.module_params_value = secret_value
         self.module_params_key_vault_id = self.get_key_vault_id(store_name)

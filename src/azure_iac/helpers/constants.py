@@ -72,12 +72,18 @@ class SQL_CONSTANTS_DOTNET(Enum):
 	DATABASE = "Initial Catalog"
 	USER = "User ID"
 	PASSWORD = "Password"
+	AUTHENTICATION = "Authentication"
+
+	AUTHPWD = "Active Directory Password"
 
 class SQL_CONSTANTS_JAVA(Enum):
 	PROTOCOL = "jdbc:sqlserver://"
 	USER = "user"
 	PASSWORD = "password"
 	DATABASE = "database"
+	AUTHENTICATION = "authentication"
+
+	AUTHPWD = "ActiveDirectoryPassword"
 
 class SQL_CONSTANTS_PYTHON(Enum):
 	DRIVER = "Driver"
@@ -85,6 +91,9 @@ class SQL_CONSTANTS_PYTHON(Enum):
 	DATABASE = "Database"
 	USER = "UiD"
 	PASSWORD = "Pwd"
+	AUTHENTICATION = "Authentication"
+
+	AUTHPWD = "ActiveDirectoryPassword"
 
 class SQL_CONSTANTS(Enum):
 	DOTNET = SQL_CONSTANTS_DOTNET
@@ -105,7 +114,36 @@ CONFIGURATION_NAMES = {
 	ResourceType.AZURE_STORAGE_ACCOUNT: {},
     ResourceType.AZURE_SERVICE_BUS: {},
     ResourceType.AZURE_STATIC_WEB_APP: {},
-	ResourceType.AZURE_SQL_DB: {},
+	ResourceType.AZURE_SQL_DB: {
+		ConnectionType.SECRET: {
+			ClientType.PYTHON: [
+				('server', 'AZURE_SQL_SERVER', False),
+				('database', 'AZURE_SQL_DATABASE', False),
+				('user', 'AZURE_SQL_USER', False),
+				('password', 'AZURE_SQL_PASSWORD', True)
+			],
+			ClientType.NODE: [
+				('server', 'AZURE_SQL_SERVER', False),
+				('database', 'AZURE_MYSQL_DATABASE', False),
+				('user', 'AZURE_MYSQL_USERNAME', False),
+				('password', 'AZURE_MYSQL_PASSWORD', True),
+				('port', 'AZURE_MYSQL_PORT', False)
+			],
+			ClientType.JAVA: [
+				('connection_string', "AZURE_SQL_CONNECTIONSTRING", True)
+			],
+			ClientType.DOTNET: [
+				('connection_string', "AZURE_SQL_CONNECTIONSTRING", True)
+			],
+			ClientType.DEFAULT: [
+				('server', 'AZURE_SQL_HOST', False),
+				('database', 'AZURE_SQL_DATABASE', False),
+				('user', 'AZURE_SQL_USERNAME', False),
+				('password', 'AZURE_SQL_PASSWORD', True),
+				('port', 'AZURE_SQL_PORT', False)
+			]
+		}
+	},
     ResourceType.AZURE_MYSQL_DB: {
 		ConnectionType.SECRET: {
 			ClientType.PYTHON: [
@@ -138,5 +176,33 @@ CONFIGURATION_NAMES = {
 			]
 		}
 	},
-	ResourceType.AZURE_POSTGRESQL_DB: {},
+	ResourceType.AZURE_POSTGRESQL_DB: {
+		ConnectionType.SECRET: {
+			ClientType.PYTHON: [
+				('connection_string', "AZURE_POSTGRESQL_CONNECTIONSTRING", True)
+			],
+			ClientType.NODE: [
+				('server', 'AZURE_POSTGRESQL_HOST', False),
+				('database', 'AZURE_POSTGRESQL_DATABASE', False),
+				('user', 'AZURE_POSTGRESQL_USER', False),
+				('password', 'AZURE_POSTGRESQL_PASSWORD', True),
+				('port', 'AZURE_POSTGRESQL_PORT', False),
+				('ssl', 'AZURE_POSTGRESQL_SSL', False)
+			],
+			ClientType.JAVA: [
+				('connection_string', "AZURE_POSTGRESQL_CONNECTIONSTRING", True)
+			],
+			ClientType.DOTNET: [
+				('connection_string', "AZURE_POSTGRESQL_CONNECTIONSTRING", True)
+			],
+			ClientType.DEFAULT: [
+				('server', 'AZURE_POSTGRESQL_HOST', False),
+				('database', 'AZURE_POSTGRESQL_DATABASE', False),
+				('user', 'AZURE_POSTGRESQL_USERNAME', False),
+				('password', 'AZURE_POSTGRESQL_PASSWORD', True),
+				('port', 'AZURE_POSTGRESQL_PORT', False),
+				('ssl', 'AZURE_POSTGRESQL_SSL', False)
+			]
+		}
+	},
 }

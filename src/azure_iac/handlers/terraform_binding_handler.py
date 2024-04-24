@@ -64,14 +64,16 @@ class TerraformBindingHandler():
         elif self.binding.connection == ConnectionType.SECRET:
             # source engine depends on target engine (--> app settings)
             self.source_engine.add_dependency_engine(self.target_engine)
-            if self.binding.target.type == ResourceType.AZURE_MYSQL_DB:
+            if self.binding.target.type == ResourceType.AZURE_MYSQL_DB or \
+               self.binding.target.type == ResourceType.AZURE_SQL_DB or \
+               self.binding.target.type == ResourceType.AZURE_POSTGRESQL_DB:
                 app_settings = []
                 raw_app_settings = self.target_engine.get_app_settings_secret(self.binding, self.language)
                 # assume one secret per binding
                 for setting, is_secret in raw_app_settings:
                     if is_secret and self.binding.store is not None and self.key_vault_secret_engine is not None:
                         app_settings.append(
-                            self.key_vault_secret_engine.set_key_vault_secret(setting.name, setting.value, self.binding.store.name)
+                            self.key_vault_secret_engine.set_key_vault_secret_and_get_app_setting(setting.name, setting.value, self.binding.store.name)
                         )
                     else:
                         app_settings.append(setting)

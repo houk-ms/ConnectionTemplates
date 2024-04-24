@@ -49,6 +49,6 @@ class MySqlDbEngine(TargetResourceEngine):
                                              user="${" + self.module_params_admin_name + "}",
                                              password="${" + self.module_params_password + "}",
                                              database="${" + self.module_params_database_name + "}")
-        configs = connInfoHelper.get_secret_configs({} if binding.customKeys is None else binding.customKeys)
+        configs = connInfoHelper.get_configs({} if binding.customKeys is None else binding.customKeys, binding.connection)
         
         return self._get_app_settings(configs)

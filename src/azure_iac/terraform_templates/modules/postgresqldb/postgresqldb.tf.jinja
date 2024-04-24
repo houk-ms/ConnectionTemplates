@@ -13,7 +13,7 @@ resource "azurerm_postgresql_flexible_server" "{{engine.module_name}}" {
 }
 
 resource "azurerm_postgresql_flexible_server_database" "{{engine.module_name}}db" {
-    name      = "{{engine.module_params_name}}-db"
+    name      = "{{engine.module_params_database_name}}"
     server_id = azurerm_postgresql_flexible_server.{{engine.module_name}}.id
     collation = "en_US.utf8"
     charset   = "utf8"

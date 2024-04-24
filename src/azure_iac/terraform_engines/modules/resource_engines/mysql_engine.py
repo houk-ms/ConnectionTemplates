@@ -48,11 +48,11 @@ class MySqlDbEngine(TargetResourceEngine):
         return None
 
     # return the app settings needed by secret connection
-    def get_app_settings_secret(self, binding: Binding, language: str) -> List[tuple]:
+    def get_app_settings_secret(self, binding: Binding, language="") -> List[tuple]:
         connInfoHelper = MySqlConnInfoHelper(language,
                                              server=self.module_params_name,
                                              user=self.module_params_administrator_login,
                                              password=self.module_params_administrator_login_password,
                                              database=self.module_params_database_name)
-        configs = connInfoHelper.get_secret_configs({} if binding.customKeys is None else binding.customKeys)
+        configs = connInfoHelper.get_configs({} if binding.customKeys is None else binding.customKeys, binding.connection)
         return self._get_app_settings(configs)

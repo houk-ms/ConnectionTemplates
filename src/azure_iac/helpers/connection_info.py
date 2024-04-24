@@ -31,9 +31,14 @@ class MySqlConnInfoHelper():
         self.ssl = "true" if self.client_type == ClientType.NODE else "Require"
 
 	# return (config_key, value, is_secret)
-    def get_secret_configs(self, customKeys: dict) -> list[tuple]:
+    def get_configs(self, customKeys: dict, connection: ConnectionType) -> list[tuple]:
+        if connection != ConnectionType.SECRET:
+            print('Warning: Binding connection type {} is not supported for MySQL, using secret', connection) 
+
+        connection = ConnectionType.SECRET
+
         configs = []
-        for key, default_key, is_secret in CONFIGURATION_NAMES[ResourceType.AZURE_MYSQL_DB][ConnectionType.SECRET][self.client_type]:
+        for key, default_key, is_secret in CONFIGURATION_NAMES[ResourceType.AZURE_MYSQL_DB][connection][self.client_type]:
             config_key = customKeys.get(key, default_key)
             if key == "connection_string":
                 config_value = self.get_conn_str()
@@ -72,16 +77,33 @@ class SqlConnInfoHelper():
         self.password = password
         self.database = database
         self.port = port
-        self.ssl = "Required"
+
+    def get_configs(self, customKeys: dict, connection: ConnectionType) -> list[tuple]:
+        if connection != ConnectionType.SECRET:
+            print('Warning: Binding connection type {} is not supported for SQL, using secret', connection)
+        
+        connection = ConnectionType.SECRET
+        
+        configs = []
+        for key, default_key, is_secret in CONFIGURATION_NAMES[ResourceType.AZURE_SQL_DB][connection][self.client_type]:
+            config_key = customKeys.get(key, default_key)
+            if key == "connection_string":
+                config_value = self.get_conn_str()
+            else:
+                config_value = getattr(self, key)
+            configs.append((config_key, config_value, is_secret))
+        return configs
+
 
     def get_conn_str(self) -> str:
         if self.client_type == ClientType.PYTHON:
             return join_segments([
-                (SQL_CONSTANTS.PYTHON.value.DRIVER.value, "{ODBC Driver 18 for SQL Server}")
+                (SQL_CONSTANTS.PYTHON.value.DRIVER.value, "{ODBC Driver 18 for SQL Server}"),
                 (SQL_CONSTANTS.PYTHON.value.SERVER.value, self.server + "," + self.port),
                 (SQL_CONSTANTS.PYTHON.value.DATABASE.value, self.database),
                 (SQL_CONSTANTS.PYTHON.value.USER.value, self.user),
-                (SQL_CONSTANTS.PYTHON.value.PASSWORD.value, self.password)
+                (SQL_CONSTANTS.PYTHON.value.PASSWORD.value, self.password),
+                (SQL_CONSTANTS.PYTHON.value.AUTHENTICATION.value, SQL_CONSTANTS.PYTHON.value.AUTHPWD.value)
             ])
         elif self.client_type == ClientType.JAVA:
             return SQL_CONSTANTS.JAVA.value.PROTOCOL.value + "{}:{};".format(self.server, self.port) + \
@@ -89,13 +111,15 @@ class SqlConnInfoHelper():
                     (SQL_CONSTANTS.JAVA.value.DATABASE.value, self.database),
                     (SQL_CONSTANTS.JAVA.value.USER.value, self.user),
                     (SQL_CONSTANTS.JAVA.value.PASSWORD.value, self.password),
+                    (SQL_CONSTANTS.JAVA.value.AUTHENTICATION.value, SQL_CONSTANTS.JAVA.value.AUTHPWD.value)
             ])
         elif self.client_type == ClientType.DOTNET:
             return join_segments([
-                (SQL_CONSTANTS.DOTNET.value.SERVER.value, self.server + "," + self.port),
+                (SQL_CONSTANTS.DOTNET.value.SERVER.value, "tcp:" + self.server + "," + self.port),
                 (SQL_CONSTANTS.DOTNET.value.DATABASE.value, self.database),
                 (SQL_CONSTANTS.DOTNET.value.USER.value, self.user),
-                (SQL_CONSTANTS.DOTNET.value.PASSWORD.value, self.password)
+                (SQL_CONSTANTS.DOTNET.value.PASSWORD.value, self.password),
+                (SQL_CONSTANTS.DOTNET.value.AUTHENTICATION.value, SQL_CONSTANTS.DOTNET.value.AUTHPWD.value)
             ])
         else:
             raise ValueError("Invalid client type for SQL Server connection string generation.")
@@ -111,6 +135,22 @@ class PostgreSqlConnInfoHelper():
         self.port = port
         self.ssl = "Require"
 	
+    def get_configs(self, customKeys: dict, connection: ConnectionType) -> list[tuple]:
+        if connection != ConnectionType.SECRET:
+            print('Warning: Binding connection type {} is not supported for PostgreSQL, using secret', connection)
+        
+        connection = ConnectionType.SECRET
+        
+        configs = []
+        for key, default_key, is_secret in CONFIGURATION_NAMES[ResourceType.AZURE_POSTGRESQL_DB][connection][self.client_type]:
+            config_key = customKeys.get(key, default_key)
+            if key == "connection_string":
+                config_value = self.get_conn_str()
+            else:
+                config_value = getattr(self, key)
+            configs.append((config_key, config_value, is_secret))
+        return configs
+
     def get_conn_str(self) -> str:
         if self.client_type == ClientType.PYTHON:
             return join_segments([
@@ -125,7 +165,7 @@ class PostgreSqlConnInfoHelper():
         elif self.client_type == ClientType.JAVA:
             return POSTGRESQL_CONSTANTS.JAVA.value.PROTOCOL.value + "{}:{}/{}?".format(self.server, self.port, self.database) + \
                 join_segments([
-                    (POSTGRESQL_CONSTANTS.JAVA.value.SSL.value, POSTGRESQL_CONSTANTS.JAVA.value.REQUIRE.value)
+                    (POSTGRESQL_CONSTANTS.JAVA.value.SSL.value, POSTGRESQL_CONSTANTS.JAVA.value.REQUIRE.value),
                     (POSTGRESQL_CONSTANTS.JAVA.value.USER.value, self.user),
                     (POSTGRESQL_CONSTANTS.JAVA.value.PASSWORD.value, self.password)
             ], kv_separator = "=", separator = "&")
