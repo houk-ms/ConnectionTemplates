@@ -62,7 +62,7 @@ class Payload():
                 try:
                     source = Resource.from_expression(setting.get('resource'), resource_dict)
                     if source.type.is_compute():
-                        source.settings = setting.get('envs', [])                       
+                        source.settings = [env for env in setting.get('envs', []) if env.get('value')]
                 except Exception as e:
                     print(f'Warning: detect setting failed, setting: {setting}, error: {e}')
 
