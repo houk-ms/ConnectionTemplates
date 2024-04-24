@@ -49,7 +49,10 @@ class Payload():
         if 'services' in json:
             for service in json['services']:
                 try:
-                    payload.services.append(Service.from_json(service, resource_dict))
+                    dservice = Service.from_json(service, resource_dict)
+                    payload.services.append(dservice)
+                    source = Resource.from_expression(service.get('host'), resource_dict)
+                    source.service = service
                 except Exception as e:
                     print(f'Warning: detect service failed, service: {service}, error: {e}')
         
