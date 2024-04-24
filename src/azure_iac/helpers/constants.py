@@ -103,15 +103,60 @@ class SQL_CONSTANTS(Enum):
 # Default configuration names for bindings per target, auth type and client type
 # (attr, config_key, is_secret)
 CONFIGURATION_NAMES = {
-	ResourceType.AZURE_APP_SERVICE: {},
+    ResourceType.AZURE_APP_SERVICE: {},
     ResourceType.AZURE_APPLICATION_INSIGHTS: {},
     ResourceType.AZURE_BOT_SERVICE: {},
     ResourceType.AZURE_CONTAINER_APP: {},
-    ResourceType.AZURE_COSMOS_DB: {},
+    ResourceType.AZURE_COSMOS_DB: {
+		ConnectionType.SECRET: {
+			ClientType.PYTHON: [
+                ('connection_string', 'AZURE_COSMOS_CONNECTIONSTRING', True)
+            ],
+            ClientType.NODE: [
+                ('connection_string', 'AZURE_COSMOS_CONNECTIONSTRING', True)
+            ],
+            ClientType.JAVA: [
+                ('connection_string', 'AZURE_COSMOS_CONNECTIONSTRING', True)
+            ],
+            ClientType.DOTNET: [
+                ('connection_string', 'AZURE_COSMOS_CONNECTIONSTRING', True)
+            ],
+            ClientType.DEFAULT: [
+                ('connection_string', 'AZURE_COSMOS_CONNECTIONSTRING', True)
+            ]
+		},
+		ConnectionType.SYSTEMIDENTITY: {
+			ClientType.PYTHON: [
+				("list_connection_string_url", "AZURE_COSMOS_LISTCONNECTIONSTRINGURL", False),
+			    ("resource_endpoint", "AZURE_COSMOS_RESOURCEENDPOINT", False),
+			    ("scope", "AZURE_COSMOS_SCOPE", False)
+            ],
+            ClientType.NODE: [
+                ("list_connection_string_url", "AZURE_COSMOS_LISTCONNECTIONSTRINGURL", False),
+                ("resource_endpoint", "AZURE_COSMOS_RESOURCEENDPOINT", False),                
+                ("scope", "AZURE_COSMOS_SCOPE", False)
+            ],
+            ClientType.JAVA: [
+                ("list_connection_string_url", "AZURE_COSMOS_LISTCONNECTIONSTRINGURL", False),
+                ("resource_endpoint", "AZURE_COSMOS_RESOURCEENDPOINT", False),
+                ("scope", "AZURE_COSMOS_SCOPE", False)
+            ],
+            ClientType.DOTNET: [
+                ("list_connection_string_url", "AZURE_COSMOS_LISTCONNECTIONSTRINGURL", False),
+                ("resource_endpoint", "AZURE_COSMOS_RESOURCEENDPOINT", False),
+                ("scope", "AZURE_COSMOS_SCOPE", False)
+            ],
+            ClientType.DEFAULT: [
+                ("list_connection_string_url", "AZURE_COSMOS_LISTCONNECTIONSTRINGURL", False),
+                ("resource_endpoint", "AZURE_COSMOS_RESOURCEENDPOINT", False),
+                ("scope", "AZURE_COSMOS_SCOPE", False)
+            ]
+        }
+	},
     ResourceType.AZURE_FUNCTION_APP: {},
     ResourceType.AZURE_KEYVAULT: {},
     ResourceType.AZURE_REDIS_CACHE: {},
-	ResourceType.AZURE_STORAGE_ACCOUNT: {},
+    ResourceType.AZURE_STORAGE_ACCOUNT: {},
     ResourceType.AZURE_SERVICE_BUS: {},
     ResourceType.AZURE_STATIC_WEB_APP: {},
 	ResourceType.AZURE_SQL_DB: {
@@ -124,10 +169,10 @@ CONFIGURATION_NAMES = {
 			],
 			ClientType.NODE: [
 				('server', 'AZURE_SQL_SERVER', False),
-				('database', 'AZURE_MYSQL_DATABASE', False),
-				('user', 'AZURE_MYSQL_USERNAME', False),
-				('password', 'AZURE_MYSQL_PASSWORD', True),
-				('port', 'AZURE_MYSQL_PORT', False)
+				('database', 'AZURE_SQL_DATABASE', False),
+				('user', 'AZURE_SQL_USERNAME', False),
+				('password', 'AZURE_SQL_PASSWORD', True),
+				('port', 'AZURE_SQL_PORT', False)
 			],
 			ClientType.JAVA: [
 				('connection_string', "AZURE_SQL_CONNECTIONSTRING", True)

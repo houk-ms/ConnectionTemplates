@@ -47,10 +47,6 @@ class TargetResourceEngine(BaseResourceEngine):
     def _get_app_settings(self, configs: list[tuple]) -> List[AppSetting]:
         app_settings = []
         for app_setting_key, value, is_secret in configs:
-            if re.match(r'^\${[^}]*}$', value):
-                value = value[2:-1]
-            else:
-                value = '\'{}\''.format(value)
             if is_secret:
                 app_settings.append(
                      AppSetting(AppSettingType.KeyVaultReference, app_setting_key,

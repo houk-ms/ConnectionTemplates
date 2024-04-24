@@ -1,3 +1,4 @@
+import re
 from azure_iac.helpers.constants import ClientType, POSTGRESQL_CONSTANTS, MYSQL_CONSTANTS, SQL_CONSTANTS, CONFIGURATION_NAMES
 from azure_iac.payloads.models.connection_type import ConnectionType
 from azure_iac.payloads.models.resource_type import ResourceType
@@ -19,6 +20,16 @@ def join_segments(segments: tuple[str], kv_separator = "=", separator = ";") -> 
             conn_str_segs.append(key + kv_separator + value)
         return separator.join(conn_str_segs)
 
+def decorate_var(value: str, iac_type: str) -> str:
+    if iac_type == "tf":
+        return f"\"{value}\""
+    
+    # bicep
+    # `'${var}'` should be `${var}` directly
+    if re.match(r'^\${[^}]*}$', value):
+        return value[2:-1]
+    else:
+        return '\'{}\''.format(value)
 
 class MySqlConnInfoHelper():
     def __init__(self, language: str, server: str, user: str, password: str, database: str, port = "3306"):
@@ -31,7 +42,7 @@ class MySqlConnInfoHelper():
         self.ssl = "true" if self.client_type == ClientType.NODE else "Require"
 
 	# return (config_key, value, is_secret)
-    def get_configs(self, customKeys: dict, connection: ConnectionType) -> list[tuple]:
+    def get_configs(self, customKeys: dict, connection: ConnectionType, iac_type: str) -> list[tuple]:
         if connection != ConnectionType.SECRET:
             print('Warning: Binding connection type {} is not supported for MySQL, using secret', connection) 
 
@@ -44,6 +55,7 @@ class MySqlConnInfoHelper():
                 config_value = self.get_conn_str()
             else:
                 config_value = getattr(self, key)
+            config_value = decorate_var(config_value, iac_type)
             configs.append((config_key, config_value, is_secret))
         return configs
 	
@@ -78,7 +90,7 @@ class SqlConnInfoHelper():
         self.database = database
         self.port = port
 
-    def get_configs(self, customKeys: dict, connection: ConnectionType) -> list[tuple]:
+    def get_configs(self, customKeys: dict, connection: ConnectionType, iac_type: str) -> list[tuple]:
         if connection != ConnectionType.SECRET:
             print('Warning: Binding connection type {} is not supported for SQL, using secret', connection)
         
@@ -86,11 +98,12 @@ class SqlConnInfoHelper():
         
         configs = []
         for key, default_key, is_secret in CONFIGURATION_NAMES[ResourceType.AZURE_SQL_DB][connection][self.client_type]:
-            config_key = customKeys.get(key, default_key)
+            config_key = customKeys.get(default_key, default_key)
             if key == "connection_string":
                 config_value = self.get_conn_str()
             else:
                 config_value = getattr(self, key)
+            config_value = decorate_var(config_value, iac_type)
             configs.append((config_key, config_value, is_secret))
         return configs
 
@@ -135,21 +148,20 @@ class PostgreSqlConnInfoHelper():
         self.port = port
         self.ssl = "Require"
 	
-    def get_configs(self, customKeys: dict, connection: ConnectionType) -> list[tuple]:
+    def get_configs(self, customKeys: dict, connection: ConnectionType, iac_type: str) -> list[tuple]:
         if connection != ConnectionType.SECRET:
             print('Warning: Binding connection type {} is not supported for PostgreSQL, using secret', connection)
         
         connection = ConnectionType.SECRET
         
         configs = []
-        print(customKeys)
         for key, default_key, is_secret in CONFIGURATION_NAMES[ResourceType.AZURE_POSTGRESQL_DB][connection][self.client_type]:
-            config_key = customKeys.get(key, default_key)
-            print(config_key, key, default_key)
+            config_key = customKeys.get(default_key, default_key)
             if key == "connection_string":
                 config_value = self.get_conn_str()
             else:
                 config_value = getattr(self, key)
+            config_value = decorate_var(config_value, iac_type)
             configs.append((config_key, config_value, is_secret))
         return configs
 
@@ -185,3 +197,27 @@ class PostgreSqlConnInfoHelper():
         else:
             raise ValueError("Invalid client type for PostgreSQL connection string generation.")
 
+class CosmosConnInfoHelper():
+    def __init__(self, language: str, connection_string=None, resource_endpoint=None):
+        self.client_type = get_client_type(language)
+        self.connection_string = connection_string
+        self.resource_endpoint = resource_endpoint
+        self.scope = "https://management.azure.com/.default"
+
+    def get_configs(self, customKeys: dict, connection: ConnectionType) -> list[tuple]:
+        configs = []
+        if connection == ConnectionType.SECRET:
+            for key, default_key, is_secret in CONFIGURATION_NAMES[ResourceType.AZURE_COSMOS_DB][connection][self.client_type]:
+                config_key = customKeys.get(default_key, default_key)
+                config_value = getattr(self, key)
+            configs.append((config_key, config_value, is_secret))
+        
+        elif connection == ConnectionType.SYSTEMIDENTITY:
+            for key, default_key, is_secret in CONFIGURATION_NAMES[ResourceType.AZURE_COSMOS_DB][connection][self.client_type]:
+                config_key = customKeys.get(default_key, default_key)
+                config_value = getattr(self, key)
+            configs.append((config_key, config_value, is_secret))
+        else:
+            print('Warning: Binding connection type {} is not supported for Comos DB')
+
+        return configs

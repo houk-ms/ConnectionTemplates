@@ -50,6 +50,8 @@ class SqlDbEngine(TargetResourceEngine):
                                            password="${" + self.module_params_password + "}",
                                            database="${" + self.module_params_database_name + "}"
                                            )
-        configs = connInfoHelper.get_configs({} if binding.customKeys is None else binding.customKeys, binding.connection)
+        configs = connInfoHelper.get_configs({} if binding.customKeys is None else binding.customKeys,
+                                             binding.connection,
+                                             "bicep")
         
         return self._get_app_settings(configs)

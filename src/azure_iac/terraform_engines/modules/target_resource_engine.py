@@ -34,11 +34,11 @@ class TargetResourceEngine(BaseResourceEngine):
         for app_setting_key, value, is_secret in configs:
             if is_secret:
                 app_settings.append(
-                    (AppSetting(AppSettingType.SecretReference, app_setting_key, "\"{}\"".format(value)), is_secret)
+                    AppSetting(AppSettingType.SecretReference, app_setting_key, value)
                 )
             else:
                 app_settings.append(
-                    (AppSetting(AppSettingType.KeyValue, app_setting_key, "\"{}\"".format(value)), is_secret)
+                    AppSetting(AppSettingType.KeyValue, app_setting_key, value)
                 )
         return app_settings
         

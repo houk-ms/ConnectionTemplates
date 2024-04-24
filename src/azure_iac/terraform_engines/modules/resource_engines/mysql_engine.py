@@ -54,5 +54,7 @@ class MySqlDbEngine(TargetResourceEngine):
                                              user=self.module_params_administrator_login,
                                              password=self.module_params_administrator_login_password,
                                              database=self.module_params_database_name)
-        configs = connInfoHelper.get_configs({} if binding.customKeys is None else binding.customKeys, binding.connection)
+        configs = connInfoHelper.get_configs({} if binding.customKeys is None else binding.customKeys,
+                                             binding.connection,
+                                             "tf")
         return self._get_app_settings(configs)

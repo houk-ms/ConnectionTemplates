@@ -65,6 +65,20 @@
 		"instances": [
 		  {
 			"name": "cosmos1"
+		  },
+		  {
+			"name": "cosmos2"
+		  }
+		]
+	  },
+	  {
+		"type": "azurestorageaccount",
+		"instances": [
+		  {
+			"name": "storage1"
+		  },
+		  {
+			"name": "storage2"
 		  }
 		]
 	  }
@@ -123,17 +137,40 @@
 			"connection": "secret"
 		},
 		{
-			"source": "${azureappservice.app1}",
-			"target": "${azurecosmosdb.cosmos1}",
-			"connection": "secret"
-		},
-		{
 			"source": "${azurecontainerapp.aca1}",
 			"target": "${azuremysqldatabase.mysql1}",
 			"connection": "secret",
 			"customKeys": {
 				"AZURE_MYSQL_HOST": "pyhost"
 			}
+		},
+		{
+			"source": "${azureappservice.app1}",
+			"target": "${azurecosmosdb.cosmos1}",
+			"connection": "secret",
+			"store": "${azurekeyvault.kv1}",
+			"customKeys":{
+				"AZURE_COSMOS_CONNECTIONSTRING": "cosmosconnstr"
+			}
+		},
+		{
+			"source":"${azureappservice.app2}",
+			"target":"${azurecosmosdb.cosmos2}"
+		},
+		{
+			"source":"${azureappservice.app2}",
+			"target":"${azurecosmosdb.cosmos1}",
+			"connection": "secret"
+		},
+		{
+			"source":"${azureappservice.app1}",
+			"target":"${azurestorageaccount.storage1}",
+			"connection":"secret"
+		},
+		{
+			"source":"${azureappservice.app2}",
+			"target":"${azurestorageaccount.storage2}",
+			"connection":"secret"
 		}
 		
 	],

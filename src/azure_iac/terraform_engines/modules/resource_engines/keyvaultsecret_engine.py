@@ -47,8 +47,11 @@ class KeyVaultSecretEngine(BaseResourceEngine):
             AppSetting(AppSettingType.KeyVaultReference, self.app_setting_key, self.get_secret_id()) # format in source template
         ]
 
-    def set_key_vault_secret_and_get_app_setting(self, secret_name, secret_value, store_name) -> AppSetting:
-        self.app_setting_key = secret_name
-        self.module_params_value = secret_value
-        self.module_params_key_vault_id = self.get_key_vault_id(store_name)
-        return AppSetting(AppSettingType.KeyVaultReference, self.app_setting_key, self.get_secret_id()) # format in source template
+    def set_key_vault_secret_and_id(self, app_settings: List[AppSetting], binding: Binding):
+        for i, app_setting in enumerate(app_settings):
+            if app_setting.type == AppSettingType.SecretReference:
+                self.app_setting_key = app_setting.name
+                self.module_params_value = app_setting.value
+                self.module_params_key_vault_id = self.get_key_vault_id(binding.store.name)
+                app_settings[i] = AppSetting(AppSettingType.KeyVaultReference, self.app_setting_key, self.get_secret_id()) # format in source template
+                break  # assume only one secret ber binding
