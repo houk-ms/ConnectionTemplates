@@ -73,7 +73,7 @@
 		{
 			"source": "${azureappservice.app1}",
 			"target": "${azuremysqldatabase.mysql1}",
-			"customkeys": {
+			"customKeys": {
 				"AZURE_MYSQL_CONNECTIONSTRING": "rawmysql1"
 			},
 			"store": "${azurekeyvault.kv1}"
@@ -83,7 +83,7 @@
 			"target": "${azuremysqldatabase.mysql2}",
 			"connection": "secret",
 			"store": "${azurekeyvault.kv1}",
-			"customkeys": {
+			"customKeys": {
 				"AZURE_MYSQL_HOST": "testhost",
 				"AZURE_MYSQL_USER": "testuser",
 				"AZURE_MYSQL_PASSWORD": "testpassword",
@@ -100,12 +100,12 @@
 			"source": "${azureappservice.app2}",
 			"target": "${azuresqldatabase.sql2}",
 			"connection": "secret",
-			"customkeys": {
-				"AZURE_SQL_HOST": "testhost",
-				"AZURE_SQL_USERNAME": "testuser",
-				"AZURE_SQL_PASSWORD": "testpassword",
-				"AZURE_SQL_DATABASE": "testdb",
-				"AZURE_SQL_PORT": "0000"
+			"customKeys": {
+				"AZURE_SQL_HOST": "sqlhost",
+				"AZURE_SQL_USERNAME": "sqluser",
+				"AZURE_SQL_PASSWORD": "sqlpassword",
+				"AZURE_SQL_DATABASE": "sqldb",
+				"AZURE_SQL_PORT": "sqlport"
 			}
 		},
 		{
@@ -113,7 +113,7 @@
 			"target": "${azuredatabaseforpostgresql.pg1}",
 			"connection": "secret",
 			"store": "${azurekeyvault.kv1}",
-			"customkeys": {
+			"customKeys": {
 				"AZURE_POSTGRESQL_CONNECTIONSTRING": "pgsqlconnstr"
 			}
 		},
@@ -131,7 +131,7 @@
 			"source": "${azurecontainerapp.aca1}",
 			"target": "${azuremysqldatabase.mysql1}",
 			"connection": "secret",
-			"customkeys": {
+			"customKeys": {
 				"AZURE_MYSQL_HOST": "pyhost"
 			}
 		}

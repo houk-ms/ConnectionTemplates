@@ -39,7 +39,7 @@ class MySqlConnInfoHelper():
 
         configs = []
         for key, default_key, is_secret in CONFIGURATION_NAMES[ResourceType.AZURE_MYSQL_DB][connection][self.client_type]:
-            config_key = customKeys.get(key, default_key)
+            config_key = customKeys.get(default_key, default_key)
             if key == "connection_string":
                 config_value = self.get_conn_str()
             else:
@@ -142,8 +142,10 @@ class PostgreSqlConnInfoHelper():
         connection = ConnectionType.SECRET
         
         configs = []
+        print(customKeys)
         for key, default_key, is_secret in CONFIGURATION_NAMES[ResourceType.AZURE_POSTGRESQL_DB][connection][self.client_type]:
             config_key = customKeys.get(key, default_key)
+            print(config_key, key, default_key)
             if key == "connection_string":
                 config_value = self.get_conn_str()
             else:
