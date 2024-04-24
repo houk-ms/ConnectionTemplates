@@ -32,8 +32,13 @@ class TargetResourceEngine(BaseResourceEngine):
     def _get_app_settings(self, configs: list[tuple]):
         app_settings = []
         for app_setting_key, value, is_secret in configs:
-            app_settings.append(
-                (AppSetting(AppSettingType.KeyValue, app_setting_key, "\"{}\"".format(value)), is_secret)
-            )
+            if is_secret:
+                app_settings.append(
+                    (AppSetting(AppSettingType.SecretReference, app_setting_key, "\"{}\"".format(value)), is_secret)
+                )
+            else:
+                app_settings.append(
+                    (AppSetting(AppSettingType.KeyValue, app_setting_key, "\"{}\"".format(value)), is_secret)
+                )
         return app_settings
         

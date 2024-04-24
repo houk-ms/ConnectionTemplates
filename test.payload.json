@@ -12,6 +12,14 @@
 		]
 	  },
 	  {
+		"type": "azurecontainerapp",
+		"instances": [
+		  {
+			"name": "aca1"
+		  }
+		]
+	  },
+	  {
 		"type": "azuremysqldatabase",
 		"instances": [
 		  {
@@ -118,6 +126,14 @@
 			"source": "${azureappservice.app1}",
 			"target": "${azurecosmosdb.cosmos1}",
 			"connection": "secret"
+		},
+		{
+			"source": "${azurecontainerapp.aca1}",
+			"target": "${azuremysqldatabase.mysql1}",
+			"connection": "secret",
+			"customkeys": {
+				"AZURE_MYSQL_HOST": "pyhost"
+			}
 		}
 		
 	],
@@ -130,6 +146,11 @@
 		{
 			"host": "${azureappservice.app2}",
 			"language": "js",
+			"project": "."
+		},
+		{
+			"host": "${azurecontainerapp.aca1}",
+			"language": "python",
 			"project": "."
 		}
 	  ]
