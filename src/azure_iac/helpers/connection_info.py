@@ -202,22 +202,36 @@ class CosmosConnInfoHelper():
         self.client_type = get_client_type(language)
         self.connection_string = connection_string
         self.resource_endpoint = resource_endpoint
-        self.scope = "https://management.azure.com/.default"
 
     def get_configs(self, customKeys: dict, connection: ConnectionType) -> list[tuple]:
         configs = []
-        if connection == ConnectionType.SECRET:
-            for key, default_key, is_secret in CONFIGURATION_NAMES[ResourceType.AZURE_COSMOS_DB][connection][self.client_type]:
-                config_key = customKeys.get(default_key, default_key)
-                config_value = getattr(self, key)
-            configs.append((config_key, config_value, is_secret))
-        
-        elif connection == ConnectionType.SYSTEMIDENTITY:
-            for key, default_key, is_secret in CONFIGURATION_NAMES[ResourceType.AZURE_COSMOS_DB][connection][self.client_type]:
-                config_key = customKeys.get(default_key, default_key)
-                config_value = getattr(self, key)
-            configs.append((config_key, config_value, is_secret))
-        else:
+        if connection != ConnectionType.SYSTEMIDENTITY and connection != ConnectionType.SECRET:
             print('Warning: Binding connection type {} is not supported for Comos DB')
+        
+        for key, default_key, is_secret in CONFIGURATION_NAMES[ResourceType.AZURE_COSMOS_DB][connection][self.client_type]:
+            config_key = customKeys.get(default_key, default_key)
+            config_value = getattr(self, key)
+            configs.append((config_key, config_value, is_secret))
+
+        return configs
+
+class StorageConnInfoHelper():
+    def __init__(self, language: str, connection_string=None, blob_endpoint=None, table_endpoint=None, queue_endpoint=None, file_endpoint=None):
+        self.client_type = get_client_type(language)
+        self.connection_string = connection_string
+        self.blob_endpoint = blob_endpoint
+        self.table_endpoint = table_endpoint
+        self.queue_endpoint = queue_endpoint
+        self.file_endpoint = file_endpoint
+
+    def get_configs(self, customKeys: dict, connection: ConnectionType) -> list[tuple]:
+        configs = []
+        if connection != ConnectionType.SYSTEMIDENTITY and connection != ConnectionType.SECRET:
+            print('Warning: Binding connection type {} is not supported for Storage Account')
+        
+        for key, default_key, is_secret in CONFIGURATION_NAMES[ResourceType.AZURE_STORAGE_ACCOUNT][connection][self.client_type]:
+            config_key = customKeys.get(default_key, default_key)
+            config_value = getattr(self, key)
+            configs.append((config_key, config_value, is_secret))
 
         return configs

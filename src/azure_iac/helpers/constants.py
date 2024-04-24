@@ -127,36 +127,76 @@ CONFIGURATION_NAMES = {
 		},
 		ConnectionType.SYSTEMIDENTITY: {
 			ClientType.PYTHON: [
-				("list_connection_string_url", "AZURE_COSMOS_LISTCONNECTIONSTRINGURL", False),
 			    ("resource_endpoint", "AZURE_COSMOS_RESOURCEENDPOINT", False),
-			    ("scope", "AZURE_COSMOS_SCOPE", False)
             ],
             ClientType.NODE: [
-                ("list_connection_string_url", "AZURE_COSMOS_LISTCONNECTIONSTRINGURL", False),
-                ("resource_endpoint", "AZURE_COSMOS_RESOURCEENDPOINT", False),                
-                ("scope", "AZURE_COSMOS_SCOPE", False)
+                ("resource_endpoint", "AZURE_COSMOS_RESOURCEENDPOINT", False),
             ],
             ClientType.JAVA: [
-                ("list_connection_string_url", "AZURE_COSMOS_LISTCONNECTIONSTRINGURL", False),
                 ("resource_endpoint", "AZURE_COSMOS_RESOURCEENDPOINT", False),
-                ("scope", "AZURE_COSMOS_SCOPE", False)
             ],
             ClientType.DOTNET: [
-                ("list_connection_string_url", "AZURE_COSMOS_LISTCONNECTIONSTRINGURL", False),
                 ("resource_endpoint", "AZURE_COSMOS_RESOURCEENDPOINT", False),
-                ("scope", "AZURE_COSMOS_SCOPE", False)
             ],
             ClientType.DEFAULT: [
-                ("list_connection_string_url", "AZURE_COSMOS_LISTCONNECTIONSTRINGURL", False),
                 ("resource_endpoint", "AZURE_COSMOS_RESOURCEENDPOINT", False),
-                ("scope", "AZURE_COSMOS_SCOPE", False)
             ]
         }
 	},
     ResourceType.AZURE_FUNCTION_APP: {},
     ResourceType.AZURE_KEYVAULT: {},
     ResourceType.AZURE_REDIS_CACHE: {},
-    ResourceType.AZURE_STORAGE_ACCOUNT: {},
+    ResourceType.AZURE_STORAGE_ACCOUNT: {
+		ConnectionType.SECRET: {
+			ClientType.PYTHON: [
+                ('connection_string', 'AZURE_STORAGEACCOUNT_CONNECTIONSTRING', True)
+            ],
+            ClientType.NODE: [
+                ('connection_string', 'AZURE_STORAGEACCOUNT_CONNECTIONSTRING', True)
+            ],
+            ClientType.JAVA: [
+                ('connection_string', 'AZURE_STORAGEACCOUNT_CONNECTIONSTRING', True)
+            ],
+            ClientType.DOTNET: [
+                ('connection_string', 'AZURE_STORAGEACCOUNT_CONNECTIONSTRING', True)
+            ],
+            ClientType.DEFAULT: [
+                ('connection_string', 'AZURE_STORAGEACCOUNT_CONNECTIONSTRING', True)
+            ]
+		},
+		ConnectionType.SYSTEMIDENTITY: {
+			ClientType.PYTHON: [
+			    ("blob_endpoint", "AZURE_STORAGEACCOUNT_BLOBENDPOINT", False),
+				("table_endpoint", "AZURE_STORAGEACCOUNT_TABLEENDPOINT", False),
+				("queue_endpoint", "AZURE_STORAGEACCOUNT_QUEUEENDPOINT", False),
+				("file_endpoint", "AZURE_STORAGEACCOUNT_FILEENDPOINT", False),
+            ],
+            ClientType.NODE: [
+                ("blob_endpoint", "AZURE_STORAGEACCOUNT_BLOBENDPOINT", False),
+				("table_endpoint", "AZURE_STORAGEACCOUNT_TABLEENDPOINT", False),
+				("queue_endpoint", "AZURE_STORAGEACCOUNT_QUEUEENDPOINT", False),
+				("file_endpoint", "AZURE_STORAGEACCOUNT_FILEENDPOINT", False),
+            ],
+            ClientType.JAVA: [
+                ("blob_endpoint", "AZURE_STORAGEACCOUNT_BLOBENDPOINT", False),
+				("table_endpoint", "AZURE_STORAGEACCOUNT_TABLEENDPOINT", False),
+				("queue_endpoint", "AZURE_STORAGEACCOUNT_QUEUEENDPOINT", False),
+				("file_endpoint", "AZURE_STORAGEACCOUNT_FILEENDPOINT", False),
+            ],
+            ClientType.DOTNET: [
+                ("blob_endpoint", "AZURE_STORAGEACCOUNT_BLOBENDPOINT", False),
+				("table_endpoint", "AZURE_STORAGEACCOUNT_TABLEENDPOINT", False),
+				("queue_endpoint", "AZURE_STORAGEACCOUNT_QUEUEENDPOINT", False),
+				("file_endpoint", "AZURE_STORAGEACCOUNT_FILEENDPOINT", False),
+            ],
+            ClientType.DEFAULT: [
+                ("blob_endpoint", "AZURE_STORAGEACCOUNT_BLOBENDPOINT", False),
+				("table_endpoint", "AZURE_STORAGEACCOUNT_TABLEENDPOINT", False),
+				("queue_endpoint", "AZURE_STORAGEACCOUNT_QUEUEENDPOINT", False),
+				("file_endpoint", "AZURE_STORAGEACCOUNT_FILEENDPOINT", False),
+            ]
+        }
+    },
     ResourceType.AZURE_SERVICE_BUS: {},
     ResourceType.AZURE_STATIC_WEB_APP: {},
 	ResourceType.AZURE_SQL_DB: {

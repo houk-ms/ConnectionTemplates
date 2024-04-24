@@ -39,15 +39,19 @@ class CosmosDbEngine(TargetResourceEngine):
 
     # return the app settings needed by identity connection
     def get_app_settings_identity(self, binding: Binding) -> List[tuple]:
-        return [
-            AppSetting(AppSettingType.KeyValue, 'AZURE_COSMOS_RESOURCEENDPOINT', 
-                       'azurerm_cosmosdb_account.{}.endpoint'.format(self.module_name))
-        ]
+        connInfoHelper = CosmosConnInfoHelper("" if binding.source.service is None else binding.source.service['language'],
+                                              connection_string=None,
+                                              resource_endpoint='azurerm_cosmosdb_account.{}.endpoint'.format(self.module_name)
+                                              )
+        configs = connInfoHelper.get_configs({} if binding.customKeys is None else binding.customKeys,
+                                             binding.connection)
+        return self._get_app_settings(configs)
 
     # return the app settings needed by secret connection
     def get_app_settings_secret(self, binding: Binding) -> List[tuple]:
         connInfoHelper = CosmosConnInfoHelper("" if binding.source.service is None else binding.source.service['language'],
                                               connection_string='azurerm_cosmosdb_account.{}.primary_mongodb_connection_string'.format(self.module_name)
                                               )
-        configs = connInfoHelper.get_configs({} if binding.customKeys is None else binding.customKeys, binding.connection)
+        configs = connInfoHelper.get_configs({} if binding.customKeys is None else binding.customKeys,
+                                             binding.connection)
         return self._get_app_settings(configs)

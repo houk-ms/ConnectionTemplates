@@ -155,7 +155,10 @@
 		},
 		{
 			"source":"${azureappservice.app2}",
-			"target":"${azurecosmosdb.cosmos2}"
+			"target":"${azurecosmosdb.cosmos2}",
+			"customKeys": {
+				"AZURE_COSMOS_RESOURCEENDPOINT": "cosmosresourceendpoint"
+			}
 		},
 		{
 			"source":"${azureappservice.app2}",
@@ -165,12 +168,17 @@
 		{
 			"source":"${azureappservice.app1}",
 			"target":"${azurestorageaccount.storage1}",
-			"connection":"secret"
+			"connection":"secret",
+			"customKeys": {
+				"AZURE_STORAGEACCOUNT_CONNECTIONSTRING": "storageconnstr"
+			}
 		},
 		{
 			"source":"${azureappservice.app2}",
 			"target":"${azurestorageaccount.storage2}",
-			"connection":"secret"
+			"customKeys": {
+				"AZURE_STORAGEACCOUNT_BLOBENDPOINT": "blobendpoint"
+			}
 		}
 		
 	],
