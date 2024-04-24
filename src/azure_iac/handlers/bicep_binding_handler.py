@@ -14,13 +14,12 @@ class BicepBindingHandler():
                  target_engine: TargetResourceEngine,
                  store_engine: StoreResourceEngine,
                  setting_engine: SettingResourceEngine,
-                 language: str):
+                 ):
         self.binding = binding
         self.source_engine = source_engine
         self.target_engine = target_engine
         self.store_engine = store_engine
         self.setting_engine = setting_engine
-        self.language = language
 
 
     def process_engines(self):
@@ -58,7 +57,7 @@ class BicepBindingHandler():
 
             # setting engine depends on store engine
             self.setting_engine.add_dependency_engine(self.target_engine)
-            app_settings = self.target_engine.get_app_settings_secret(self.binding, self.language)
+            app_settings = self.target_engine.get_app_settings_secret(self.binding)
             self.setting_engine.add_app_settings(app_settings)
         
         elif self.binding.connection == ConnectionType.BOTREGISTRATION:

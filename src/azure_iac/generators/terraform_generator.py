@@ -121,8 +121,7 @@ class TerraformGenerator(BaseGenerator):
                 self._get_resource_engine_by_resource(binding.target), 
                 self._get_role_engine_by_resource(binding.target),
                 self._get_firewall_engine_by_resource(binding.target),
-                self._get_key_vault_secret_engine_by_resource(binding.target),
-                self._get_language_by_resouce(binding.source))
+                self._get_key_vault_secret_engine_by_resource(binding.target))
             binding_handler.process_engines()
 
 
@@ -194,12 +193,6 @@ class TerraformGenerator(BaseGenerator):
         for engine in self.key_vault_secret_engines:
             if engine.resource == resource:
                 return engine
-        return None
-    
-    def _get_language_by_resouce(self, resource: Resource):
-        for service in self.payload.services:
-            if service.name == resource.name:
-                return service.language
         return None
     
     def _dedup_engines_by_name(self, engine_list):

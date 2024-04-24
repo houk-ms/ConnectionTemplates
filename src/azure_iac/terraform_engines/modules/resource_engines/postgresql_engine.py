@@ -48,8 +48,8 @@ class PostgreSqlDbEngine(TargetResourceEngine):
         return None
 
     # return the app settings needed by secret connection
-    def get_app_settings_secret(self, binding: Binding, language="") -> List[tuple]:
-        connInfoHelper = PostgreSqlConnInfoHelper(language,
+    def get_app_settings_secret(self, binding: Binding) -> List[tuple]:
+        connInfoHelper = PostgreSqlConnInfoHelper("" if binding.source.service is None else binding.source.service['language'],
                                              server=self.module_params_name,
                                              user=self.module_params_administrator_login,
                                              password=self.module_params_administrator_login_password,

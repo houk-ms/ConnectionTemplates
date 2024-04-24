@@ -50,7 +50,7 @@ class StorageAccountEngine(TargetResourceEngine):
         ]
     
     # return the app settings needed by secret connection
-    def get_app_settings_secret(self, binding: Binding, language: str) -> List[tuple]:
+    def get_app_settings_secret(self, binding: Binding) -> List[tuple]:
         # TODO: support key names for multiple targets of same type
         app_setting_key = binding.key if binding.key else 'AZURE_STORAGE_CONNECTIONSTRING'
 

@@ -40,7 +40,7 @@ class ApplicationInsightsEngine(TargetResourceEngine):
         ]
     
     # return the app settings needed by secret connection
-    def get_app_settings_secret(self, binding: Binding, language: str) -> List[AppSetting]:
+    def get_app_settings_secret(self, binding: Binding) -> List[AppSetting]:
         app_setting_key = binding.key if binding.key else 'AZURE_APPINSIGHTS_CONNECTIONSTRING'
         
         # ikey connection string can be either saved as key value or secret

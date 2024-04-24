@@ -41,7 +41,7 @@ class TargetResourceEngine(BaseResourceEngine):
         raise NotImplementedError('Resource engine {} does not implement the method'.format(self.__class__.__name__))
     
     # return the app settings needed by secret connection
-    def get_app_settings_secret(self, binding: Binding, language: str) -> List[AppSetting]:
+    def get_app_settings_secret(self, binding: Binding) -> List[AppSetting]:
         raise NotImplementedError('Resource engine {} does not implement the method'.format(self.__class__.__name__))
     
     def _get_app_settings(self, configs: list[tuple]) -> List[AppSetting]:

@@ -22,15 +22,14 @@ class TerraformBindingHandler():
                  target_engine: TargetResourceEngine,
                  role_engine: RoleResourceEngine,
                  firewall_engine: FirewallResourceEngine,
-                 key_vault_secret_engine: KeyVaultSecretEngine,
-                 language: str):
+                 key_vault_secret_engine: KeyVaultSecretEngine
+                 ):
         self.binding = binding
         self.source_engine = source_engine
         self.target_engine = target_engine
         self.role_engine = role_engine
         self.firewall_engine = firewall_engine
         self.key_vault_secret_engine = key_vault_secret_engine
-        self.language = language
 
 
     def process_engines(self):
@@ -67,7 +66,7 @@ class TerraformBindingHandler():
             # source engine depends on target engine (--> app settings)
             self.source_engine.add_dependency_engine(self.target_engine)
             if self.binding.target.type in UPDATED_RESOURCES:
-                app_settings = self.target_engine.get_app_settings_secret(self.binding, self.language)
+                app_settings = self.target_engine.get_app_settings_secret(self.binding)
                 if self.binding.store is not None and self.key_vault_secret_engine is not None:
                     self.key_vault_secret_engine.set_key_vault_secret_and_id(app_settings, self.binding)
             else:
@@ -75,7 +74,7 @@ class TerraformBindingHandler():
                     self.key_vault_secret_engine.set_key_vault_secret(self.binding, self.target_engine)
                     app_settings = self.key_vault_secret_engine.get_app_settings()
                 else:
-                    app_settings = self.target_engine.get_app_settings_secret(self.binding, self.language)
+                    app_settings = self.target_engine.get_app_settings_secret(self.binding)
             self.source_engine.add_app_settings(app_settings)
             
             # firewall engine depends on source engine (--> outbound ips)
