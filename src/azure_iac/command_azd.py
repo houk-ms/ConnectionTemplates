@@ -3,6 +3,7 @@ import sys
 sys.path.append(os.path.abspath('../'))
 import json
 from azure_iac.payloads.payload import Payload
+from azure_iac.payloads.models.project_type import ProjectType
 from azure_iac.generators.bicep_generator import BicepGenerator
 from azure_iac.generators.azure_yaml_generator import AzureYamlGenerator
 from azure_iac.generators.dot_env_generator import DotEnvGenerator
@@ -17,6 +18,9 @@ class CommandAzd:
         input_json = json.loads(content)
 
         payload = Payload.from_json(input_json)
+        if 'projectType' not in input_json:
+            payload.projectType = ProjectType.AZD
+
         bicep_generator = BicepGenerator(payload)
         bicep_generator.generate(output_path+'/infra')
 
