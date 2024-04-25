@@ -8,6 +8,9 @@
 		  },
 		  {
 			"name": "app2"
+		  },
+		  {
+			"name": "app3"
 		  }
 		]
 	  },
@@ -90,6 +93,17 @@
 		  },
 		  {
 			"name": "servicebus2"
+		  }
+		]
+	  },
+	  {
+		"type": "azurecacheforredis",
+		"instances": [
+		  {
+			"name": "redis1"
+		  },
+		  {
+			"name": "redis2"
 		  }
 		]
 	  }
@@ -207,6 +221,22 @@
 				"AZURE_SERVICEBUS_CONNECTIONSTRING": "servicebusconnstr"
 			},
 			"store":"${azurekeyvault.kv1}"
+		},
+		{
+			"source":"${azureappservice.app1}",
+			"target":"${azurecacheforredis.redis1}",
+			"customKeys": {
+				"AZURE_REDIS_CONNECTIONSTRING": "redisconnstr"
+			},
+			"store":"${azurekeyvault.kv1}"
+		},
+		{
+			"source":"${azureappservice.app2}",
+			"target":"${azurecacheforredis.redis2}"
+		},
+		{
+			"source":"${azureappservice.app3}",
+			"target":"${azurecacheforredis.redis1}"
 		}
 		
 	],
@@ -219,6 +249,11 @@
 		{
 			"host": "${azureappservice.app2}",
 			"language": "js",
+			"project": "."
+		},
+		{
+			"host": "${azureappservice.app3}",
+			"language": "fsharp",
 			"project": "."
 		},
 		{

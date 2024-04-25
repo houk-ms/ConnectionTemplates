@@ -253,3 +253,31 @@ class ServiceBusConnInfoHelper():
             configs.append((config_key, config_value, is_secret))
 
         return configs
+
+class RedisConnInfoHelper():
+    def __init__(self, language: str, connection_string="", host: str="", password:str="", database:str="", port = "6380"):
+        self.client_type = get_client_type(language)
+        self.connection_string = connection_string
+        self.host = host
+        self.password = password
+        self.database = database
+        self.port = port
+        self.ssl = "true"
+
+    def get_configs(self, customKeys: dict, connection: ConnectionType, iac_type:str) -> list[tuple]:
+        if connection not in CONFIGURATION_NAMES[ResourceType.AZURE_REDIS_CACHE].keys():
+            print('Warning: Binding connection type {} is not supported for Redis Cache')
+
+        configs = []
+        # for bicep, attribites are generated inside the template, 
+        # which cannot be passed as a parameter to construct the connection string
+        if iac_type == "bicep":
+            print('Warning: IaC generator does not support Redis Cache connection string generation for Bicep. Use AZURE_REDIS_KEY instead')
+            configs.append(("AZURE_REDIS_KEY", "", True))
+            return configs
+        for key, default_key, is_secret in CONFIGURATION_NAMES[ResourceType.AZURE_REDIS_CACHE][connection][self.client_type]:
+            config_key = customKeys.get(default_key, default_key)
+            config_value = getattr(self, key)
+            configs.append((config_key, config_value, is_secret))
+
+        return configs

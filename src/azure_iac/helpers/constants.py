@@ -145,7 +145,29 @@ CONFIGURATION_NAMES = {
 	},
     ResourceType.AZURE_FUNCTION_APP: {},
     ResourceType.AZURE_KEYVAULT: {},
-    ResourceType.AZURE_REDIS_CACHE: {},
+    ResourceType.AZURE_REDIS_CACHE: {
+		ConnectionType.SECRET: {
+			ClientType.PYTHON: [
+                ('connection_string', 'AZURE_REDIS_CONNECTIONSTRING', True)
+            ],
+            ClientType.NODE: [
+                ('connection_string', 'AZURE_REDIS_CONNECTIONSTRING', True)
+            ],
+            ClientType.JAVA: [
+                ('connection_string', 'AZURE_REDIS_CONNECTIONSTRING', True)
+            ],
+            ClientType.DOTNET: [
+                ('connection_string', 'AZURE_REDIS_CONNECTIONSTRING', True)
+            ],
+            ClientType.DEFAULT: [
+                ('host', 'AZURE_REDIS_HOST', False),
+				('database', 'AZURE_REDIS_DATABASE', False),
+				('password', 'AZURE_REDIS_PASSWORD', True),
+				('port', 'AZURE_REDIS_PORT', False),
+				('ssl', 'AZURE_REDIS_SSL', False)
+            ]
+		}
+	},
     ResourceType.AZURE_STORAGE_ACCOUNT: {
 		ConnectionType.SECRET: {
 			ClientType.PYTHON: [

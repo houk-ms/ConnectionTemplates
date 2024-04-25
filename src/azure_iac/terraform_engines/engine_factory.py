@@ -23,6 +23,8 @@ from azure_iac.terraform_engines.modules.resource_engines.postgresql_engine impo
 from azure_iac.terraform_engines.modules.resource_engines.postgresql_firewall_engine import PostgreSqlDbFirewallEngine
 from azure_iac.terraform_engines.modules.resource_engines.sql_engine import SqlDbEngine
 from azure_iac.terraform_engines.modules.resource_engines.sql_firewall_engine import SqlDbFirewallEngine
+from azure_iac.terraform_engines.modules.resource_engines.redis_engine import RedisEngine
+from azure_iac.terraform_engines.modules.resource_engines.redis_firewall_engine import RedisFirewallEngine
 
 
 RESOURCE_ENGINES = {
@@ -41,6 +43,7 @@ RESOURCE_ENGINES = {
     ResourceType.AZURE_MYSQL_DB: MySqlDbEngine,
     ResourceType.AZURE_POSTGRESQL_DB: PostgreSqlDbEngine,
     ResourceType.AZURE_SQL_DB: SqlDbEngine,
+    ResourceType.AZURE_REDIS_CACHE: RedisEngine,
 }
 
 FIREWALL_ENGINES = {
@@ -49,6 +52,7 @@ FIREWALL_ENGINES = {
     ResourceType.AZURE_MYSQL_DB: MySqlDbFirewallEngine,
     ResourceType.AZURE_POSTGRESQL_DB: PostgreSqlDbFirewallEngine,
     ResourceType.AZURE_SQL_DB: SqlDbFirewallEngine,
+    ResourceType.AZURE_REDIS_CACHE: RedisFirewallEngine,
 }
 
 def get_resource_engine_from_type(resource_type: ResourceType):

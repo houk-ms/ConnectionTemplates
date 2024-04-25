@@ -12,7 +12,7 @@ from azure_iac.terraform_engines.modules.resource_engines.keyvaultsecret_engine 
 
 class TerraformBindingHandler():
 
-    ALLOW_AZURE_RESOURCES = [ResourceType.AZURE_POSTGRESQL_DB, ResourceType.AZURE_SQL_DB, ResourceType.AZURE_MYSQL_DB]
+    ALLOW_AZURE_RESOURCES = [ResourceType.AZURE_POSTGRESQL_DB, ResourceType.AZURE_SQL_DB, ResourceType.AZURE_MYSQL_DB, ResourceType.AZURE_REDIS_CACHE]
 
     def __init__(self, 
                  binding: Binding, 
