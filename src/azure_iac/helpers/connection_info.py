@@ -43,7 +43,7 @@ class MySqlConnInfoHelper():
 
 	# return (config_key, value, is_secret)
     def get_configs(self, customKeys: dict, connection: ConnectionType, iac_type: str) -> list[tuple]:
-        if connection != ConnectionType.SECRET:
+        if connection not in CONFIGURATION_NAMES[ResourceType.AZURE_MYSQL_DB].keys():
             print('Warning: Binding connection type {} is not supported for MySQL, using secret', connection) 
 
         connection = ConnectionType.SECRET
@@ -91,7 +91,7 @@ class SqlConnInfoHelper():
         self.port = port
 
     def get_configs(self, customKeys: dict, connection: ConnectionType, iac_type: str) -> list[tuple]:
-        if connection != ConnectionType.SECRET:
+        if connection not in CONFIGURATION_NAMES[ResourceType.AZURE_SQL_DB].keys():
             print('Warning: Binding connection type {} is not supported for SQL, using secret', connection)
         
         connection = ConnectionType.SECRET
@@ -137,7 +137,6 @@ class SqlConnInfoHelper():
         else:
             raise ValueError("Invalid client type for SQL Server connection string generation.")
 
-
 class PostgreSqlConnInfoHelper():
     def __init__(self, language: str, server: str, user: str, password: str, database: str, port = "5432"):
         self.client_type = get_client_type(language)
@@ -149,7 +148,7 @@ class PostgreSqlConnInfoHelper():
         self.ssl = "Require"
 	
     def get_configs(self, customKeys: dict, connection: ConnectionType, iac_type: str) -> list[tuple]:
-        if connection != ConnectionType.SECRET:
+        if connection not in CONFIGURATION_NAMES[ResourceType.AZURE_POSTGRESQL_DB].keys():
             print('Warning: Binding connection type {} is not supported for PostgreSQL, using secret', connection)
         
         connection = ConnectionType.SECRET
@@ -204,10 +203,11 @@ class CosmosConnInfoHelper():
         self.resource_endpoint = resource_endpoint
 
     def get_configs(self, customKeys: dict, connection: ConnectionType) -> list[tuple]:
-        configs = []
-        if connection != ConnectionType.SYSTEMIDENTITY and connection != ConnectionType.SECRET:
+        if connection not in CONFIGURATION_NAMES[ResourceType.AZURE_COSMOS_DB].keys():
             print('Warning: Binding connection type {} is not supported for Comos DB')
-        
+
+        configs = []
+
         for key, default_key, is_secret in CONFIGURATION_NAMES[ResourceType.AZURE_COSMOS_DB][connection][self.client_type]:
             config_key = customKeys.get(default_key, default_key)
             config_value = getattr(self, key)
@@ -225,11 +225,29 @@ class StorageConnInfoHelper():
         self.file_endpoint = file_endpoint
 
     def get_configs(self, customKeys: dict, connection: ConnectionType) -> list[tuple]:
-        configs = []
-        if connection != ConnectionType.SYSTEMIDENTITY and connection != ConnectionType.SECRET:
+        if connection not in CONFIGURATION_NAMES[ResourceType.AZURE_STORAGE_ACCOUNT].keys():
             print('Warning: Binding connection type {} is not supported for Storage Account')
-        
+
+        configs = []
         for key, default_key, is_secret in CONFIGURATION_NAMES[ResourceType.AZURE_STORAGE_ACCOUNT][connection][self.client_type]:
+            config_key = customKeys.get(default_key, default_key)
+            config_value = getattr(self, key)
+            configs.append((config_key, config_value, is_secret))
+
+        return configs
+
+class ServiceBusConnInfoHelper():
+    def __init__(self, language: str, connection_string=None, namespace=None):
+        self.client_type = get_client_type(language)
+        self.connection_string = connection_string
+        self.namespace = namespace
+
+    def get_configs(self, customKeys: dict, connection: ConnectionType) -> list[tuple]:
+        if connection not in CONFIGURATION_NAMES[ResourceType.AZURE_SERVICE_BUS].keys():
+            print('Warning: Binding connection type {} is not supported for Service Bus')
+
+        configs = []
+        for key, default_key, is_secret in CONFIGURATION_NAMES[ResourceType.AZURE_SERVICE_BUS][connection][self.client_type]:
             config_key = customKeys.get(default_key, default_key)
             config_value = getattr(self, key)
             configs.append((config_key, config_value, is_secret))

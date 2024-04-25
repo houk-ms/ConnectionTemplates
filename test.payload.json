@@ -81,6 +81,17 @@
 			"name": "storage2"
 		  }
 		]
+	  },
+	  {
+		"type": "azureservicebus",
+		"instances": [
+		  {
+			"name": "servicebus1"
+		  },
+		  {
+			"name": "servicebus2"
+		  }
+		]
 	  }
 	],
 	"bindings": [
@@ -171,7 +182,8 @@
 			"connection":"secret",
 			"customKeys": {
 				"AZURE_STORAGEACCOUNT_CONNECTIONSTRING": "storageconnstr"
-			}
+			},
+			"store":"${azurekeyvault.kv1}"
 		},
 		{
 			"source":"${azureappservice.app2}",
@@ -179,6 +191,22 @@
 			"customKeys": {
 				"AZURE_STORAGEACCOUNT_BLOBENDPOINT": "blobendpoint"
 			}
+		},
+		{
+			"source":"${azureappservice.app1}",
+			"target":"${azureservicebus.servicebus1}",
+			"customKeys":{
+				"AZURE_SERVICEBUS_FULLYQUALIFIEDNAMESPACE": "servicebusfqns"
+			}
+		},
+		{
+			"source":"${azureappservice.app2}",
+			"target":"${azureservicebus.servicebus2}",
+			"connection":"secret",
+			"customKeys": {
+				"AZURE_SERVICEBUS_CONNECTIONSTRING": "servicebusconnstr"
+			},
+			"store":"${azurekeyvault.kv1}"
 		}
 		
 	],

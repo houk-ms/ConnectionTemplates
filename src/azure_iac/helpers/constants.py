@@ -197,7 +197,42 @@ CONFIGURATION_NAMES = {
             ]
         }
     },
-    ResourceType.AZURE_SERVICE_BUS: {},
+    ResourceType.AZURE_SERVICE_BUS: {
+		ConnectionType.SECRET: {
+			ClientType.PYTHON: [
+                ('connection_string', 'AZURE_SERVICEBUS_CONNECTIONSTRING', True)
+            ],
+            ClientType.NODE: [
+                ('connection_string', 'AZURE_SERVICEBUS_CONNECTIONSTRING', True)
+            ],
+            ClientType.JAVA: [
+                ('connection_string', 'AZURE_SERVICEBUS_CONNECTIONSTRING', True)
+            ],
+            ClientType.DOTNET: [
+                ('connection_string', 'AZURE_SERVICEBUS_CONNECTIONSTRING', True)
+            ],
+            ClientType.DEFAULT: [
+                ('connection_string', 'AZURE_SERVICEBUS_CONNECTIONSTRING', True)
+            ]
+		},
+		ConnectionType.SYSTEMIDENTITY: {
+			ClientType.PYTHON: [
+			    ("namespace", "AZURE_SERVICEBUS_FULLYQUALIFIEDNAMESPACE", False),
+            ],
+            ClientType.NODE: [
+                ("namespace", "AZURE_SERVICEBUS_FULLYQUALIFIEDNAMESPACE", False),
+            ],
+            ClientType.JAVA: [
+                ("namespace", "AZURE_SERVICEBUS_FULLYQUALIFIEDNAMESPACE", False),
+            ],
+            ClientType.DOTNET: [
+                ("namespace", "AZURE_SERVICEBUS_FULLYQUALIFIEDNAMESPACE", False),
+            ],
+            ClientType.DEFAULT: [
+                ("namespace", "AZURE_SERVICEBUS_FULLYQUALIFIEDNAMESPACE", False),
+            ]
+        }
+	},
     ResourceType.AZURE_STATIC_WEB_APP: {},
 	ResourceType.AZURE_SQL_DB: {
 		ConnectionType.SECRET: {
