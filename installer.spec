@@ -4,8 +4,8 @@
 
 block_cipher = None
 
-a = Analysis(['./src/azure_iac/command.py'],
-             pathex=['./src/azure_iac/command.py'],
+a = Analysis(['./src/azure_iac/command_azd.py'],
+             pathex=['./src/azure_iac/command_azd.py'],
              binaries=[],
              datas=[
                 ('./src/azure_iac/bicep_templates', 'bicep_templates'), 
