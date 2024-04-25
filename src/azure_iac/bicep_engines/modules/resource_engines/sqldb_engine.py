@@ -33,9 +33,9 @@ class SqlDbEngine(TargetResourceEngine):
         self.main_params = [
             ('location', 'string', string_helper.get_location(), False),
             (self.module_params_name, 'string', params_name),
-            (self.module_params_admin_name, 'string', "administrator_" + params_name),
+            (self.module_params_admin_name, 'string', "admin_" + '${resourceToken}'),
             (self.module_params_password, 'string', "\'Aa0!${newGuid()}\'", False, True),
-            (self.module_params_database_name, 'string', "database_" + params_name)
+            (self.module_params_database_name, 'string', "db_" + '${resourceToken}')
         ]
         self.main_outputs = [
             (string_helper.format_camel('sql', self.resource.name, "Id"), 

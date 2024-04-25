@@ -38,6 +38,9 @@
 		"instances": [
 		  {
 			"name": "kv1"
+		  },
+		  {
+			"name": "kv2"
 		  }
 		]
 	  },
@@ -237,6 +240,20 @@
 		{
 			"source":"${azureappservice.app3}",
 			"target":"${azurecacheforredis.redis1}"
+		},
+		{
+			"source":"${azureappservice.app3}",
+			"target":"${azurekeyvault.kv2}",
+			"customKeys":{
+				"AZURE_KEYVAULT_RESOURCEENDPOINT": "kvresourceendpoint"
+			}
+		},
+		{
+			"source":"${azureappservice.app3}",
+			"target": "${azurecontainerapp.aca1}",
+			"customKeys":{
+				"SERVICE_URL":"acaurl"
+			}
 		}
 		
 	],

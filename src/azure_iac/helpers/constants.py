@@ -103,10 +103,27 @@ class SQL_CONSTANTS(Enum):
 # Default configuration names for bindings per target, auth type and client type
 # (attr, config_key, is_secret)
 CONFIGURATION_NAMES = {
-    ResourceType.AZURE_APP_SERVICE: {},
+    "ComputeResource": {
+		ConnectionType.HTTP: {
+			ClientType.PYTHON: [
+			    ("request_url", "SERVICE_URL", False),
+            ],
+            ClientType.NODE: [
+                ("request_url", "SERVICE_URL", False),
+            ],
+            ClientType.JAVA: [
+                ("request_url", "SERVICE_URL", False),
+            ],
+            ClientType.DOTNET: [
+                ("request_url", "SERVICE_URL", False),
+            ],
+            ClientType.DEFAULT: [
+               ("request_url", "SERVICE_URL", False),
+            ]
+		}
+	},
     ResourceType.AZURE_APPLICATION_INSIGHTS: {},
     ResourceType.AZURE_BOT_SERVICE: {},
-    ResourceType.AZURE_CONTAINER_APP: {},
     ResourceType.AZURE_COSMOS_DB: {
 		ConnectionType.SECRET: {
 			ClientType.PYTHON: [
@@ -143,8 +160,25 @@ CONFIGURATION_NAMES = {
             ]
         }
 	},
-    ResourceType.AZURE_FUNCTION_APP: {},
-    ResourceType.AZURE_KEYVAULT: {},
+    ResourceType.AZURE_KEYVAULT: {
+		ConnectionType.SYSTEMIDENTITY: {
+			ClientType.PYTHON: [
+			    ("resource_endpoint", "AZURE_KEYVAULT_RESOURCEENDPOINT", False),
+            ],
+            ClientType.NODE: [
+                ("resource_endpoint", "AZURE_KEYVAULT_RESOURCEENDPOINT", False),
+            ],
+            ClientType.JAVA: [
+                ("resource_endpoint", "AZURE_KEYVAULT_RESOURCEENDPOINT", False),
+            ],
+            ClientType.DOTNET: [
+                ("resource_endpoint", "AZURE_KEYVAULT_RESOURCEENDPOINT", False),
+            ],
+            ClientType.DEFAULT: [
+                ("resource_endpoint", "AZURE_KEYVAULT_RESOURCEENDPOINT", False),
+            ]
+		}
+	},
     ResourceType.AZURE_REDIS_CACHE: {
 		ConnectionType.SECRET: {
 			ClientType.PYTHON: [
@@ -255,7 +289,6 @@ CONFIGURATION_NAMES = {
             ]
         }
 	},
-    ResourceType.AZURE_STATIC_WEB_APP: {},
 	ResourceType.AZURE_SQL_DB: {
 		ConnectionType.SECRET: {
 			ClientType.PYTHON: [

@@ -1,5 +1,6 @@
 from typing import List
 
+from azure_iac.helpers.connection_info import ComputeResourceConnInfoHelper
 from azure_iac.payloads.binding import Binding
 from azure_iac.payloads.resources.static_web_app import StaticWebAppResource
 
@@ -32,9 +33,11 @@ class StaticWebAppEngine(SourceResourceEngine, TargetResourceEngine):
         self.depend_engines = []
     
     def get_app_settings_http(self, binding: Binding) -> List[tuple]:
-        app_setting_key = binding.key if binding.key else 'SERVICE{}_URL'.format(self.resource.name.upper())
+        connInfoHelper = ComputeResourceConnInfoHelper("" if binding.source.service is None else binding.source.service['language'],
+                                                       request_url='azurerm_static_web_app.{}.default_host_name'.format(self.module_name),
+                                                       resource_name=self.resource.name
+                                                      )
+        configs = connInfoHelper.get_configs({} if binding.customKeys is None else binding.customKeys,
+                                             binding.connection)
         
-        return [
-            AppSetting(AppSettingType.KeyValue, app_setting_key,
-                'azurerm_static_web_app.{}.default_host_name'.format(self.module_name))
-        ]
+        return self._get_app_settings(configs)

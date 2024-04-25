@@ -1,5 +1,6 @@
 from typing import List
 
+from azure_iac.helpers.connection_info import KeyVaultConnInfoHelper
 from azure_iac.payloads.binding import Binding
 from azure_iac.payloads.resources.keyvault import KeyVaultResource
 
@@ -38,7 +39,10 @@ class KeyVaultEngine(TargetResourceEngine):
 
     # return the app settings needed by identity connection
     def get_app_settings_identity(self, binding: Binding) -> List[tuple]:
-        return [
-            AppSetting(AppSettingType.KeyValue, 'AZURE_KEYVAULT_RESOURCEENDPOINT', 
-                       'azurerm_key_vault.{}.vault_uri'.format(self.module_name))
-        ]
+        connInfoHelper = KeyVaultConnInfoHelper("" if binding.source.service is None else binding.source.service['language'],
+                                                resource_endpoint='azurerm_key_vault.{}.vault_uri'.format(self.module_name)
+                                               )
+        configs = connInfoHelper.get_configs({} if binding.customKeys is None else binding.customKeys,
+                                             binding.connection)
+        
+        return self._get_app_settings(configs)

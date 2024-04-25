@@ -44,7 +44,7 @@ class TargetResourceEngine(BaseResourceEngine):
     def get_app_settings_secret(self, binding: Binding) -> List[AppSetting]:
         raise NotImplementedError('Resource engine {} does not implement the method'.format(self.__class__.__name__))
     
-    def _get_app_settings(self, configs: list[tuple]) -> List[AppSetting]:
+    def _get_app_settings(self, configs: List[tuple]) -> List[AppSetting]:
         app_settings = []
         for app_setting_key, value, is_secret in configs:
             if is_secret:

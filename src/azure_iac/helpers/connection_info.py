@@ -1,4 +1,5 @@
 import re
+from typing import List
 from azure_iac.helpers.constants import ClientType, POSTGRESQL_CONSTANTS, MYSQL_CONSTANTS, SQL_CONSTANTS, CONFIGURATION_NAMES
 from azure_iac.payloads.models.connection_type import ConnectionType
 from azure_iac.payloads.models.resource_type import ResourceType
@@ -14,7 +15,7 @@ def get_client_type(language: str) -> ClientType:
         return ClientType.DOTNET
     return ClientType.DEFAULT
 
-def join_segments(segments: tuple[str], kv_separator = "=", separator = ";") -> str:
+def join_segments(segments: tuple, kv_separator = "=", separator = ";") -> str:
         conn_str_segs = []
         for key, value in segments:
             conn_str_segs.append(key + kv_separator + value)
@@ -42,7 +43,7 @@ class MySqlConnInfoHelper():
         self.ssl = "true" if self.client_type == ClientType.NODE else "Require"
 
 	# return (config_key, value, is_secret)
-    def get_configs(self, customKeys: dict, connection: ConnectionType, iac_type: str) -> list[tuple]:
+    def get_configs(self, customKeys: dict, connection: ConnectionType, iac_type: str) -> List[tuple]:
         if connection not in CONFIGURATION_NAMES[ResourceType.AZURE_MYSQL_DB].keys():
             print('Warning: Binding connection type {} is not supported for MySQL, using secret', connection) 
 
@@ -90,7 +91,7 @@ class SqlConnInfoHelper():
         self.database = database
         self.port = port
 
-    def get_configs(self, customKeys: dict, connection: ConnectionType, iac_type: str) -> list[tuple]:
+    def get_configs(self, customKeys: dict, connection: ConnectionType, iac_type: str) -> List[tuple]:
         if connection not in CONFIGURATION_NAMES[ResourceType.AZURE_SQL_DB].keys():
             print('Warning: Binding connection type {} is not supported for SQL, using secret', connection)
         
@@ -147,7 +148,7 @@ class PostgreSqlConnInfoHelper():
         self.port = port
         self.ssl = "Require"
 	
-    def get_configs(self, customKeys: dict, connection: ConnectionType, iac_type: str) -> list[tuple]:
+    def get_configs(self, customKeys: dict, connection: ConnectionType, iac_type: str) -> List[tuple]:
         if connection not in CONFIGURATION_NAMES[ResourceType.AZURE_POSTGRESQL_DB].keys():
             print('Warning: Binding connection type {} is not supported for PostgreSQL, using secret', connection)
         
@@ -202,7 +203,7 @@ class CosmosConnInfoHelper():
         self.connection_string = connection_string
         self.resource_endpoint = resource_endpoint
 
-    def get_configs(self, customKeys: dict, connection: ConnectionType) -> list[tuple]:
+    def get_configs(self, customKeys: dict, connection: ConnectionType) -> List[tuple]:
         if connection not in CONFIGURATION_NAMES[ResourceType.AZURE_COSMOS_DB].keys():
             print('Warning: Binding connection type {} is not supported for Comos DB')
 
@@ -224,7 +225,7 @@ class StorageConnInfoHelper():
         self.queue_endpoint = queue_endpoint
         self.file_endpoint = file_endpoint
 
-    def get_configs(self, customKeys: dict, connection: ConnectionType) -> list[tuple]:
+    def get_configs(self, customKeys: dict, connection: ConnectionType) -> List[tuple]:
         if connection not in CONFIGURATION_NAMES[ResourceType.AZURE_STORAGE_ACCOUNT].keys():
             print('Warning: Binding connection type {} is not supported for Storage Account')
 
@@ -242,7 +243,7 @@ class ServiceBusConnInfoHelper():
         self.connection_string = connection_string
         self.namespace = namespace
 
-    def get_configs(self, customKeys: dict, connection: ConnectionType) -> list[tuple]:
+    def get_configs(self, customKeys: dict, connection: ConnectionType) -> List[tuple]:
         if connection not in CONFIGURATION_NAMES[ResourceType.AZURE_SERVICE_BUS].keys():
             print('Warning: Binding connection type {} is not supported for Service Bus')
 
@@ -264,7 +265,7 @@ class RedisConnInfoHelper():
         self.port = port
         self.ssl = "true"
 
-    def get_configs(self, customKeys: dict, connection: ConnectionType, iac_type:str) -> list[tuple]:
+    def get_configs(self, customKeys: dict, connection: ConnectionType, iac_type:str) -> List[tuple]:
         if connection not in CONFIGURATION_NAMES[ResourceType.AZURE_REDIS_CACHE].keys():
             print('Warning: Binding connection type {} is not supported for Redis Cache')
 
@@ -277,6 +278,44 @@ class RedisConnInfoHelper():
             return configs
         for key, default_key, is_secret in CONFIGURATION_NAMES[ResourceType.AZURE_REDIS_CACHE][connection][self.client_type]:
             config_key = customKeys.get(default_key, default_key)
+            config_value = getattr(self, key)
+            configs.append((config_key, config_value, is_secret))
+
+        return configs
+
+class KeyVaultConnInfoHelper():
+    def __init__(self, language: str, resource_endpoint=None):
+        self.client_type = get_client_type(language)
+        self.resource_endpoint = resource_endpoint
+
+    def get_configs(self, customKeys: dict, connection: ConnectionType) -> List[tuple]:
+        if connection not in CONFIGURATION_NAMES[ResourceType.AZURE_KEYVAULT].keys():
+            print('Warning: Binding connection type {} is not supported for Key Vault')
+
+        configs = []
+        for key, default_key, is_secret in CONFIGURATION_NAMES[ResourceType.AZURE_KEYVAULT][connection][self.client_type]:
+            config_key = customKeys.get(default_key, default_key)
+            config_value = getattr(self, key)
+            configs.append((config_key, config_value, is_secret))
+
+        return configs
+
+class ComputeResourceConnInfoHelper():
+    def __init__(self, language: str, request_url=None, resource_name=None):
+        self.client_type = get_client_type(language)
+        self.request_url = request_url
+        self.resource_name = resource_name
+
+    def get_configs(self, customKeys: dict, connection: ConnectionType) -> List[tuple]:
+        if connection not in CONFIGURATION_NAMES["ComputeResource"].keys():
+            print('Warning: Binding connection type {} is not supported for Compute Resource')
+
+        configs = []
+        for key, default_key, is_secret in CONFIGURATION_NAMES["ComputeResource"][connection][self.client_type]:
+            config_key = customKeys.get(default_key, default_key)
+            # reformat key with resource name
+            if config_key == default_key:
+                config_key = "SERVICE{}_URL".format(self.resource_name.upper())
             config_value = getattr(self, key)
             configs.append((config_key, config_value, is_secret))
 

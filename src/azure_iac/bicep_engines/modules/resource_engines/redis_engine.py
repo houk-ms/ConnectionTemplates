@@ -24,16 +24,12 @@ class RedisEngine(TargetResourceEngine):
         self.module_deployment_name = string_helper.format_deployment_name('redis', self.resource.name)
         self.module_params_name = string_helper.format_camel('redis', self.resource.name, "Name")
         self.module_params_secret_name = string_helper.format_kv_secret_name('redis', self.resource.name)
-        self.module_params_password = string_helper.format_camel('redis', self.resource.name, "Password")
-        self.module_params_database_name = string_helper.format_camel('redis', self.resource.name, "DatabaseName")
         
         params_name = string_helper.format_resource_name(self.resource.name or Abbreviation.REDIS_CACHE.value)
         # main.bicep states and variables
         self.main_params = [
             ('location', 'string', string_helper.get_location(), False),
-            (self.module_params_name, 'string', params_name),
-            (self.module_params_password, 'string', "\'Aa0!${newGuid()}\'", False, True),
-            (self.module_params_database_name, 'string', "database_" + params_name)
+            (self.module_params_name, 'string', params_name)
         ]
         self.main_outputs = [
             (string_helper.format_camel('redis', self.resource.name, "Id"), 
