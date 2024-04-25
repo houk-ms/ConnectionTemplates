@@ -109,6 +109,22 @@
 			"name": "redis2"
 		  }
 		]
+	  },
+	  {
+		"type": "azureapplicationinsights",
+		"instances":[
+			{
+				"name": "appinsights1"
+			}
+		]
+	  },
+	  {
+		"type": "azurebotservice",
+		"instances":[
+			{
+				"name": "bot1"
+			}
+		]
 	  }
 	],
 	"bindings": [
@@ -254,6 +270,14 @@
 			"customKeys":{
 				"SERVICE_URL":"acaurl"
 			}
+		},
+		{
+			"source":"${azureappservice.app3}",
+			"target":"${azureapplicationinsights.appinsights1}"
+		},
+		{
+			"source":"${azureappservice.app1}",
+			"target":"${azurebotservice.bot1}"
 		}
 		
 	],

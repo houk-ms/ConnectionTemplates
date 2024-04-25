@@ -320,3 +320,40 @@ class ComputeResourceConnInfoHelper():
             configs.append((config_key, config_value, is_secret))
 
         return configs
+
+class AppInsightsConnInfoHelper():
+    def __init__(self, language: str, connection_string=None):
+        self.client_type = get_client_type(language)
+        self.connection_string = connection_string
+
+    def get_configs(self, customKeys: dict, connection: ConnectionType) -> List[tuple]:
+        if connection not in CONFIGURATION_NAMES[ResourceType.AZURE_APPLICATION_INSIGHTS].keys():
+            print('Warning: Binding connection type {} is not supported for App Insights')
+
+        configs = []
+        for key, default_key, is_secret in CONFIGURATION_NAMES[ResourceType.AZURE_APPLICATION_INSIGHTS][connection][self.client_type]:
+            config_key = customKeys.get(default_key, default_key)
+            config_value = getattr(self, key)
+            configs.append((config_key, config_value, is_secret))
+
+        return configs
+ 
+
+class BotConnInfoHelper():
+    def __init__(self, language: str, bot_id: str, bot_password: str, bot_domain: str):
+        self.client_type = get_client_type(language)
+        self.bot_id = bot_id
+        self.bot_password = bot_password
+        self.bot_domain = bot_domain
+
+    def get_configs(self, customKeys: dict, connection: ConnectionType) -> List[tuple]:
+        if connection not in CONFIGURATION_NAMES[ResourceType.AZURE_BOT_SERVICE].keys():
+            print('Warning: Binding connection type {} is not supported for Bot Service')
+
+        configs = []
+        for key, default_key, is_secret in CONFIGURATION_NAMES[ResourceType.AZURE_BOT_SERVICE][connection][self.client_type]:
+            config_key = customKeys.get(default_key, default_key)
+            config_value = getattr(self, key)
+            configs.append((config_key, config_value, is_secret))
+
+        return configs

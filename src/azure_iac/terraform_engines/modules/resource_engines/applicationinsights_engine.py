@@ -1,5 +1,6 @@
 from typing import List
 
+from azure_iac.helpers.connection_info import AppInsightsConnInfoHelper
 from azure_iac.payloads.binding import Binding
 from azure_iac.payloads.resources.application_insights import ApplicationInsightsResource
 
@@ -38,17 +39,19 @@ class ApplicationInsightsEngine(TargetResourceEngine):
 
     # return the app settings needed by identity connection
     def get_app_settings_identity(self, binding: Binding) -> List[tuple]:
-        return [
-            # TODO: use identity connection string
-            AppSetting(AppSettingType.KeyValue, 'AZURE_APPINSIGHTS_CONNECTIONSTRING', 
-                       'azurerm_application_insights.{}.connection_string'.format(self.module_name)),
-        ]
+        # TODO: use identity connection string
+        connInfoHelper = AppInsightsConnInfoHelper("" if binding.source.service is None else binding.source.service['language'],
+                                                   connection_string='azurerm_application_insights.{}.connection_string'.format(self.module_name)
+                                                  )
+        configs = connInfoHelper.get_configs({} if binding.customKeys is None else binding.customKeys,
+                                             binding.connection)
+        return self._get_app_settings(configs)
 
     # return the app settings needed by secret connection
     def get_app_settings_secret(self, binding: Binding) -> List[tuple]:
-        app_setting_key = binding.key if binding.key else 'AZURE_APPINSIGHTS_CONNECTIONSTRING'
-
-        return [
-            AppSetting(AppSettingType.SecretReference, app_setting_key, 
-                'azurerm_application_insights.{}.connection_string'.format(self.module_name))
-        ]
+        connInfoHelper = AppInsightsConnInfoHelper("" if binding.source.service is None else binding.source.service['language'],
+                                                   connection_string='azurerm_application_insights.{}.connection_string'.format(self.module_name)
+                                                  )
+        configs = connInfoHelper.get_configs({} if binding.customKeys is None else binding.customKeys,
+                                             binding.connection)
+        return self._get_app_settings(configs)

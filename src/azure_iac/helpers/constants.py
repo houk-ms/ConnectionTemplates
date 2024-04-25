@@ -122,8 +122,71 @@ CONFIGURATION_NAMES = {
             ]
 		}
 	},
-    ResourceType.AZURE_APPLICATION_INSIGHTS: {},
-    ResourceType.AZURE_BOT_SERVICE: {},
+    ResourceType.AZURE_APPLICATION_INSIGHTS: {
+		ConnectionType.SECRET: {
+			ClientType.PYTHON: [
+				('connection_string', 'APPLICATIONINSIGHTS_CONNECTION_STRING', True)
+			],
+			ClientType.NODE: [
+				('connection_string', 'APPLICATIONINSIGHTS_CONNECTION_STRING', True)
+			],
+			ClientType.JAVA: [
+				('connection_string', 'APPLICATIONINSIGHTS_CONNECTION_STRING', True)
+			],
+			ClientType.DOTNET: [
+				('connection_string', 'APPLICATIONINSIGHTS_CONNECTION_STRING', True)
+			],
+			ClientType.DEFAULT: [
+				('connection_string', 'APPLICATIONINSIGHTS_CONNECTION_STRING', True)
+			]
+		},
+		ConnectionType.SYSTEMIDENTITY: {
+			ClientType.PYTHON: [
+				('connection_string', 'APPLICATIONINSIGHTS_CONNECTION_STRING', False)
+			],
+			ClientType.NODE: [
+				('connection_string', 'APPLICATIONINSIGHTS_CONNECTION_STRING', False)
+			],
+			ClientType.JAVA: [
+				('connection_string', 'APPLICATIONINSIGHTS_CONNECTION_STRING', False)
+			],
+			ClientType.DOTNET: [
+				('connection_string', 'APPLICATIONINSIGHTS_CONNECTION_STRING', False)
+			],
+			ClientType.DEFAULT: [
+				('connection_string', 'APPLICATIONINSIGHTS_CONNECTION_STRING', False)
+			]
+		}
+	},
+    ResourceType.AZURE_BOT_SERVICE: {
+		ConnectionType.BOTREGISTRATION:{
+			ClientType.PYTHON: [
+				("bot_id", "BOT_ID", False),
+				("bot_password", "BOT_PASSWORD", True),
+				("bot_domain", "BOT_DOMAIN", False)
+			],
+			ClientType.NODE: [
+				("bot_id", "BOT_ID", False),
+				("bot_password", "BOT_PASSWORD", True),
+				("bot_domain", "BOT_DOMAIN", False)
+			],
+			ClientType.JAVA: [
+				("bot_id", "BOT_ID", False),
+				("bot_password", "BOT_PASSWORD", True),
+				("bot_domain", "BOT_DOMAIN", False)
+			],
+			ClientType.DOTNET: [
+				("bot_id", "BOT_ID", False),
+				("bot_password", "BOT_PASSWORD", True),
+				("bot_domain", "BOT_DOMAIN", False)
+			],
+			ClientType.DEFAULT: [
+				("bot_id", "BOT_ID", False),
+				("bot_password", "BOT_PASSWORD", True),
+				("bot_domain", "BOT_DOMAIN", False)
+			]
+		}
+	},
     ResourceType.AZURE_COSMOS_DB: {
 		ConnectionType.SECRET: {
 			ClientType.PYTHON: [
