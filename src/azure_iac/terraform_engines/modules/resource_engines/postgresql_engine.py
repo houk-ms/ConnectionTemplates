@@ -1,4 +1,5 @@
 from typing import List
+from azure_iac.helpers.connection_info import PostgreSqlConnInfoHelper
 from azure_iac.payloads.binding import Binding
 from azure_iac.payloads.resources.postgresql_db import PostgreSqlDbResource
 
@@ -23,6 +24,7 @@ class PostgreSqlDbEngine(TargetResourceEngine):
         self.module_params_name = (self.resource.name or Abbreviation.POSTGRESQL_DB.value) + '${var.resource_suffix}'
         self.module_params_administrator_login = '${var.' + self.main_var_administrator_login + '}'
         self.module_params_administrator_login_password = '${var.' + self.main_var_administrator_login_password + '}'
+        self.module_params_database_name = (self.resource.name or Abbreviation.POSTGRESQL_DB.value) + '-db'
         
         # main.tf variables and outputs
         self.main_variables = [
@@ -47,15 +49,12 @@ class PostgreSqlDbEngine(TargetResourceEngine):
 
     # return the app settings needed by secret connection
     def get_app_settings_secret(self, binding: Binding) -> List[tuple]:
-        app_setting_key = binding.key if binding.key else 'AZURE_POSTGRESQLDB_CONNECTIONSTRING'
-        # hard code to .NET connection string
-        conn_string = '\"Server=\'{}.postgres.database.azure.com\';Port=5432;UserID=\'{}\';Password=\'{}\';Database=\'{}\';SslMode=Required;\"'.format(
-                          self.module_params_name, 
-                          self.module_params_administrator_login, 
-                          self.module_params_administrator_login_password, 
-                          self.module_params_name + "-db"
-                      )
-
-        return [
-            AppSetting(AppSettingType.SecretReference, app_setting_key, conn_string)
-        ]
+        connInfoHelper = PostgreSqlConnInfoHelper("" if binding.source.service is None else binding.source.service['language'],
+                                             server=self.module_params_name,
+                                             user=self.module_params_administrator_login,
+                                             password=self.module_params_administrator_login_password,
+                                             database=self.module_params_database_name)
+        configs = connInfoHelper.get_configs({} if binding.customKeys is None else binding.customKeys,
+                                             binding.connection,
+                                             "tf")
+        return self._get_app_settings(configs)

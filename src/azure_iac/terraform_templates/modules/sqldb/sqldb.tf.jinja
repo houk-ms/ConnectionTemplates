@@ -10,7 +10,7 @@ resource "azurerm_mssql_server" "{{engine.module_name}}" {
 }
 
 resource "azurerm_mssql_database" "{{engine.module_name}}db" {
-    name           = "{{engine.module_name}}-db"
+    name           = "{{engine.module_params_database_name}}"
     server_id      = azurerm_mssql_server.{{engine.module_name}}.id
     collation      = "SQL_Latin1_General_CP1_CI_AS"
     license_type   = "LicenseIncluded"

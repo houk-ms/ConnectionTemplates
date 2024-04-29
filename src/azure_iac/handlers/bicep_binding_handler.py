@@ -13,7 +13,8 @@ class BicepBindingHandler():
                  source_engine: SourceResourceEngine,
                  target_engine: TargetResourceEngine,
                  store_engine: StoreResourceEngine,
-                 setting_engine: SettingResourceEngine):
+                 setting_engine: SettingResourceEngine,
+                 ):
         self.binding = binding
         self.source_engine = source_engine
         self.target_engine = target_engine

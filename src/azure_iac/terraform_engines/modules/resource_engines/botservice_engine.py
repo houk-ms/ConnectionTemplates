@@ -1,4 +1,5 @@
 from typing import List
+from azure_iac.helpers.connection_info import BotConnInfoHelper
 from azure_iac.payloads.binding import Binding
 from azure_iac.payloads.resources.bot_service import BotServiceResource
 
@@ -49,10 +50,14 @@ class BotServiceEngine(TargetResourceEngine):
 
 
     def get_app_settings_bot(self, binding: Binding) -> List[AppSetting]:
-        bot_app_settings = {
-            'BOT_ID': '"${var.' + self.main_var_botaadappclientid + '}"',
-            'BOT_PASSWORD': '"${var.' + self.main_var_botaadappclientsecret + '}"',
-            'BOT_DOMAIN': '"' + self.module_params_endpoint + '"',
-        }
+        if binding.store:
+            print('Warning: IaC generator does not support secret store for Bot Service.')
         
-        return [AppSetting(AppSettingType.KeyValue, key, value) for key, value in bot_app_settings.items()]
+        connInfoHelper = BotConnInfoHelper("" if binding.source.service is None else binding.source.service['language'],
+                                           bot_id='"${var.' + self.main_var_botaadappclientid + '}"',
+                                           bot_password='"${var.' + self.main_var_botaadappclientsecret + '}"',
+                                           bot_domain='"' + self.module_params_endpoint + '"')
+        configs = connInfoHelper.get_configs({} if binding.customKeys is None else binding.customKeys,
+                                             binding.connection)
+        
+        return self._get_app_settings(configs)

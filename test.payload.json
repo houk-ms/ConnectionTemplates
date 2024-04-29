@@ -1,17 +1,6 @@
 {
 	"resources": [
 	  {
-		"type": "azurecontainerapp",
-		"instances": [
-		  {
-			"name": "aca1"
-		  },
-		  {
-			"name": "aca2"
-		  }
-		]
-	  },
-	  {
 		"type": "azureappservice",
 		"instances": [
 		  {
@@ -19,28 +8,28 @@
 		  },
 		  {
 			"name": "app2"
+		  },
+		  {
+			"name": "app3"
 		  }
 		]
 	  },
 	  {
-		"type": "azurefunctions",
+		"type": "azurecontainerapp",
 		"instances": [
 		  {
-			"name": "func1"
-		  },
-		  {
-			"name": "func2"
+			"name": "aca1"
 		  }
 		]
 	  },
 	  {
-		"type": "azurestaticwebapp",
+		"type": "azuremysqldatabase",
 		"instances": [
 		  {
-			"name": "swa1"
+			"name": "mysql1"
 		  },
 		  {
-			"name": "swa2"
+			"name": "mysql2"
 		  }
 		]
 	  },
@@ -48,22 +37,33 @@
 		"type": "azurekeyvault",
 		"instances": [
 		  {
-			"name": "vault1"
+			"name": "kv1"
 		  },
 		  {
-			"name": "vault2"
+			"name": "kv2"
 		  }
 		]
 	  },
 	  {
-		"type": "azureapplicationinsights",
+		"type": "azuresqldatabase",
 		"instances": [
 		  {
-			"name": "insights1"
+			"name": "sql1"
 		  },
 		  {
-			"name": "insights2"
+			"name": "sql2"
 		  }
+		]
+	  },
+	  {
+		"type": "azuredatabaseforpostgresql",
+		"instances": [
+			{
+				"name": "pg1"
+			},
+			{
+				"name": "pg2"
+			}
 		]
 	  },
 	  {
@@ -100,78 +100,208 @@
 		]
 	  },
 	  {
-		"type": "azurebotservice",
+		"type": "azurecacheforredis",
 		"instances": [
 		  {
-			"name": "bot1"
+			"name": "redis1"
 		  },
 		  {
-			"name": "bot2"
+			"name": "redis2"
 		  }
+		]
+	  },
+	  {
+		"type": "azureapplicationinsights",
+		"instances":[
+			{
+				"name": "appinsights1"
+			}
+		]
+	  },
+	  {
+		"type": "azurebotservice",
+		"instances":[
+			{
+				"name": "bot1"
+			}
 		]
 	  }
 	],
 	"bindings": [
 		{
-			"source": "${azurecontainerapp.aca1}",
-			"target": "${azurecontainerapp.aca2}"
+			"source": "${azureappservice.app1}",
+			"target": "${azuremysqldatabase.mysql1}",
+			"customKeys": {
+				"AZURE_MYSQL_CONNECTIONSTRING": "rawmysql1"
+			},
+			"store": "${azurekeyvault.kv1}"
+		},
+		{
+			"source": "${azureappservice.app2}",
+			"target": "${azuremysqldatabase.mysql2}",
+			"connection": "secret",
+			"store": "${azurekeyvault.kv1}",
+			"customKeys": {
+				"AZURE_MYSQL_HOST": "testhost",
+				"AZURE_MYSQL_USER": "testuser",
+				"AZURE_MYSQL_PASSWORD": "testpassword",
+				"AZURE_MYSQL_DATABASE": "testdb",
+				"AZURE_MYSQL_PORT": "testport"
+			}
 		},
 		{
 			"source": "${azureappservice.app1}",
-			"target": "${azureappservice.app2}"
-		},
-		{
-			"source": "${azurefunctions.func1}",
-			"target": "${azurefunctions.func2}"
-		},
-		{
-			"source": "${azurecontainerapp.aca2}",
-			"target": "${azurekeyvault.vault2}"
-		},
-		{
-			"source": "${azurecontainerapp.aca2}",
-			"target": "${azureapplicationinsights.insights2}"
-		},
-		{
-			"source": "${azurecontainerapp.aca2}",
-			"target": "${azurecosmosdb.cosmos2}"
-		},
-		{
-			"source": "${azurecontainerapp.aca2}",
-			"target": "${azurestorageaccount.storage2}"
-		},
-		{
-			"source": "${azurecontainerapp.aca2}",
-			"target": "${azureservicebus.servicebus2}"
-		},
-		{
-			"source": "${azurecontainerapp.aca2}",
-			"target": "${azurebotservice.bot2}"	
+			"target": "${azuresqldatabase.sql1}",
+			"connection": "secret"
 		},
 		{
 			"source": "${azureappservice.app2}",
-			"target": "${azurekeyvault.vault1}"
+			"target": "${azuresqldatabase.sql2}",
+			"connection": "secret",
+			"customKeys": {
+				"AZURE_SQL_HOST": "sqlhost",
+				"AZURE_SQL_USERNAME": "sqluser",
+				"AZURE_SQL_PASSWORD": "sqlpassword",
+				"AZURE_SQL_DATABASE": "sqldb",
+				"AZURE_SQL_PORT": "sqlport"
+			}
+		},
+		{
+			"source": "${azureappservice.app1}",
+			"target": "${azuredatabaseforpostgresql.pg1}",
+			"connection": "secret",
+			"store": "${azurekeyvault.kv1}",
+			"customKeys": {
+				"AZURE_POSTGRESQL_CONNECTIONSTRING": "pgsqlconnstr"
+			}
 		},
 		{
 			"source": "${azureappservice.app2}",
-			"target": "${azureapplicationinsights.insights1}"
+			"target": "${azuredatabaseforpostgresql.pg2}",
+			"connection": "secret"
 		},
 		{
-			"source": "${azureappservice.app2}",
-			"target": "${azurecosmosdb.cosmos1}"
+			"source": "${azurecontainerapp.aca1}",
+			"target": "${azuremysqldatabase.mysql1}",
+			"connection": "secret",
+			"customKeys": {
+				"AZURE_MYSQL_HOST": "pyhost"
+			}
 		},
 		{
-			"source": "${azureappservice.app2}",
-			"target": "${azurestorageaccount.storage1}"
+			"source": "${azureappservice.app1}",
+			"target": "${azurecosmosdb.cosmos1}",
+			"connection": "secret",
+			"store": "${azurekeyvault.kv1}",
+			"customKeys":{
+				"AZURE_COSMOS_CONNECTIONSTRING": "cosmosconnstr"
+			}
 		},
 		{
-			"source": "${azureappservice.app2}",
-			"target": "${azureservicebus.servicebus1}"
+			"source":"${azureappservice.app2}",
+			"target":"${azurecosmosdb.cosmos2}",
+			"customKeys": {
+				"AZURE_COSMOS_RESOURCEENDPOINT": "cosmosresourceendpoint"
+			}
 		},
 		{
-			"source": "${azureappservice.app2}",
-			"target": "${azurebotservice.bot1}"	
+			"source":"${azureappservice.app2}",
+			"target":"${azurecosmosdb.cosmos1}",
+			"connection": "secret"
+		},
+		{
+			"source":"${azureappservice.app1}",
+			"target":"${azurestorageaccount.storage1}",
+			"connection":"secret",
+			"customKeys": {
+				"AZURE_STORAGEACCOUNT_CONNECTIONSTRING": "storageconnstr"
+			},
+			"store":"${azurekeyvault.kv1}"
+		},
+		{
+			"source":"${azureappservice.app2}",
+			"target":"${azurestorageaccount.storage2}",
+			"customKeys": {
+				"AZURE_STORAGEACCOUNT_BLOBENDPOINT": "blobendpoint"
+			}
+		},
+		{
+			"source":"${azureappservice.app1}",
+			"target":"${azureservicebus.servicebus1}",
+			"customKeys":{
+				"AZURE_SERVICEBUS_FULLYQUALIFIEDNAMESPACE": "servicebusfqns"
+			}
+		},
+		{
+			"source":"${azureappservice.app2}",
+			"target":"${azureservicebus.servicebus2}",
+			"connection":"secret",
+			"customKeys": {
+				"AZURE_SERVICEBUS_CONNECTIONSTRING": "servicebusconnstr"
+			},
+			"store":"${azurekeyvault.kv1}"
+		},
+		{
+			"source":"${azureappservice.app1}",
+			"target":"${azurecacheforredis.redis1}",
+			"customKeys": {
+				"AZURE_REDIS_CONNECTIONSTRING": "redisconnstr"
+			},
+			"store":"${azurekeyvault.kv1}"
+		},
+		{
+			"source":"${azureappservice.app2}",
+			"target":"${azurecacheforredis.redis2}"
+		},
+		{
+			"source":"${azureappservice.app3}",
+			"target":"${azurecacheforredis.redis1}"
+		},
+		{
+			"source":"${azureappservice.app3}",
+			"target":"${azurekeyvault.kv2}",
+			"customKeys":{
+				"AZURE_KEYVAULT_RESOURCEENDPOINT": "kvresourceendpoint"
+			}
+		},
+		{
+			"source":"${azureappservice.app3}",
+			"target": "${azurecontainerapp.aca1}",
+			"customKeys":{
+				"SERVICE_URL":"acaurl"
+			}
+		},
+		{
+			"source":"${azureappservice.app3}",
+			"target":"${azureapplicationinsights.appinsights1}"
+		},
+		{
+			"source":"${azureappservice.app1}",
+			"target":"${azurebotservice.bot1}"
 		}
-	]
+		
+	],
+	"services": [
+		{
+		  "host": "${azureappservice.app1}",
+		  "language": "dotnet",
+		  "project": "."
+		},
+		{
+			"host": "${azureappservice.app2}",
+			"language": "js",
+			"project": "."
+		},
+		{
+			"host": "${azureappservice.app3}",
+			"language": "fsharp",
+			"project": "."
+		},
+		{
+			"host": "${azurecontainerapp.aca1}",
+			"language": "python",
+			"project": "."
+		}
+	  ]
 }
   

@@ -1,10 +1,9 @@
 # Create firewall rules to allow traffics to access the SQL database
 
 # Allow access from Azure
-{% for ip in engine.module_params_allow_ips %}resource "azurerm_mssql_firewall_rule" "{{engine.module_name}}" {
+resource "azurerm_mssql_firewall_rule" "{{engine.module_name}}" {
     name                = "{{engine.module_params_name}}"
     server_id         	= azurerm_mssql_server.{{engine.params_parent_module_name}}.id
     start_ip_address    = "0.0.0.0"
     end_ip_address      = "0.0.0.0"
 }
-{% endfor %}

@@ -1,3 +1,4 @@
+from azure_iac.helpers.constants import ClientType
 from azure_iac.payloads.binding import Binding
 from azure_iac.payloads.models.connection_type import ConnectionType
 from azure_iac.payloads.models.resource_type import ResourceType
@@ -11,7 +12,7 @@ from azure_iac.terraform_engines.modules.resource_engines.keyvaultsecret_engine 
 
 class TerraformBindingHandler():
 
-    ALLOW_AZURE_RESOURCES = [ResourceType.AZURE_POSTGRESQL_DB, ResourceType.AZURE_SQL_DB, ResourceType.AZURE_MYSQL_DB]
+    ALLOW_AZURE_RESOURCES = [ResourceType.AZURE_POSTGRESQL_DB, ResourceType.AZURE_SQL_DB, ResourceType.AZURE_MYSQL_DB, ResourceType.AZURE_REDIS_CACHE]
 
     def __init__(self, 
                  binding: Binding, 
@@ -19,7 +20,8 @@ class TerraformBindingHandler():
                  target_engine: TargetResourceEngine,
                  role_engine: RoleResourceEngine,
                  firewall_engine: FirewallResourceEngine,
-                 key_vault_secret_engine: KeyVaultSecretEngine):
+                 key_vault_secret_engine: KeyVaultSecretEngine
+                 ):
         self.binding = binding
         self.source_engine = source_engine
         self.target_engine = target_engine
@@ -61,11 +63,10 @@ class TerraformBindingHandler():
         elif self.binding.connection == ConnectionType.SECRET:
             # source engine depends on target engine (--> app settings)
             self.source_engine.add_dependency_engine(self.target_engine)
-            if self.key_vault_secret_engine is not None:
-                self.key_vault_secret_engine.set_key_vault_secret(self.binding, self.target_engine)
-                app_settings = self.key_vault_secret_engine.get_app_settings()
-            else:
-                app_settings = self.target_engine.get_app_settings_secret(self.binding)
+            
+            app_settings = self.target_engine.get_app_settings_secret(self.binding)
+            if self.binding.store is not None and self.key_vault_secret_engine is not None:
+                self.key_vault_secret_engine.set_key_vault_secret_and_id(app_settings, self.binding)
             self.source_engine.add_app_settings(app_settings)
             
             # firewall engine depends on source engine (--> outbound ips)

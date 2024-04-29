@@ -1,0 +1,10 @@
+# Create firewall rules to allow traffics to access the PostgreSQL database
+
+# Allow access from Azure
+resource "azurerm_redis_firewall_rule" "{{engine.module_name}}" {
+    name                = "{{engine.module_params_name}}"
+    redis_cache_name    = azurerm_redis_cache.{{engine.params_parent_module_name}}.name
+    resource_group_name = azurerm_resource_group.rg.name
+    start_ip            = "0.0.0.0"
+    end_ip              = "0.0.0.0"
+}

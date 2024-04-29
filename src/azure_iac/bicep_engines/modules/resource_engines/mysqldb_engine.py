@@ -1,5 +1,6 @@
 from typing import List
 
+from azure_iac.helpers.connection_info import MySqlConnInfoHelper
 from azure_iac.payloads.binding import Binding
 from azure_iac.payloads.resources.mysql_db import MySqlDbResource
 
@@ -23,12 +24,18 @@ class MySqlDbEngine(TargetResourceEngine):
         self.module_deployment_name = string_helper.format_deployment_name('mysql', self.resource.name)
         self.module_params_name = string_helper.format_camel('mysql', self.resource.name, "Name")
         self.module_params_secret_name = string_helper.format_kv_secret_name('mysql', self.resource.name)
+        self.module_params_admin_name = string_helper.format_camel('mysql', self.resource.name, "AdminName")
+        self.module_params_password = string_helper.format_camel('mysql', self.resource.name, "Password")
+        self.module_params_database_name = string_helper.format_camel('mysql', self.resource.name, "DatabaseName")
         
+        params_name = string_helper.format_resource_name(self.resource.name or Abbreviation.MYSQL_DB.value)
         # main.bicep states and variables
         self.main_params = [
             ('location', 'string', string_helper.get_location(), False),
-            (self.module_params_name, 'string', 
-                string_helper.format_resource_name(self.resource.name or Abbreviation.MYSQL_DB.value)),
+            (self.module_params_name, 'string', params_name),
+            (self.module_params_admin_name, 'string', "admin" + '${resourceToken}'),
+            (self.module_params_password, 'string', "\'Aa0!${newGuid()}\'", False, True),
+            (self.module_params_database_name, 'string', "db" + '${resourceToken}')
         ]
         self.main_outputs = [
             (string_helper.format_camel('mysql', self.resource.name, "Id"), 
@@ -37,9 +44,13 @@ class MySqlDbEngine(TargetResourceEngine):
 
     # return the app settings needed by secret connection
     def get_app_settings_secret(self, binding: Binding) -> List[tuple]:
-        app_setting_key = binding.key if binding.key else 'AZURE_MYSQL_CONNECTIONSTRING'
-
-        return [
-            AppSetting(AppSettingType.KeyVaultReference, app_setting_key,
-                '{}.outputs.keyVaultSecretUri'.format(self.module_name))
-        ]
+        connInfoHelper = MySqlConnInfoHelper("" if binding.source.service is None else binding.source.service['language'],
+                                             server="${" + self.module_params_name + "}",
+                                             user="${" + self.module_params_admin_name + "}",
+                                             password="${" + self.module_params_password + "}",
+                                             database="${" + self.module_params_database_name + "}")
+        configs = connInfoHelper.get_configs({} if binding.customKeys is None else binding.customKeys,
+                                             binding.connection,
+                                             "bicep")
+        
+        return self._get_app_settings(configs)

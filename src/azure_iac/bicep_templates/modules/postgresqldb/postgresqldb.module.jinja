@@ -5,10 +5,14 @@ module {{engine.module_name}} 'postgresqldb.bicep' = {
 	scope: resourceGroup
 	params: {
 		location: location
-		name: {{engine.module_params_name}}{% if engine.module_params_allow_ips %}
+		name: {{engine.module_params_name}}
+		adminName: {{engine.module_params_admin_name}}
+		adminPassword: {{engine.module_params_password}}
+		databaseName: {{engine.module_params_database_name}}{% if engine.module_params_allow_ips %}
 		allowIps: concat({% for publicIp in engine.module_params_allow_ips %}{{publicIp}}{% if not loop.last %}, {% endif %}{% endfor %}){% endif %}{% if engine.module_params_keyvault_name %}
 		keyVaultName: {{engine.module_params_keyvault_name}}
-		secretName: '{{engine.module_params_secret_name}}'{% endif %}
+		secretName: '{{engine.module_params_secret_name}}'{% endif %}{% if engine.module_params_secret_value %}
+		secretValue: {{engine.module_params_secret_value}}{% endif %}
 	}{% if engine.depend_engines %}
 	dependsOn: [{% for dep in engine.depend_engines %}
 		{{dep.module_name}}{% endfor %}

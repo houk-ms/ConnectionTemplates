@@ -1,5 +1,6 @@
 from typing import List
 
+from azure_iac.helpers.connection_info import RedisConnInfoHelper
 from azure_iac.payloads.binding import Binding
 from azure_iac.payloads.resources.redis import RedisResource
 
@@ -24,11 +25,11 @@ class RedisEngine(TargetResourceEngine):
         self.module_params_name = string_helper.format_camel('redis', self.resource.name, "Name")
         self.module_params_secret_name = string_helper.format_kv_secret_name('redis', self.resource.name)
         
+        params_name = string_helper.format_resource_name(self.resource.name or Abbreviation.REDIS_CACHE.value)
         # main.bicep states and variables
         self.main_params = [
             ('location', 'string', string_helper.get_location(), False),
-            (self.module_params_name, 'string', 
-                string_helper.format_resource_name(self.resource.name or Abbreviation.REDIS_CACHE.value)),
+            (self.module_params_name, 'string', params_name)
         ]
         self.main_outputs = [
             (string_helper.format_camel('redis', self.resource.name, "Id"), 
@@ -37,9 +38,9 @@ class RedisEngine(TargetResourceEngine):
     
     # return the app settings needed by secret connection
     def get_app_settings_secret(self, binding: Binding) -> List[tuple]:
-        app_setting_key = binding.key if binding.key else 'AZURE_REDIS_CONNECTIONSTRING'
+        connInfoHelper = RedisConnInfoHelper("" if binding.source.service is None else binding.source.service['language'])
+        configs = connInfoHelper.get_configs({} if binding.customKeys is None else binding.customKeys,
+                                             binding.connection,
+                                             "bicep")
         
-        return [
-            AppSetting(AppSettingType.KeyVaultReference, app_setting_key,
-                '{}.outputs.keyVaultSecretUri'.format(self.module_name))
-        ]
+        return self._get_app_settings(configs)

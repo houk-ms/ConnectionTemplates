@@ -1,5 +1,6 @@
 from typing import List
 
+from azure_iac.helpers.connection_info import ServiceBusConnInfoHelper
 from azure_iac.payloads.binding import Binding
 from azure_iac.payloads.resources.service_bus import ServiceBusResource
 
@@ -37,17 +38,21 @@ class ServiceBusEngine(TargetResourceEngine):
 
     # return the app settings needed by identity connection
     def get_app_settings_identity(self, binding: Binding) -> List[tuple]:
-        app_setting_key = binding.key if binding.key else 'AZURE_SERVICEBUS_RESOURCEENDPOINT'
-        return [
-            AppSetting(AppSettingType.KeyValue, app_setting_key, 
-                '{}.outputs.endpoint'.format(self.module_name)),
-        ]
+        connInfoHelper = ServiceBusConnInfoHelper("" if binding.source.service is None else binding.source.service['language'],
+                                                  connection_string=None,
+                                                  namespace='{}.outputs.endpoint'.format(self.module_name)
+                                                 )
+        configs = connInfoHelper.get_configs({} if binding.customKeys is None else binding.customKeys,
+                                             binding.connection)
+        
+        return self._get_app_settings(configs)
     
     # return the app settings needed by secret connection
     def get_app_settings_secret(self, binding: Binding) -> List[tuple]:
-        app_setting_key = binding.key if binding.key else 'AZURE_SERVICEBUS_KEY'
-
-        return [
-            AppSetting(AppSettingType.KeyVaultReference, app_setting_key,
-                '{}.outputs.keyVaultSecretUri'.format(self.module_name))
-        ]
+        connInfoHelper = ServiceBusConnInfoHelper("" if binding.source.service is None else binding.source.service['language'],
+                                                  connection_string=''  # get in template
+                                                 )
+        configs = connInfoHelper.get_configs({} if binding.customKeys is None else binding.customKeys,
+                                             binding.connection)
+        
+        return self._get_app_settings(configs)

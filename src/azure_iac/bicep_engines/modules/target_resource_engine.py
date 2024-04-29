@@ -1,7 +1,8 @@
+import re
 from typing import List
 
 from azure_iac.payloads.binding import Binding
-from azure_iac.bicep_engines.models.appsetting import AppSetting
+from azure_iac.bicep_engines.models.appsetting import AppSetting, AppSettingType
 from azure_iac.bicep_engines.modules.base_resource_engine import BaseResourceEngine
 
 
@@ -42,3 +43,18 @@ class TargetResourceEngine(BaseResourceEngine):
     # return the app settings needed by secret connection
     def get_app_settings_secret(self, binding: Binding) -> List[AppSetting]:
         raise NotImplementedError('Resource engine {} does not implement the method'.format(self.__class__.__name__))
+    
+    def _get_app_settings(self, configs: List[tuple]) -> List[AppSetting]:
+        app_settings = []
+        for app_setting_key, value, is_secret in configs:
+            if is_secret:
+                app_settings.append(
+                     AppSetting(AppSettingType.KeyVaultReference, app_setting_key,
+                    '{}.outputs.keyVaultSecretUri'.format(self.module_name))
+                )
+                self.module_params_secret_value = value
+            else:
+                app_settings.append(
+                    AppSetting(AppSettingType.KeyValue, app_setting_key, value)
+                )
+        return app_settings

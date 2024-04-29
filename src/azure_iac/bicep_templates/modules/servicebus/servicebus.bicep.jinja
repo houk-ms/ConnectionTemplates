@@ -87,7 +87,7 @@ resource keyVaultSecret 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = if (key
 			enabled: true
 		}
 		contentType: 'string'
-		value: serviceBusAuthRules.listKeys().keys[0].value
+		value: serviceBusAuthRules.listKeys().primaryConnectionString
 	}
 }
 

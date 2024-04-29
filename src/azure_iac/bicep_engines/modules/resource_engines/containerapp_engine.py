@@ -1,4 +1,5 @@
 from typing import List
+from azure_iac.helpers.connection_info import ComputeResourceConnInfoHelper
 from azure_iac.payloads.binding import Binding
 from azure_iac.payloads.resources.container_app import ContainerAppResource
 from azure_iac.payloads.models.project_type import ProjectType
@@ -59,12 +60,14 @@ class ContainerAppEngine(SourceResourceEngine, TargetResourceEngine):
         ]
     
     def get_app_settings_http(self, binding: Binding) -> List[tuple]:
-        app_setting_key = binding.key if binding.key else 'SERVICE{}_URL'.format(self.resource.name.upper())
+        connInfoHelper = ComputeResourceConnInfoHelper("" if binding.source.service is None else binding.source.service['language'],
+                                                       request_url='{}.outputs.requestUrl'.format(self.module_name),
+                                                       resource_name=self.resource.name
+                                                      )
+        configs = connInfoHelper.get_configs({} if binding.customKeys is None else binding.customKeys,
+                                             binding.connection)
         
-        return [
-            AppSetting(AppSettingType.KeyValue, app_setting_key,
-                '{}.outputs.requestUrl'.format(self.module_name))
-        ]
+        return self._get_app_settings(configs)
 
     def _get_module_params_secrets(self) -> List[tuple]:
         return []

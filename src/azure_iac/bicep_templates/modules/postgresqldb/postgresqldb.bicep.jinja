@@ -17,6 +17,8 @@ param charset string = 'UTF8'
 param allowIps array = []
 param keyVaultName string = ''
 param secretName string = 'myvault/mysecret'
+@secure()
+param secretValue string = ''
 
 
 // create a postgresql server
@@ -71,8 +73,7 @@ resource keyVaultSecret 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = if (key
 			enabled: true
 		}
 		contentType: 'string'
-		// TODO: generate connection string per client type, now hard code to .NET
-		value: 'Server=${name}.postgres.database.azure.com;Database=${databaseName};Port=5432;Ssl Mode=Require;User Id=${adminName};Password=${adminPassword};'
+		value: secretValue
 	}
 }
 

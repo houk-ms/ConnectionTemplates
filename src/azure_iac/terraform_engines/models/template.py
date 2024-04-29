@@ -22,6 +22,7 @@ class Template(str, Enum):
     POSTGRESQL_TF = "modules/postgresqldb/postgresqldb.tf.jinja"
     POSTGRESQL_FIREWALL_TF = "modules/postgresqldb/postgresqldb.firewall.tf.jinja"
     REDIS_TF = "modules/redis/redis.tf.jinja"
+    REDIS_FIREWALL_TF = "modules/redis/redis.firewall.tf.jinja"
     RESOURCE_GROUP_TF = "modules/resourcegroup/resourcegroup.tf.jinja"
     ROLE_TF = "modules/role/role.tf.jinja"
     SQL_DB_TF = "modules/sqldb/sqldb.tf.jinja"

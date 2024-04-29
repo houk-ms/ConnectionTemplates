@@ -35,6 +35,8 @@ class TerraformGenerator(BaseGenerator):
 
 
     def complete_payloads(self):
+        super().complete_payloads()
+
         for binding in self.payload.bindings:
             # container app does not support keyvault store
             if binding.source.type == ResourceType.AZURE_CONTAINER_APP \
@@ -67,6 +69,7 @@ class TerraformGenerator(BaseGenerator):
 
             # create key vault secret engines for target resources if they are as the binding targets
             # and the connection is using secret store
+            # assume one secret for one binding
             if resource in [binding.target for binding in self.payload.bindings \
                             if binding.connection == ConnectionType.SECRET \
                             and binding.store is not None and binding.store.type == ResourceType.AZURE_KEYVAULT]:
@@ -118,7 +121,7 @@ class TerraformGenerator(BaseGenerator):
                 self._get_resource_engine_by_resource(binding.target), 
                 self._get_role_engine_by_resource(binding.target),
                 self._get_firewall_engine_by_resource(binding.target),
-                self._get_key_vault_secret_engine_by_binding(binding.target))
+                self._get_key_vault_secret_engine_by_resource(binding.target))
             binding_handler.process_engines()
 
 
@@ -186,7 +189,7 @@ class TerraformGenerator(BaseGenerator):
                 return engine
         return None
     
-    def _get_key_vault_secret_engine_by_binding(self, resource: Resource):
+    def _get_key_vault_secret_engine_by_resource(self, resource: Resource):
         for engine in self.key_vault_secret_engines:
             if engine.resource == resource:
                 return engine
