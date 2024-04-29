@@ -28,7 +28,7 @@ class MySqlDbEngine(TargetResourceEngine):
         self.module_params_password = string_helper.format_camel('mysql', self.resource.name, "Password")
         self.module_params_database_name = string_helper.format_camel('mysql', self.resource.name, "DatabaseName")
         
-        params_name = string_helper.format_resource_name(self.resource.name or Abbreviation.MYSQL_DB.value)
+        params_name = string_helper.format_resource_name(self.resource.name[-6:] or Abbreviation.MYSQL_DB.value)
         # main.bicep states and variables
         self.main_params = [
             ('location', 'string', string_helper.get_location(), False),

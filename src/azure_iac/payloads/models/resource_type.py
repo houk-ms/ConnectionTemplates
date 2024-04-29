@@ -11,7 +11,7 @@ class ResourceType(str, Enum):
     AZURE_COSMOS_DB = "azurecosmosdb"
     AZURE_FUNCTION_APP = "azurefunctions"
     AZURE_KEYVAULT = "azurekeyvault"
-    AZURE_MYSQL_DB = "azuremysqldatabase"
+    AZURE_MYSQL_DB = "azuredatabaseformysql"
     AZURE_POSTGRESQL_DB = "azuredatabaseforpostgresql"
     AZURE_REDIS_CACHE = "azurecacheforredis"
     AZURE_SQL_DB = "azuresqldatabase"
