@@ -52,3 +52,5 @@ class Template(str, Enum):
     STATIC_WEB_APP_MODULE = "modules/staticwebapp/staticwebapp.module.jinja"
     STATIC_WEB_APP_SETTINGS_BICEP = "modules/staticwebapp/staticwebapp.settings.bicep.jinja"
     STATIC_WEB_APP_SETTINGS_MODULE = "modules/staticwebapp/staticwebapp.settings.module.jinja"
+    OPENAI_BICEP = "modules/cognitiveservices/openai.bicep.jinja"
+    OPENAI_MODULE = "modules/cognitiveservices/openai.module.jinja"
