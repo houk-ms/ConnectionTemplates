@@ -15,6 +15,7 @@ from azure_iac.payloads.resources.storage_account import StorageAccountResource
 from azure_iac.payloads.resources.mysql_db import MySqlDbResource
 from azure_iac.payloads.resources.service_bus import ServiceBusResource
 from azure_iac.payloads.resources.static_web_app import StaticWebAppResource
+from azure_iac.payloads.resources.openai import OpenAIResource
 
 
 RESOURCES = {
@@ -32,6 +33,7 @@ RESOURCES = {
     ResourceType.AZURE_MYSQL_DB: MySqlDbResource,
     ResourceType.AZURE_SERVICE_BUS: ServiceBusResource,
     ResourceType.AZURE_STATIC_WEB_APP: StaticWebAppResource,
+    ResourceType.AZURE_OPENAI: OpenAIResource,
 }
 
 

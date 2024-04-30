@@ -443,4 +443,45 @@ CONFIGURATION_NAMES = {
 			]
 		}
 	},
+	ResourceType.AZURE_OPENAI:{
+		ConnectionType.SECRET: {
+			ClientType.PYTHON: [
+                ('base', 'AZURE_OPENAI_BASE', False),
+                ('key', 'AZURE_OPENAI_KEY', True)
+            ],
+            ClientType.NODE: [
+                ('base', 'AZURE_OPENAI_BASE', False),
+                ('key', 'AZURE_OPENAI_KEY', True)
+            ],
+            ClientType.JAVA: [
+                ('base', 'AZURE_OPENAI_BASE', False),
+                ('key', 'AZURE_OPENAI_KEY', True)
+            ],
+            ClientType.DOTNET: [
+                ('base', 'AZURE_OPENAI_BASE', False),
+                ('key', 'AZURE_OPENAI_KEY', True)
+            ],
+            ClientType.DEFAULT: [
+                ('base', 'AZURE_OPENAI_BASE', False),
+                ('key', 'AZURE_OPENAI_KEY', True)
+            ]
+		},
+		ConnectionType.SYSTEMIDENTITY: {
+			ClientType.PYTHON: [
+			    ('base', 'AZURE_OPENAI_BASE', False)
+            ],
+            ClientType.NODE: [
+                ('base', 'AZURE_OPENAI_BASE', False)
+            ],
+            ClientType.JAVA: [
+                ('base', 'AZURE_OPENAI_BASE', False)
+            ],
+            ClientType.DOTNET: [
+                ('base', 'AZURE_OPENAI_BASE', False)
+            ],
+            ClientType.DEFAULT: [
+                ('base', 'AZURE_OPENAI_BASE', False)
+            ]
+        }
+	}
 }

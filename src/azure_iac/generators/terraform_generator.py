@@ -1,3 +1,4 @@
+from azure_iac.payloads.binding import Binding
 from azure_iac.payloads.payload import Payload
 from azure_iac.payloads.resource import Resource
 from azure_iac.payloads.models.connection_type import ConnectionType
@@ -43,6 +44,19 @@ class TerraformGenerator(BaseGenerator):
                 and binding.store is not None :
                 binding.store = None
 
+    def add_implicit_bindings(self):
+        # when binding store is keyvault, add implicit binding for source to keyvault
+        for binding in self.payload.bindings:
+            if binding.store is not None and binding.store.type == ResourceType.AZURE_KEYVAULT:
+                implicit_binding = Binding()
+                implicit_binding.source = binding.source
+                implicit_binding.target = binding.store
+                implicit_binding.connection = ConnectionType.SYSTEMIDENTITY
+                
+                # check duplicated binding
+                existing_bingdings = [binding.get_identifier() for binding in self.payload.bindings]
+                if implicit_binding.get_identifier() not in existing_bingdings:
+                    self.payload.bindings.append(implicit_binding)
 
     def init_resource_engines(self):
         # Create engine for resource group

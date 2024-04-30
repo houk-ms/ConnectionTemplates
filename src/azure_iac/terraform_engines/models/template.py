@@ -34,4 +34,5 @@ class Template(str, Enum):
     SERVICE_BUS_NETWORK_TF = "modules/servicebus/servicebus.network.tf.jinja"
     MYSQL_DB_TF = "modules/mysqldb/mysqldb.tf.jinja"
     MYSQL_DB_FIREWALL_TF = "modules/mysqldb/mysqldb.firewall.tf.jinja"
+    OPENAI_TF = "modules/cognitiveservices/openai.tf.jinja"
     

@@ -357,3 +357,22 @@ class BotConnInfoHelper():
             configs.append((config_key, config_value, is_secret))
 
         return configs
+    
+
+class OpenAIConnInfoHelper():
+    def __init__(self, language: str, base: str, key: str=None):
+        self.client_type = get_client_type(language)
+        self.base = base
+        self.key = key
+
+    def get_configs(self, customKeys: dict, connection: ConnectionType) -> List[tuple]:
+        if connection not in CONFIGURATION_NAMES[ResourceType.AZURE_OPENAI].keys():
+            print('Warning: Binding connection type {} is not supported for OpenAI')
+
+        configs = []
+        for key, default_key, is_secret in CONFIGURATION_NAMES[ResourceType.AZURE_OPENAI][connection][self.client_type]:
+            config_key = customKeys.get(default_key, default_key)
+            config_value = getattr(self, key)
+            configs.append((config_key, config_value, is_secret))
+
+        return configs
