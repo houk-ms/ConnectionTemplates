@@ -444,8 +444,8 @@ CONFIGURATION_NAMES = {
 		}
 	},
 	ResourceType.AZURE_OPENAI:{
-		ConnectionType.SECRET: {
-			ClientType.PYTHON: [
+        ConnectionType.SECRET: {
+            ClientType.PYTHON: [
                 ('base', 'AZURE_OPENAI_BASE', False),
                 ('key', 'AZURE_OPENAI_KEY', True)
             ],
