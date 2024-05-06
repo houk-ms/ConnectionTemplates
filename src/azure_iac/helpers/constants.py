@@ -465,10 +465,10 @@ CONFIGURATION_NAMES = {
                 ('base', 'AZURE_OPENAI_BASE', False),
                 ('key', 'AZURE_OPENAI_KEY', True)
             ]
-		},
-		ConnectionType.SYSTEMIDENTITY: {
-			ClientType.PYTHON: [
-			    ('base', 'AZURE_OPENAI_BASE', False)
+        },
+        ConnectionType.SYSTEMIDENTITY: {
+            ClientType.PYTHON: [
+                ('base', 'AZURE_OPENAI_BASE', False)
             ],
             ClientType.NODE: [
                 ('base', 'AZURE_OPENAI_BASE', False)
