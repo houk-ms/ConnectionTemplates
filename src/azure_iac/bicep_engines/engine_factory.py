@@ -17,6 +17,7 @@ from azure_iac.bicep_engines.modules.resource_engines.storageaccount_engine impo
 from azure_iac.bicep_engines.modules.resource_engines.mysqldb_engine import MySqlDbEngine
 from azure_iac.bicep_engines.modules.resource_engines.servicebus_engine import ServiceBusEngine
 from azure_iac.bicep_engines.modules.resource_engines.staticwebapp_engine import StaticWebAppEngine
+from azure_iac.bicep_engines.modules.resource_engines.openai_engine import OpenAIEngine
 
 
 RESOURCE_ENGINES = {
@@ -34,6 +35,7 @@ RESOURCE_ENGINES = {
     ResourceType.AZURE_MYSQL_DB: MySqlDbEngine,
     ResourceType.AZURE_SERVICE_BUS: ServiceBusEngine,
     ResourceType.AZURE_STATIC_WEB_APP: StaticWebAppEngine,
+    ResourceType.AZURE_OPENAI: OpenAIEngine,
 }
 
 SETTING_ENGINES = {

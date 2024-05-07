@@ -21,3 +21,4 @@ class Abbreviation(str, Enum):
     FUNCTION_APP = "func"
     STATIC_WEB_APP = "swa"
     SERVICE_BUS = "sb"
+    OPENAI = "openai"

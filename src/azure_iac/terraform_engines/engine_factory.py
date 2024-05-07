@@ -25,6 +25,7 @@ from azure_iac.terraform_engines.modules.resource_engines.sql_engine import SqlD
 from azure_iac.terraform_engines.modules.resource_engines.sql_firewall_engine import SqlDbFirewallEngine
 from azure_iac.terraform_engines.modules.resource_engines.redis_engine import RedisEngine
 from azure_iac.terraform_engines.modules.resource_engines.redis_firewall_engine import RedisFirewallEngine
+from azure_iac.terraform_engines.modules.resource_engines.openai_engine import OpenAIEngine
 
 
 RESOURCE_ENGINES = {
@@ -44,6 +45,7 @@ RESOURCE_ENGINES = {
     ResourceType.AZURE_POSTGRESQL_DB: PostgreSqlDbEngine,
     ResourceType.AZURE_SQL_DB: SqlDbEngine,
     ResourceType.AZURE_REDIS_CACHE: RedisEngine,
+    ResourceType.AZURE_OPENAI: OpenAIEngine,
 }
 
 FIREWALL_ENGINES = {
