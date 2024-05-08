@@ -28,7 +28,7 @@ def format_snake(*args):
     return '_'.join([word.lower() for word in args if word])
 
 def format_resource_name(prefix: str):
-    return prefix + '${resourceToken}'
+    return prefix[-6:] + '${resourceToken}'
 
 def get_location():
     return 'resourceGroup().location'
