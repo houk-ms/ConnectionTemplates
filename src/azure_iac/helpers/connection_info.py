@@ -338,7 +338,6 @@ class AppInsightsConnInfoHelper():
 
         return configs
  
-
 class BotConnInfoHelper():
     def __init__(self, language: str, bot_id: str, bot_password: str, bot_domain: str):
         self.client_type = get_client_type(language)
@@ -358,7 +357,6 @@ class BotConnInfoHelper():
 
         return configs
     
-
 class OpenAIConnInfoHelper():
     def __init__(self, language: str, base: str, key: str=None):
         self.client_type = get_client_type(language)
@@ -371,6 +369,24 @@ class OpenAIConnInfoHelper():
 
         configs = []
         for key, default_key, is_secret in CONFIGURATION_NAMES[ResourceType.AZURE_OPENAI][connection][self.client_type]:
+            config_key = customKeys.get(default_key, default_key)
+            config_value = getattr(self, key)
+            configs.append((config_key, config_value, is_secret))
+
+        return configs
+
+class WebPubSubConnInfoHelper():
+    def __init__(self, language: str, connection_string=None, host=None):
+        self.client_type = get_client_type(language)
+        self.connection_string = connection_string
+        self.host = host
+
+    def get_configs(self, customKeys: dict, connection: ConnectionType) -> List[tuple]:
+        if connection not in CONFIGURATION_NAMES[ResourceType.AZURE_WEBPUBSUB].keys():
+            print('Warning: Binding connection type {} is not supported for Web PubSub')
+
+        configs = []
+        for key, default_key, is_secret in CONFIGURATION_NAMES[ResourceType.AZURE_WEBPUBSUB][connection][self.client_type]:
             config_key = customKeys.get(default_key, default_key)
             config_value = getattr(self, key)
             configs.append((config_key, config_value, is_secret))

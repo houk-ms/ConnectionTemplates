@@ -23,7 +23,7 @@
 		]
 	  },
 	  {
-		"type": "azuremysqldatabase",
+		"type": "azuredatabaseformysql",
 		"instances": [
 		  {
 			"name": "mysql1"
@@ -125,12 +125,23 @@
 				"name": "bot1"
 			}
 		]
+	  },
+	  {
+		"type": "azurewebpubsub",
+		"instances":[
+			{
+				"name": "wps1"
+			},
+			{
+				"name": "wps2"
+			}
+		]
 	  }
 	],
 	"bindings": [
 		{
 			"source": "${azureappservice.app1}",
-			"target": "${azuremysqldatabase.mysql1}",
+			"target": "${azuredatabaseformysql.mysql1}",
 			"customKeys": {
 				"AZURE_MYSQL_CONNECTIONSTRING": "rawmysql1"
 			},
@@ -138,7 +149,7 @@
 		},
 		{
 			"source": "${azureappservice.app2}",
-			"target": "${azuremysqldatabase.mysql2}",
+			"target": "${azuredatabaseformysql.mysql2}",
 			"connection": "secret",
 			"store": "${azurekeyvault.kv1}",
 			"customKeys": {
@@ -182,7 +193,7 @@
 		},
 		{
 			"source": "${azurecontainerapp.aca1}",
-			"target": "${azuremysqldatabase.mysql1}",
+			"target": "${azuredatabaseformysql.mysql1}",
 			"connection": "secret",
 			"customKeys": {
 				"AZURE_MYSQL_HOST": "pyhost"
@@ -278,6 +289,18 @@
 		{
 			"source":"${azureappservice.app1}",
 			"target":"${azurebotservice.bot1}"
+		},
+		{
+			"source":"${azureappservice.app1}",
+			"target":"${azurewebpubsub.wps1}",
+			"customKeys": {
+				"AZURE_WEBPUBSUB_CONNECTIONSTRING": "wpsconnstr"
+			},
+			"store":"${azurekeyvault.kv1}"
+		},
+		{
+			"source":"${azureappservice.app2}",
+			"target":"${azurewebpubsub.wps2}"
 		}
 		
 	],

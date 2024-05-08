@@ -16,6 +16,7 @@ from azure_iac.payloads.resources.mysql_db import MySqlDbResource
 from azure_iac.payloads.resources.service_bus import ServiceBusResource
 from azure_iac.payloads.resources.static_web_app import StaticWebAppResource
 from azure_iac.payloads.resources.openai import OpenAIResource
+from azure_iac.payloads.resources.web_pubsub import WebPubSubResource
 
 
 RESOURCES = {
@@ -34,6 +35,7 @@ RESOURCES = {
     ResourceType.AZURE_SERVICE_BUS: ServiceBusResource,
     ResourceType.AZURE_STATIC_WEB_APP: StaticWebAppResource,
     ResourceType.AZURE_OPENAI: OpenAIResource,
+    ResourceType.AZURE_WEBPUBSUB: WebPubSubResource,
 }
 
 

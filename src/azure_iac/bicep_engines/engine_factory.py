@@ -18,6 +18,7 @@ from azure_iac.bicep_engines.modules.resource_engines.mysqldb_engine import MySq
 from azure_iac.bicep_engines.modules.resource_engines.servicebus_engine import ServiceBusEngine
 from azure_iac.bicep_engines.modules.resource_engines.staticwebapp_engine import StaticWebAppEngine
 from azure_iac.bicep_engines.modules.resource_engines.openai_engine import OpenAIEngine
+from azure_iac.bicep_engines.modules.resource_engines.webpubsub_engine import WebPubSubEngine
 
 
 RESOURCE_ENGINES = {
@@ -36,6 +37,7 @@ RESOURCE_ENGINES = {
     ResourceType.AZURE_SERVICE_BUS: ServiceBusEngine,
     ResourceType.AZURE_STATIC_WEB_APP: StaticWebAppEngine,
     ResourceType.AZURE_OPENAI: OpenAIEngine,
+    ResourceType.AZURE_WEBPUBSUB: WebPubSubEngine,
 }
 
 SETTING_ENGINES = {

@@ -1,0 +1,18 @@
+// Deploy an Azure Web PubSub
+
+module {{engine.module_name}} 'webpubsub.bicep' = {
+	name: '{{engine.module_deployment_name}}'
+	scope: resourceGroup
+	params: {
+		location: location
+		name: {{engine.module_params_name}}{% if engine.module_params_principal_ids %}
+		principalIds: [{% for principalId in engine.module_params_principal_ids %}
+			{{principalId}}{% endfor %}
+		]{% endif %} {% if engine.module_params_allow_ips %}
+		keyVaultName: {{engine.module_params_keyvault_name}}
+		secretName: '{{engine.module_params_secret_name}}'{% endif %}
+	}{% if engine.depend_engines %}
+	dependsOn: [{% for dep in engine.depend_engines %}
+		{{dep.module_name}}{% endfor %}
+	]{% endif %}
+}

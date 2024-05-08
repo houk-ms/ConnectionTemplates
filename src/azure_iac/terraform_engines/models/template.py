@@ -35,4 +35,5 @@ class Template(str, Enum):
     MYSQL_DB_TF = "modules/mysqldb/mysqldb.tf.jinja"
     MYSQL_DB_FIREWALL_TF = "modules/mysqldb/mysqldb.firewall.tf.jinja"
     OPENAI_TF = "modules/cognitiveservices/openai.tf.jinja"
+    WEB_PUBSUB_TF = "modules/webpubsub/webpubsub.tf.jinja"
     
