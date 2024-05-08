@@ -33,8 +33,8 @@ class MySqlDbEngine(TargetResourceEngine):
         self.main_params = [
             ('location', 'string', string_helper.get_location(), False),
             (self.module_params_name, 'string', params_name),
-            (self.module_params_admin_name, 'string', "admin" + '${resourceToken}'),
-            (self.module_params_password, 'string', "\'Aa0!${newGuid()}\'", False, True),
+            (self.module_params_admin_name, 'string', None),
+            (self.module_params_password, 'string', None, False, True),
             (self.module_params_database_name, 'string', "db" + '${resourceToken}')
         ]
         self.main_outputs = [
