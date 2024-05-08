@@ -8,3 +8,18 @@ resource "azurerm_cognitive_account" "{{engine.module_name}}" {
 
     sku_name = "S0"
 }
+
+# Create a Cognitive Services Account Deployment
+
+resource "azurerm_cognitive_deployment" "{{engine.module_name}}" {
+    name                 = "{{engine.module_params_name}}-model"
+    cognitive_account_id = azurerm_cognitive_account.{{engine.module_name}}.id
+    model {
+        format  = "OpenAI"
+        name    = "gpt-4"
+    }
+
+    scale {
+        type = "Standard"
+    }
+}
