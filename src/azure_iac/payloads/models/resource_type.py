@@ -4,6 +4,8 @@ from azure_iac.payloads.models.connection_type import ConnectionType
 
 
 class ResourceType(str, Enum):
+    AZURE_AI_SEARCH = "azureaisearch"
+    AZURE_AI_SERVICES = "azureaiservices"
     AZURE_APP_SERVICE = "azureappservice"
     AZURE_APPLICATION_INSIGHTS = "azureapplicationinsights"
     AZURE_BOT_SERVICE = "azurebotservice"
@@ -12,13 +14,13 @@ class ResourceType(str, Enum):
     AZURE_FUNCTION_APP = "azurefunctions"
     AZURE_KEYVAULT = "azurekeyvault"
     AZURE_MYSQL_DB = "azuredatabaseformysql"
+    AZURE_OPENAI = "azureopenai"
     AZURE_POSTGRESQL_DB = "azuredatabaseforpostgresql"
     AZURE_REDIS_CACHE = "azurecacheforredis"
     AZURE_SQL_DB = "azuresqldatabase"
     AZURE_STORAGE_ACCOUNT = "azurestorageaccount"
     AZURE_STATIC_WEB_APP = "azurestaticwebapp"
     AZURE_SERVICE_BUS = "azureservicebus"
-    AZURE_OPENAI = "azureopenai"
 
 
     def is_compute(self):
@@ -44,6 +46,8 @@ class ResourceType(str, Enum):
         ]
 
 TargetDefaultConnectionType = {
+    ResourceType.AZURE_AI_SEARCH: ConnectionType.SECRET,
+    ResourceType.AZURE_AI_SERVICES: ConnectionType.SECRET,
     ResourceType.AZURE_APP_SERVICE: ConnectionType.HTTP,
     ResourceType.AZURE_APPLICATION_INSIGHTS: ConnectionType.SECRET,
     ResourceType.AZURE_BOT_SERVICE: ConnectionType.BOTREGISTRATION,
@@ -52,11 +56,11 @@ TargetDefaultConnectionType = {
     ResourceType.AZURE_FUNCTION_APP: ConnectionType.HTTP,
     ResourceType.AZURE_KEYVAULT: ConnectionType.SYSTEMIDENTITY,
     ResourceType.AZURE_MYSQL_DB: ConnectionType.SECRET,
+    ResourceType.AZURE_OPENAI: ConnectionType.SYSTEMIDENTITY,
     ResourceType.AZURE_POSTGRESQL_DB: ConnectionType.SECRET,
     ResourceType.AZURE_REDIS_CACHE: ConnectionType.SECRET,
     ResourceType.AZURE_SQL_DB: ConnectionType.SECRET,
     ResourceType.AZURE_STORAGE_ACCOUNT: ConnectionType.SYSTEMIDENTITY,
     ResourceType.AZURE_STATIC_WEB_APP: ConnectionType.HTTP,
     ResourceType.AZURE_SERVICE_BUS: ConnectionType.SYSTEMIDENTITY,
-    ResourceType.AZURE_OPENAI: ConnectionType.SYSTEMIDENTITY,
 }

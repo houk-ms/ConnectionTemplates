@@ -11,7 +11,7 @@ from azure_iac.helpers import string_helper
 from azure_iac.helpers.abbrevation import Abbreviation
 
 
-# TODO: enable firewall when creating resource
+# TODO: firewall engine not supported yet
 class OpenAIEngine(TargetResourceEngine):
 
     OpenAIContributorRole = 'Cognitive Services OpenAI Contributor'

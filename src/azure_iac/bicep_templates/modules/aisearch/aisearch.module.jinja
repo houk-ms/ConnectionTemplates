@@ -1,6 +1,6 @@
-// Deploy a Cognitive Service account of the kind of OpenAI
+// Deploy an Azure AI Search service
 
-module {{engine.module_name}} 'openai.bicep' = {
+module {{engine.module_name}} 'aisearch.bicep' = {
 	name: '{{engine.module_deployment_name}}'
 	scope: resourceGroup
 	params: {
