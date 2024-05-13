@@ -1,0 +1,8 @@
+# Create an Azure AI Search service
+
+resource "azurerm_search_service" "{{engine.module_name}}" {
+	name				=	"{{engine.module_params_name}}"
+	resource_group_name	=	azurerm_resource_group.rg.name
+	location			=	azurerm_resource_group.rg.location
+	sku					=	"standard"
+}

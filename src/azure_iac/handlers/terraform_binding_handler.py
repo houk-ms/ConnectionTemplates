@@ -66,7 +66,7 @@ class TerraformBindingHandler():
             
             app_settings = self.target_engine.get_app_settings_secret(self.binding)
             if self.binding.store is not None and self.key_vault_secret_engine is not None:
-                self.key_vault_secret_engine.set_key_vault_secret_and_id(app_settings, self.binding)
+                self.key_vault_secret_engine.change_appsettings_for_secret_reference(self.binding, app_settings)
             self.source_engine.add_app_settings(app_settings)
             
             # firewall engine depends on source engine (--> outbound ips)

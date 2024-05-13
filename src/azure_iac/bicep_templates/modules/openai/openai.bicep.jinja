@@ -1,5 +1,4 @@
 param name string = 'OpenAI-${uniqueString(resourceGroup().id)}'
-param deploymentName string = 'AIDeploy-${uniqueString(resourceGroup().id)}'
 param location string = resourceGroup().location
 param sku string = 'S0'
 param allowIps array = []
@@ -26,26 +25,6 @@ resource cognitiveService 'Microsoft.CognitiveServices/accounts@2021-10-01' = {
                 }
             ]
         }
-    }
-}
-
-// create a model deployment
-resource cognitiveServiceDeployment 'Microsoft.CognitiveServices/accounts/deployments@2023-05-01' = {
-    name: deploymentName
-    sku: {
-        name: 'P3'
-    }
-    parent: cognitiveService
-    properties: {
-        model: {
-            format: 'OpenAI'
-            name: 'gpt-4'
-        }
-        scaleSettings: {
-            capacity: 1
-            scaleType: 'Standard'
-        }
-        versionUpgradeOption: 'OnceNewDefaultVersionAvailable'
     }
 }
 
@@ -78,6 +57,5 @@ resource keyVaultSecret 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = if (key
 
 
 output id string = cognitiveService.id
-output deploymentId string = cognitiveServiceDeployment.id
 output endpoint string = cognitiveService.properties.endpoint
 output keyVaultSecretUri string = (keyVaultName != '' ? keyVaultSecret.properties.secretUriWithVersion : '')

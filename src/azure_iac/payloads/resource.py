@@ -1,6 +1,8 @@
 import re
 from typing import List
 from azure_iac.payloads.models.resource_type import ResourceType
+from azure_iac.payloads.resources.aisearch import AISearchResource
+from azure_iac.payloads.resources.aiservices import AIServicesResource
 from azure_iac.payloads.resources.app_service import AppServiceResource
 from azure_iac.payloads.resources.application_insights import ApplicationInsightsResource
 from azure_iac.payloads.resources.bot_service import BotServiceResource
@@ -8,18 +10,21 @@ from azure_iac.payloads.resources.container_app import ContainerAppResource
 from azure_iac.payloads.resources.cosmos_db import CosmosDBResource
 from azure_iac.payloads.resources.function_app import FunctionAppResource
 from azure_iac.payloads.resources.keyvault import KeyVaultResource
+from azure_iac.payloads.resources.mysql_db import MySqlDbResource
+from azure_iac.payloads.resources.openai import OpenAIResource
 from azure_iac.payloads.resources.postgresql_db import PostgreSqlDbResource
 from azure_iac.payloads.resources.redis import RedisResource
-from azure_iac.payloads.resources.sql_db import SqlDbResource
-from azure_iac.payloads.resources.storage_account import StorageAccountResource
-from azure_iac.payloads.resources.mysql_db import MySqlDbResource
 from azure_iac.payloads.resources.service_bus import ServiceBusResource
+from azure_iac.payloads.resources.sql_db import SqlDbResource
 from azure_iac.payloads.resources.static_web_app import StaticWebAppResource
 from azure_iac.payloads.resources.openai import OpenAIResource
 from azure_iac.payloads.resources.web_pubsub import WebPubSubResource
+from azure_iac.payloads.resources.storage_account import StorageAccountResource
 
 
 RESOURCES = {
+    ResourceType.AZURE_AI_SEARCH: AISearchResource,
+    ResourceType.AZURE_AI_SERVICES: AIServicesResource,
     ResourceType.AZURE_APP_SERVICE: AppServiceResource,
     ResourceType.AZURE_APPLICATION_INSIGHTS: ApplicationInsightsResource,
     ResourceType.AZURE_BOT_SERVICE: BotServiceResource,
@@ -27,6 +32,7 @@ RESOURCES = {
     ResourceType.AZURE_COSMOS_DB: CosmosDBResource,
     ResourceType.AZURE_FUNCTION_APP: FunctionAppResource,
     ResourceType.AZURE_KEYVAULT: KeyVaultResource,
+    ResourceType.AZURE_OPENAI: OpenAIResource,
     ResourceType.AZURE_POSTGRESQL_DB: PostgreSqlDbResource,
     ResourceType.AZURE_REDIS_CACHE: RedisResource,
     ResourceType.AZURE_SQL_DB: SqlDbResource,

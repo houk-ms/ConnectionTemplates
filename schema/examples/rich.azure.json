@@ -42,31 +42,41 @@
         "target": "${cosmos.todo}",
         "connection": "secret",
         "store": "${keyvault.todo}",
-        "key": "AZURE_COSMOS_CONNECTION_STRING"
+        "customKeys": {
+          "AZURE_COSMOS_CONNECTIONSTRING": "AZURE_COSMOS_CONNECTION_STRING"
+        }
       },
       {
         "source": "${containerapp.api}",
         "target": "${appinsights.todo}",
         "connection": "secret",
-        "key": "APPLICATIONINSIGHTS_CONNECTION_STRING"
+        "customKeys": {
+          "AZURE_APPINSIGHTS_CONNECTION_STRING": "APPLICATIONINSIGHTS_CONNECTION_STRING"
+        }
       },
       {
         "source": "${containerapp.api}",
         "target": "${keyvault.todo}",
         "connection": "system-identity",
-        "key": "AZURE_KEY_VAULT_ENDPOINT"
+        "customKeys": {
+          "AZURE_KEYVAULT_RESOURCEENDPOINT": "AZURE_KEY_VAULT_ENDPOINT"
+        }
       },
       {
         "source": "${containerapp.web}",
         "target": "${appinsights.todo}",
         "connection": "secret",
-        "key": "APPLICATIONINSIGHTS_CONNECTION_STRING"
+        "customKeys": {
+          "AZURE_APPINSIGHTS_CONNECTION_STRING": "APPLICATIONINSIGHTS_CONNECTION_STRING"
+        }
       },
       {
         "source": "${containerapp.web}",
         "target": "${containerapp.api}",
         "connection": "http",
-        "key": "SERVICE_API_URL"
+        "customKeys": {
+          "SERVICE_URL": "SERVICE_API_URL"
+        }
       }
     ],
     "services": [
