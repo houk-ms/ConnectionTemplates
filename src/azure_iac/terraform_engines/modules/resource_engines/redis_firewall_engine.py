@@ -14,5 +14,5 @@ class RedisFirewallEngine(FirewallResourceEngine):
 
         # resource module states and variables
         self.module_name = string_helper.format_snake(Abbreviation.REDIS_CACHE.value, self.resource.name, 'rule')
-        self.module_params_name = (self.resource.name or Abbreviation.REDIS_CACHE.value) + '${var.resource_suffix}' + '-allowAzure-rule'
+        self.module_params_name = (self.resource.name or Abbreviation.REDIS_CACHE.value) + '${var.resource_suffix}' + '_allowAzure_rule'
         self.params_parent_module_name = string_helper.format_snake(Abbreviation.REDIS_CACHE.value, self.resource.name)

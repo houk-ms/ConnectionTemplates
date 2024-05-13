@@ -20,9 +20,12 @@ class Abbreviation(str, Enum):
     POSTGRESQL_DB = "psql"
     REDIS_CACHE = "redis"
     RESOURCE_GROUP = "rg"
-    SERVICE_BUS = "sb"
     SQL_DB = "sql"
-    STATIC_WEB_APP = "swa"
     STORAGE_ACCOUNT = "strg"
-    
-    
+    KEYVAULT = "kv"
+    KEYVAULT_SECRET = "kvsec"
+    MYSQL_DB = "mysql"
+    FUNCTION_APP = "func"
+    STATIC_WEB_APP = "swa"
+    SERVICE_BUS = "sb"
+    OPENAI = "openai"

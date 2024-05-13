@@ -32,7 +32,10 @@ class OpenAIEngine(TargetResourceEngine):
         ]
         self.main_outputs = [
             (string_helper.format_camel('openAI', self.resource.name, "Id"), 
-             'string', '{}.outputs.id'.format(self.module_name))]
+             'string', '{}.outputs.id'.format(self.module_name)),
+            (string_helper.format_camel('openAIDeployment', self.resource.name, "Id"),
+			 'string', '{}.outputs.deploymentId'.format(self.module_name))
+        ]
 
 
     # return the app settings needed by identity connection

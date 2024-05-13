@@ -1,36 +1,32 @@
-param name string = 'OpenAI-${uniqueString(resourceGroup().id)}'
+// The template to create Azure Web PubSub with role assignments and Key Vault secret
+
+param name string = 'wps${uniqueString(resourceGroup().id)}'
 param location string = resourceGroup().location
-param sku string = 'S0'
-param allowIps array = []
+param unitCount int = 1
+param sku string = 'Standard_S1'
+param pricingTier string = 'Standard'
 param principalIds array = []
-param roleDefinitionId string = 'a001fd3d-188f-4b5d-821b-7da978bf7442'  // Cognitive Services OpenAI Contributor
+param roleDefinitionId string = '8cf5e20a-e4b2-4e9d-b3a1-5ceb692c2761'  // SignalR/Web PubSub Contributor
 param keyVaultName string = ''
 param secretName string = 'myvault/mysecret'
 
-// Create a Cognitive Service account of the kind of OpenAI
-resource cognitiveService 'Microsoft.CognitiveServices/accounts@2021-10-01' = {
+// Create Web PubSub
+resource webpubsub 'Microsoft.SignalRService/webPubSub@2021-10-01' = {
     name: name
     location: location
     sku: {
+        capacity: unitCount
         name: sku
+        tier: pricingTier
     }
-    kind: 'OpenAI'
-
     properties: {
-        networkAcls: {
-            defaultAction: 'Deny'
-            ipRules: [
-                for ip in allowIps: {
-                    value: ip
-                }
-            ]
-        }
+        publicNetworkAccess: 'Enabled'
     }
 }
 
 // create role assignments for the specified principalIds
 resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = [for principalId in principalIds: {
-    scope: cognitiveService
+    scope: webpubsub
     name: guid(name, principalId)
     properties: {
         roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', roleDefinitionId)
@@ -51,11 +47,11 @@ resource keyVaultSecret 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = if (key
             enabled: true
         }
         contentType: 'string'
-        value: cognitiveService.listKeys().key1
+        value: webpubsub.listKeys().primaryConnectionString
     }
 }
 
 
-output id string = cognitiveService.id
-output endpoint string = cognitiveService.properties.endpoint
+output id string = webpubsub.id
+output hostName string = webpubsub.properties.hostName
 output keyVaultSecretUri string = (keyVaultName != '' ? keyVaultSecret.properties.secretUriWithVersion : '')

@@ -27,7 +27,9 @@ class OpenAIEngine(TargetResourceEngine):
         # main.tf variables and outputs
         self.main_outputs = [
             (string_helper.format_snake('openai', 'account', self.resource.name, 'id'), 
-                'azurerm_cognitive_account.{}.id'.format(self.module_name))
+                'azurerm_cognitive_account.{}.id'.format(self.module_name)),
+			(string_helper.format_snake('openai', 'deployment', self.resource.name, 'id'),
+				'azurerm_cognitive_deployment.{}.id'.format(self.module_name)),
         ]
 
 

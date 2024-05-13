@@ -23,7 +23,7 @@
 		]
 	  },
 	  {
-		"type": "azuremysqldatabase",
+		"type": "azuredatabaseformysql",
 		"instances": [
 		  {
 			"name": "mysql1"
@@ -125,12 +125,34 @@
 				"name": "bot1"
 			}
 		]
+	  },
+	  {
+		"type": "azurewebpubsub",
+		"instances":[
+			{
+				"name": "wps1"
+			},
+			{
+				"name": "wps2"
+			}
+		]
+	  },
+	  {
+		"type": "azureopenai",
+		"instances":[
+			{
+				"name": "openai1"
+			},
+			{
+				"name": "openai2"
+			}
+		]
 	  }
 	],
 	"bindings": [
 		{
 			"source": "${azureappservice.app1}",
-			"target": "${azuremysqldatabase.mysql1}",
+			"target": "${azuredatabaseformysql.mysql1}",
 			"customKeys": {
 				"AZURE_MYSQL_CONNECTIONSTRING": "rawmysql1"
 			},
@@ -138,7 +160,7 @@
 		},
 		{
 			"source": "${azureappservice.app2}",
-			"target": "${azuremysqldatabase.mysql2}",
+			"target": "${azuredatabaseformysql.mysql2}",
 			"connection": "secret",
 			"store": "${azurekeyvault.kv1}",
 			"customKeys": {
@@ -182,7 +204,7 @@
 		},
 		{
 			"source": "${azurecontainerapp.aca1}",
-			"target": "${azuremysqldatabase.mysql1}",
+			"target": "${azuredatabaseformysql.mysql1}",
 			"connection": "secret",
 			"customKeys": {
 				"AZURE_MYSQL_HOST": "pyhost"
@@ -244,6 +266,7 @@
 		{
 			"source":"${azureappservice.app1}",
 			"target":"${azurecacheforredis.redis1}",
+			"connection":"secret",
 			"customKeys": {
 				"AZURE_REDIS_CONNECTIONSTRING": "redisconnstr"
 			},
@@ -278,6 +301,32 @@
 		{
 			"source":"${azureappservice.app1}",
 			"target":"${azurebotservice.bot1}"
+		},
+		{
+			"source":"${azureappservice.app1}",
+			"target":"${azurewebpubsub.wps1}",
+			"connection":"secret",
+			"customKeys": {
+				"AZURE_WEBPUBSUB_CONNECTIONSTRING": "wpsconnstr"
+			},
+			"store":"${azurekeyvault.kv1}"
+		},
+		{
+			"source":"${azureappservice.app2}",
+			"target":"${azurewebpubsub.wps2}"
+		},
+		{
+			"source":"${azureappservice.app1}",
+			"target":"${azureopenai.openai1}",
+			"connection":"secret",
+			"customKeys": {
+				"AZURE_OPENAI_KEY": "openaikey"
+			},
+			"store":"${azurekeyvault.kv1}"
+		},
+		{
+			"source":"${azureappservice.app2}",
+			"target":"${azureopenai.openai2}"
 		}
 		
 	],

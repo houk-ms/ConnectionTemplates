@@ -21,6 +21,8 @@ class ResourceType(str, Enum):
     AZURE_STORAGE_ACCOUNT = "azurestorageaccount"
     AZURE_STATIC_WEB_APP = "azurestaticwebapp"
     AZURE_SERVICE_BUS = "azureservicebus"
+    AZURE_OPENAI = "azureopenai"
+    AZURE_WEBPUBSUB = "azurewebpubsub"
 
 
     def is_compute(self):
@@ -63,4 +65,6 @@ TargetDefaultConnectionType = {
     ResourceType.AZURE_STORAGE_ACCOUNT: ConnectionType.SYSTEMIDENTITY,
     ResourceType.AZURE_STATIC_WEB_APP: ConnectionType.HTTP,
     ResourceType.AZURE_SERVICE_BUS: ConnectionType.SYSTEMIDENTITY,
+    ResourceType.AZURE_OPENAI: ConnectionType.SYSTEMIDENTITY,
+    ResourceType.AZURE_WEBPUBSUB: ConnectionType.SYSTEMIDENTITY,
 }

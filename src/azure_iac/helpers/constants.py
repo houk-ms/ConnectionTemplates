@@ -483,5 +483,41 @@ CONFIGURATION_NAMES = {
                 ('base', 'AZURE_OPENAI_BASE', False)
             ]
         }
-	}
+	},
+    ResourceType.AZURE_WEBPUBSUB: {
+        ConnectionType.SECRET: {
+            ClientType.PYTHON: [
+                ('connection_string', 'AZURE_WEBPUBSUB_CONNECTIONSTRING', True)
+            ],
+            ClientType.NODE: [
+                ('connection_string', 'AZURE_WEBPUBSUB_CONNECTIONSTRING', True)
+            ],
+            ClientType.JAVA: [
+                ('connection_string', 'AZURE_WEBPUBSUB_CONNECTIONSTRING', True)
+            ],
+            ClientType.DOTNET: [
+                ('connection_string', 'AZURE_WEBPUBSUB_CONNECTIONSTRING', True)
+            ],
+            ClientType.DEFAULT: [
+                ('connection_string', 'AZURE_WEBPUBSUB_CONNECTIONSTRING', True)
+            ]
+        },
+        ConnectionType.SYSTEMIDENTITY: {
+            ClientType.PYTHON: [
+                ('host', 'AZURE_WEBPUBSUB_HOST', False),
+            ],
+            ClientType.NODE: [
+                ('host', 'AZURE_WEBPUBSUB_HOST', False),
+            ],
+            ClientType.JAVA: [
+                ('host', 'AZURE_WEBPUBSUB_HOST', False),
+            ],
+            ClientType.DOTNET: [
+                ('host', 'AZURE_WEBPUBSUB_HOST', False),
+            ],
+            ClientType.DEFAULT: [
+                ('host', 'AZURE_WEBPUBSUB_HOST', False),
+            ]
+        }
+    }
 }

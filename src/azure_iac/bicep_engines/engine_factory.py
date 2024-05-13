@@ -19,7 +19,8 @@ from azure_iac.bicep_engines.modules.resource_engines.redis_engine import RedisE
 from azure_iac.bicep_engines.modules.resource_engines.sqldb_engine import SqlDbEngine
 from azure_iac.bicep_engines.modules.resource_engines.servicebus_engine import ServiceBusEngine
 from azure_iac.bicep_engines.modules.resource_engines.staticwebapp_engine import StaticWebAppEngine
-from azure_iac.bicep_engines.modules.resource_engines.storageaccount_engine import StorageAccountEngine
+from azure_iac.bicep_engines.modules.resource_engines.openai_engine import OpenAIEngine
+from azure_iac.bicep_engines.modules.resource_engines.webpubsub_engine import WebPubSubEngine
 
 
 RESOURCE_ENGINES = {
@@ -39,7 +40,8 @@ RESOURCE_ENGINES = {
     ResourceType.AZURE_SERVICE_BUS: ServiceBusEngine,
     ResourceType.AZURE_SQL_DB: SqlDbEngine,
     ResourceType.AZURE_STATIC_WEB_APP: StaticWebAppEngine,
-    ResourceType.AZURE_STORAGE_ACCOUNT: StorageAccountEngine,
+    ResourceType.AZURE_OPENAI: OpenAIEngine,
+    ResourceType.AZURE_WEBPUBSUB: WebPubSubEngine,
 }
 
 SETTING_ENGINES = {
