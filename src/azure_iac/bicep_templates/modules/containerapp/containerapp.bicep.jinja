@@ -3,11 +3,12 @@
 param name string = 'aca_${uniqueString(resourceGroup().id)}'
 param location string = resourceGroup().location
 param secrets array = []
-param containerName string = 'helloworld'
+param containerName string = 'main'
 param containerImage string = 'mcr.microsoft.com/azuredocs/containerapps-helloworld:latest'
 param containerEnv array = []
 param containerAppEnvId string
 param containerRegistryName string
+param targetPort int = 80
 param tags object = {}
 
 
@@ -26,7 +27,7 @@ resource containerApp 'Microsoft.App/containerApps@2023-05-01' = {
 		configuration: {
 			ingress: {
 				external: true
-				targetPort: 80
+				targetPort: targetPort
 			}
 			registries: [
 				{

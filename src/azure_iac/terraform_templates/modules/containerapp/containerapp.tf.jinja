@@ -24,7 +24,7 @@ resource "azurerm_container_app" "{{engine.module_name}}" {
 	{% endif %}
 	template {
 		container {
-			name	=	"examplecontainerapp"
+			name	=	"main"
 			image	=	"mcr.microsoft.com/azuredocs/containerapps-helloworld:latest"
 			cpu		=	0.25
 			memory	=	"0.5Gi"{% if engine.module_params_app_settings %}

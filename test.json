@@ -1,0 +1,46 @@
+{
+	"projectType": "azd",
+	"resources": [
+	  {
+		"type": "azureaiservices",
+		"instances": [{
+			"name": "ai"
+		}]
+	  },
+	  {
+		"type": "azureaisearch",
+		"instances": [{
+			"name": "search"
+		}]
+	  },
+	  {
+		"type": "azureopenai",
+		"instances": [{
+			"name": "aoai"
+		}]
+	  },
+	  {
+		"type": "azureappservice",
+		"instances": [{
+			"name": "app"
+		}]
+	  }
+    ],
+	"bindings": [
+		{
+		  "source": "${azureappservice.app}",
+		  "target": "${azureaiservices.ai}",
+		  "connection": "secret"
+		},
+		{
+		  "source": "${azureappservice.app}",
+		  "target": "${azureopenai.aoai}",
+		  "connection": "secret"
+		},
+		{
+		  "source": "${azureappservice.app}",
+		  "target": "${azureaisearch.search}",
+		  "connection": "secret"
+		}
+	]
+}

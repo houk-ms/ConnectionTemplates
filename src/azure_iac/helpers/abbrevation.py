@@ -2,6 +2,8 @@ from enum import Enum
 
 
 class Abbreviation(str, Enum):
+    AI_SEARCH = "ais"
+    AI_SERVICES = "aisvc"
     APPLICATION_INSIGHTS = "ai"
     APP_SERVICE = "app"
     APP_SERVICE_PLAN = "plan"
@@ -10,6 +12,11 @@ class Abbreviation(str, Enum):
     CONTAINER_APP_ENV = "env"
     CONTAINER_REGISTRY = "acr"
     COSMOS_DB = 'cosmos'
+    FUNCTION_APP = "func"
+    KEYVAULT = "kv"
+    KEYVAULT_SECRET = "secrect"
+    MYSQL_DB = "mysql"
+    OPENAI = "openai"
     POSTGRESQL_DB = "psql"
     REDIS_CACHE = "redis"
     RESOURCE_GROUP = "rg"
@@ -22,4 +29,3 @@ class Abbreviation(str, Enum):
     STATIC_WEB_APP = "swa"
     SERVICE_BUS = "sb"
     OPENAI = "openai"
-    WEB_PUBSUB = "wps"

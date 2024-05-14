@@ -47,7 +47,7 @@ class ContainerAppEngine(SourceResourceEngine, TargetResourceEngine):
         self.main_params = [
             ('location', 'string', string_helper.get_location(), False),
             (self.module_params_name, 'string', 
-                string_helper.format_resource_name(self.resource.name[:6] or Abbreviation.CONTAINER_APP.value)),
+                string_helper.format_resource_name(self.resource.name or Abbreviation.CONTAINER_APP.value)),
         ]
         self.main_outputs = [
             (string_helper.format_camel('containerApp', self.resource.name, "Id"),
