@@ -7,25 +7,47 @@ the following files to the infrastructure:
 
 1. Bicep templates of resources
 
-    For each kind of resources, a Bicep file is generated as the module for the resource. If some dependency resources, e.g. App Service plan and Container Apps Environment, are required, the corresponding Bicep files are also created. Dependency resources are shared among the resources of the same kind. A Bicep file for app settings is also created for the compute resources. Below is the brief introduction of the generated Bicep files for all resources and their dependency resources.
+    For each kind of resources, a Bicep file is generated as the module for the resource. The Bicep file for each resource is used once or for multiple times in the `main.bicep` for actual deployments. Each template contains the parameters that it takes from the `main.bicep` at the top, followed by the basic configurations of these files. Below is the brief introduction of the generated Bicep files for all resources and their dependency resources.
 
-    - containerapp.bicep, containerappenv.bicep, containerappregistry.bicep
-      Azure Container Apps
-    - appservice.bicep, appserviceplan.bicep, appservice.settings.bicep
-      Azure App Service
-    - functionapp.bicep, storageaccount.bicep, functionapp.settings.bicep
-      Azure Functions
-    - staticwebapp.bicep, staticwebapp.settings.bicep
-    - keyvault.bicep
-    - cosmosdb.bicep
-    - storageaccount.bicep
-    - sqldb.bicep
-    - postgresqldb.bicep
-    - mysql.bicep
-    - openai.bicep
-    - botservice.bicep
-    - servicebus.bicep
-    - webpubsub.bicep
+    - Compute services
+      - Azure Container Apps
+
+        `containerappenv.bicep` defines the Container Apps Environment and the Log Anayltics (for monitoring) that are prerequisites for the creation of the Container Apps. Only one Container Apps Environment is only created and is shared by all the Container Apps services.
+        `containerappregistry.bicep` defines the Container Registry Registry that is also shared by all of the Container Apps services.
+        `containerapp.bicep` defines a template of a Container App. System identity is enabled and the Container App Registry is referenced. Other environment variables and secrets for service bindings are passed through from the `main.bicep`.
+
+      - Azure App Service
+      
+        `appservice.bicep`, `appserviceplan.bicep`, `appservice.settings.bicep`
+        
+      - Azure Functions
+        `functionapp.bicep`, `storageaccount.bicep`, `functionapp.settings.bicep`
+        
+      - staticwebapp.bicep, staticwebapp.settings.bicep
+        Azure Static Web App
+    - Target resources and others
+      - keyvault.bicep
+        Azure Key Vault
+      - cosmosdb.bicep
+        Azure Cosmos DB for MongoDB
+      - storageaccount.bicep
+        Azure Storage Account
+      - sqldb.bicep
+        Azure SQL Database
+      - postgresqldb.bicep
+        Azure Database for PostgreSQL servers
+      - mysql.bicep
+        Azure Azure Database for MySQL servers
+      - aiservices.bicep
+        Azure AI Services
+      - openai.bicep
+        Azure OpenAI
+      - botservice.bicep
+        Azure AI Bot Service
+      - servicebus.bicep
+        Azure Service Bus
+      - webpubsub.bicep
+        Azure Web PubSub
 
 1. main.bicep
 
@@ -35,7 +57,15 @@ the following files to the infrastructure:
 
 1. main.parameters.json
 
-    This file contains the parameters that requires user input.
+    This file contains the parameters that requires user input. 
+    - Azure AI Bot Service
+      An Azure AI Bot Service requires the client ID and the client secret of the registered app for Microsoft Entra identity provider.
+    - Azure Database for PostgreSQL servers
+      An Azure Database for PostgreSQL servers requires the user name and the password of the database administrator.
+    - Azure SQL
+      An Azure SQL Database requires the user name and the password of the database administrator.
+    - Azure Azure Database for MySQL servers
+      An Azure Database for MySQL servers requires the user name and the password of the database administrator.
 
 ## Next Step
 
