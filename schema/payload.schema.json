@@ -14,12 +14,12 @@
 					"type": {
 						"type": "string",
 						"enum": [
+							"azureaisearch",
 							"azureaiservices",
 							"azureappservice", 
 							"azureapplicationinsights", 
 							"azurebotservice", 
 							"azurecacheforredis", 
-							"azurecognitivesearch",
 							"azurecontainerapp", 
 							"azurecosmosdb", 
 							"azurefunctions", 
