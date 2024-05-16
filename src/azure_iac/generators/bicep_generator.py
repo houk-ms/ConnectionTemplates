@@ -9,6 +9,7 @@ from azure_iac.bicep_engines import engine_factory
 from azure_iac.bicep_engines.main_engine import MainEngine
 from azure_iac.bicep_engines.mainparam_engine import MainParamEngine
 from azure_iac.bicep_engines.modules.resource_engines.resourcegroup_engine import ResourceGroupEngine
+from azure_iac.bicep_engines.readme_engine import ReadMeEngine
 
 from azure_iac.generators.base_generator import BaseGenerator
 from azure_iac.handlers.bicep_binding_handler import BicepBindingHandler
@@ -156,6 +157,14 @@ class BicepGenerator(BaseGenerator):
             bicep_file_name = engine.bicep_template.split('/')[-1].replace('.jinja', '')
             file_helper.create_file('{}/{}'.format(output_folder, bicep_file_name), engine.render_bicep())
 
+	
+    def generate_readme(self, output_folder: str):
+		# generate readme file
+        readme_engine = ReadMeEngine()
+        readme_engine.resources = [engine.resource.type.value for engine in self.resource_engines]
+
+        file_helper.create_file('{}/README.md'.format(output_folder), readme_engine.render_template())
+
 
     def generate(self, output_folder: str='./'):
         self.init_resource_engines()
@@ -164,6 +173,7 @@ class BicepGenerator(BaseGenerator):
         self.init_param_engines()
         self.init_output_engines()
         self.generate_biceps(output_folder)
+        self.generate_readme(output_folder)
 
 
     def _get_resource_engine_by_resource(self, resource: Resource):

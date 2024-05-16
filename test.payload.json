@@ -147,6 +147,17 @@
 				"name": "openai2"
 			}
 		]
+	  },
+	  {
+		"type": "azurefunctions",
+		"instances":[
+			{
+				"name": "func1"
+			},
+			{
+				"name": "func2"
+			}
+		]
 	  }
 	],
 	"bindings": [
