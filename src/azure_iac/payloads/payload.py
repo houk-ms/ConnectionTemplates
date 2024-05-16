@@ -52,7 +52,7 @@ class Payload():
                     dservice = Service.from_json(service, resource_dict)
                     payload.services.append(dservice)
                     source = Resource.from_expression(service.get('host'), resource_dict)
-                    source.service = service
+                    source.service = dservice
                 except Exception as e:
                     print(f'Warning: detect service failed, service: {service}, error: {e}')
         

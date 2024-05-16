@@ -22,6 +22,7 @@ class ContainerAppSettingsEngine(SettingResourceEngine):
         self.module_params_name = string_helper.format_camel('containerApp', self.resource.name, "Name")
         if self.resource.projectType == ProjectType.AZD:
             self.module_params_service_name = self.resource.name
+        self.module_params_target_port = self.resource.service.port
 
         if self.resource.settings:
             app_settings = []

@@ -33,7 +33,7 @@ resource cognitiveService 'Microsoft.CognitiveServices/accounts@2021-10-01' = {
 // Create model deployment for OpenAI service
 resource deployment 'Microsoft.CognitiveServices/accounts/deployments@2023-05-01' = {
 	parent: cognitiveService
-	name: 'chatgpt35turbo'
+	name: 'gpt35turbo'
 	properties: {
 		model: {
 			format: 'OpenAI'
@@ -77,6 +77,6 @@ resource keyVaultSecret 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = if (key
 
 
 output id string = cognitiveService.id
-output deploymentId string = deployment.id
+output deploymentName string = deployment.name
 output endpoint string = cognitiveService.properties.endpoint
 output keyVaultSecretUri string = (keyVaultName != '' ? keyVaultSecret.properties.secretUriWithVersion : '')

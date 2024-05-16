@@ -5,7 +5,8 @@ module {{engine.module_name}} 'containerapp.bicep' = {
 	scope: resourceGroup
 	params: {
 		location: location
-		name: {{engine.module_params_name}} {% if engine._get_module_params_secrets() %}
+		name: {{engine.module_params_name}}
+		targetPort: {{engine.module_params_target_port}} {% if engine._get_module_params_secrets() %}
 		secrets: [{% for key, value in engine._get_module_params_secrets() %}
 			{
 				name: '{{key}}'

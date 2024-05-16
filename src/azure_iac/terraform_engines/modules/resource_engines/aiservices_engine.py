@@ -45,6 +45,7 @@ class AIServicesEngine(TargetResourceEngine):
         name = 'azurerm_cognitive_account.{}.name'.format(self.module_name) 
         deafult_settings = [
             (AppSettingType.KeyValue, 'AZURE_AISERVICES_OPENAI_BASE', '"https://${' + name + '}.openai.azure.com/"'),
+            (AppSettingType.KeyValue, 'AZURE_AISERVICES_OPENAI_DEPLOYMENT', 'azurerm_cognitive_deployment.{}.name'.format(self.module_name)),
             (AppSettingType.KeyValue, 'AZURE_AISERVICES_SPEECH_ENDPOINT', 'azurerm_cognitive_account.{}.endpoint'.format(self.module_name)),
             (AppSettingType.KeyValue, 'AZURE_AISERVICES_COGNITIVESERVICES_ENDPOINT', 'azurerm_cognitive_account.{}.endpoint'.format(self.module_name)),
         ]
@@ -59,6 +60,7 @@ class AIServicesEngine(TargetResourceEngine):
         name = 'azurerm_cognitive_account.{}.name'.format(self.module_name) 
         deafult_settings = [
             (AppSettingType.KeyValue, 'AZURE_AISERVICES_OPENAI_BASE', '"https://${' + name + '}.openai.azure.com/"'),
+            (AppSettingType.KeyValue, 'AZURE_AISERVICES_OPENAI_DEPLOYMENT', 'azurerm_cognitive_deployment.{}.name'.format(self.module_name)),
             (AppSettingType.KeyValue, 'AZURE_AISERVICES_SPEECH_ENDPOINT', 'azurerm_cognitive_account.{}.endpoint'.format(self.module_name)),
             (AppSettingType.KeyValue, 'AZURE_AISERVICES_COGNITIVESERVICES_ENDPOINT', 'azurerm_cognitive_account.{}.endpoint'.format(self.module_name)),
             (AppSettingType.SecretReference, 'AZURE_AISERVICES_KEY', 'azurerm_cognitive_account.{}.primary_access_key'.format(self.module_name)),
