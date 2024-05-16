@@ -40,6 +40,7 @@ class AIServicesEngine(TargetResourceEngine):
         custom_keys = dict() if binding.customKeys is None else binding.customKeys
         deafult_settings = [
             (AppSettingType.KeyValue, 'AZURE_AISERVICES_OPENAI_BASE', '{}.outputs.openaiEndpoint'.format(self.module_name)),
+            (AppSettingType.KeyValue, 'AZURE_AISERVICES_OPENAI_DEPLOYMENT', '{}.outputs.openaiDeploymentName'.format(self.module_name)),
             (AppSettingType.KeyValue, 'AZURE_AISERVICES_SPEECH_ENDPOINT', '{}.outputs.speechEndpoint'.format(self.module_name)),
             (AppSettingType.KeyValue, 'AZURE_AISERVICES_COGNITIVESERVICES_ENDPOINT', '{}.outputs.cognitiveEndpoint'.format(self.module_name)),
         ]
@@ -52,6 +53,7 @@ class AIServicesEngine(TargetResourceEngine):
         custom_keys = dict() if binding.customKeys is None else binding.customKeys
         deafult_settings = [
             (AppSettingType.KeyValue, 'AZURE_AISERVICES_OPENAI_BASE', '{}.outputs.openaiEndpoint'.format(self.module_name)),
+            (AppSettingType.KeyValue, 'AZURE_AISERVICES_OPENAI_DEPLOYMENT', '{}.outputs.openaiDeploymentName'.format(self.module_name)),
             (AppSettingType.KeyValue, 'AZURE_AISERVICES_SPEECH_ENDPOINT', '{}.outputs.speechEndpoint'.format(self.module_name)),
             (AppSettingType.KeyValue, 'AZURE_AISERVICES_COGNITIVESERVICES_ENDPOINT', '{}.outputs.cognitiveEndpoint'.format(self.module_name)),
             (AppSettingType.KeyVaultReference, 'AZURE_AISERVICES_KEY', '{}.outputs.keyVaultSecretUri'.format(self.module_name)),

@@ -4,6 +4,7 @@ from azure_iac.helpers.connection_info import OpenAIConnInfoHelper
 from azure_iac.payloads.binding import Binding
 from azure_iac.payloads.resources.openai import OpenAIResource
 
+from azure_iac.bicep_engines.models.appsetting import AppSetting, AppSettingType
 from azure_iac.bicep_engines.models.template import Template
 from azure_iac.bicep_engines.modules.target_resource_engine import TargetResourceEngine
 
@@ -32,29 +33,27 @@ class OpenAIEngine(TargetResourceEngine):
         ]
         self.main_outputs = [
             (string_helper.format_camel('openAI', self.resource.name, "Id"), 
-             'string', '{}.outputs.id'.format(self.module_name)),
-            (string_helper.format_camel('openAIDeployment', self.resource.name, "Id"),
-			 'string', '{}.outputs.deploymentId'.format(self.module_name))
+             'string', '{}.outputs.id'.format(self.module_name))
         ]
 
 
     # return the app settings needed by identity connection
     def get_app_settings_identity(self, binding: Binding) -> List[tuple]:
-        connInfoHelper = OpenAIConnInfoHelper("" if binding.source.service is None else binding.source.service['language'],
-                                              base='{}.outputs.endpoint'.format(self.module_name)
-                                              )
-        configs = connInfoHelper.get_configs({} if binding.customKeys is None else binding.customKeys,
-                                             binding.connection)
-        
-        return self._get_app_settings(configs)
+        custom_keys = dict() if binding.customKeys is None else binding.customKeys
+        deafult_settings = [
+            (AppSettingType.KeyValue, 'AZURE_OPENAI_BASE', '{}.outputs.endpoint'.format(self.module_name)),
+            (AppSettingType.KeyValue, 'AZURE_OPENAI_DEPLOYMENT', '{}.outputs.deploymentName'.format(self.module_name)),
+        ]
+
+        return [AppSetting(_type, custom_keys.get(key, key), value) for _type, key, value in deafult_settings]
     
     # return the app settings needed by secret connection
     def get_app_settings_secret(self, binding: Binding) -> List[tuple]:
-        connInfoHelper = OpenAIConnInfoHelper("" if binding.source.service is None else binding.source.service['language'],
-                                              base='{}.outputs.endpoint'.format(self.module_name),
-                                              key=''
-                                              )
-        configs = connInfoHelper.get_configs({} if binding.customKeys is None else binding.customKeys,
-                                             binding.connection)
-        
-        return self._get_app_settings(configs)
+        custom_keys = dict() if binding.customKeys is None else binding.customKeys
+        deafult_settings = [
+            (AppSettingType.KeyValue, 'AZURE_OPENAI_BASE', '{}.outputs.endpoint'.format(self.module_name)),
+            (AppSettingType.KeyValue, 'AZURE_OPENAI_DEPLOYMENT', '{}.outputs.deploymentName'.format(self.module_name)),
+            (AppSettingType.KeyVaultReference, 'AZURE_OPENAI_KEY', '{}.outputs.keyVaultSecretUri'.format(self.module_name)),
+        ]
+
+        return [AppSetting(_type, custom_keys.get(key, key), value) for _type, key, value in deafult_settings]

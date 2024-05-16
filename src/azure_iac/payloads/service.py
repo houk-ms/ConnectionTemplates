@@ -7,7 +7,8 @@ class Service():
         self.host = None
         self.language = None
         self.project = None
-    
+        self.port = 80
+
     def from_json(json: dict, all_resources: dict) -> 'Service':
         service = Service()
 
@@ -16,6 +17,7 @@ class Service():
         resource = Resource.from_expression(json['host'], all_resources)
         service.name = resource.name
         service.host = ResourceTypeToAzdServiceType[resource.type]
+        service.port = json.get('port', 80)
 
         if 'language' not in json:
             raise ValueError(f'`language` property is not found in service: {json}')

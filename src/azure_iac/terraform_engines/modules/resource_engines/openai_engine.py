@@ -1,9 +1,9 @@
 from typing import List
 
-from azure_iac.helpers.connection_info import OpenAIConnInfoHelper
 from azure_iac.payloads.binding import Binding
 from azure_iac.payloads.resources.openai import OpenAIResource
 
+from azure_iac.terraform_engines.models.appsetting import AppSetting, AppSettingType
 from azure_iac.terraform_engines.models.template import Template
 from azure_iac.terraform_engines.modules.target_resource_engine import TargetResourceEngine
 
@@ -40,19 +40,27 @@ class OpenAIEngine(TargetResourceEngine):
 
     # return the app settings needed by identity connection
     def get_app_settings_identity(self, binding: Binding) -> List[tuple]:
-        connInfoHelper = OpenAIConnInfoHelper("" if binding.source.service is None else binding.source.service['language'],
-                                              base='azurerm_cognitive_account.{}.endpoint'.format(self.module_name)
-                                              )
-        configs = connInfoHelper.get_configs({} if binding.customKeys is None else binding.customKeys,
-                                             binding.connection)
-        return self._get_app_settings(configs)
+        custom_keys = dict() if binding.customKeys is None else binding.customKeys
+        
+        # TODO: TF does not support other endpoints for now, so we just concatenate the name
+        name = 'azurerm_cognitive_account.{}.name'.format(self.module_name) 
+        deafult_settings = [
+            (AppSettingType.KeyValue, 'AZURE_OPENAI_BASE', '"https://${' + name + '}.openai.azure.com/"'),
+            (AppSettingType.KeyValue, 'AZURE_OPENAI_DEPLOYMENT', 'azurerm_cognitive_deployment.{}.name'.format(self.module_name)),
+        ]
+
+        return [AppSetting(_type, custom_keys.get(key, key), value) for _type, key, value in deafult_settings]
 
     # return the app settings needed by secret connection
     def get_app_settings_secret(self, binding: Binding) -> List[tuple]:
-        connInfoHelper = OpenAIConnInfoHelper("" if binding.source.service is None else binding.source.service['language'],
-                                              base='azurerm_cognitive_account.{}.endpoint'.format(self.module_name),
-                                              key='azurerm_cognitive_account.{}.primary_access_key'.format(self.module_name)
-											  )
-        configs = connInfoHelper.get_configs({} if binding.customKeys is None else binding.customKeys,
-                                             binding.connection)
-        return self._get_app_settings(configs)
+        custom_keys = dict() if binding.customKeys is None else binding.customKeys
+        
+        # TODO: TF does not support other endpoints for now, so we just concatenate the name
+        name = 'azurerm_cognitive_account.{}.name'.format(self.module_name) 
+        deafult_settings = [
+            (AppSettingType.KeyValue, 'AZURE_OPENAI_BASE', '"https://${' + name + '}.openai.azure.com/"'),
+            (AppSettingType.KeyValue, 'AZURE_OPENAI_DEPLOYMENT', 'azurerm_cognitive_deployment.{}.name'.format(self.module_name)),
+            (AppSettingType.SecretReference, 'AZURE_OPENAI_KEY', 'azurerm_cognitive_account.{}.primary_access_key'.format(self.module_name)),
+        ]
+
+        return [AppSetting(_type, custom_keys.get(key, key), value) for _type, key, value in deafult_settings]

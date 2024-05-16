@@ -31,6 +31,23 @@ resource cognitiveService 'Microsoft.CognitiveServices/accounts@2021-10-01' = {
 	}
 }
 
+// Create model deployment for OpenAI service
+resource deployment 'Microsoft.CognitiveServices/accounts/deployments@2023-05-01' = {
+	parent: cognitiveService
+	name: 'gpt35turbo'
+	properties: {
+		model: {
+			format: 'OpenAI'
+			name: 'gpt-35-turbo'
+			version: '0613'
+		}
+	}
+	sku: {
+		name: 'Standard'
+		capacity: 20
+	}
+}
+
 // create role assignments for the specified principalIds
 resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = [for principalId in principalIds: {
 	scope: cognitiveService
@@ -63,4 +80,5 @@ output id string = cognitiveService.id
 output cognitiveEndpoint string = cognitiveService.properties.endpoint
 output speechEndpoint string = cognitiveService.properties.endpoints['Speech Services Speech to Text']
 output openaiEndpoint string = cognitiveService.properties.endpoints['OpenAI Language Model Instance API']
+output openaiDeploymentName string = deployment.name
 output keyVaultSecretUri string = (keyVaultName != '' ? keyVaultSecret.properties.secretUriWithVersion : '')

@@ -102,6 +102,10 @@
 					"project": {
 						"type": "string",
 						"description": "The project path"
+					},
+					"port": {
+						"type": "string",
+						"description": "The service port. Default to 80"
 					}
 				},
 				"required": ["host", "language", "project"]

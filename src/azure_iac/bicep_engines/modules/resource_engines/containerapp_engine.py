@@ -31,6 +31,8 @@ class ContainerAppEngine(SourceResourceEngine, TargetResourceEngine):
         self.module_params_name = string_helper.format_camel('containerApp', self.resource.name, "Name")        
         if self.resource.projectType == ProjectType.AZD:
             self.module_params_service_name = self.resource.name
+        self.module_params_target_port = self.resource.service.port
+
         self.module_var_principal_id_name = '{}.outputs.identityPrincipalId'.format(self.module_name)
         self.module_var_outbound_ip_name = '{}.outputs.outboundIps'.format(self.module_name)
         self.module_var_endpoint_name = '{}.outputs.requestUrl'.format(self.module_name)
