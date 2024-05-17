@@ -88,7 +88,7 @@ Iac Generator for Bicep generates three kinds of files. `main.bicep` describes t
 {%endif%}
     **_NOTE:_** All the secrets (connectin strings, access keys and passwords) are stored in key vault and used as key vault reference in compute resources.
 
-2. `main.bicep`
+1. `main.bicep`
 
     This file defines the deployments of your services. During the deployments, connection information between services are configured. The resources are created or updated in the following order:
 
@@ -97,7 +97,7 @@ Iac Generator for Bicep generates three kinds of files. `main.bicep` describes t
     - The target resources such as databases, storage and key vault, etc. If the target is connected to a compute resource, network and authentication settings are configured. Outbound IPs of the compute resources are added to the target's firewall rules. If the connection is using system identity, principal ID is used to do role assignment according to the resource templates. If the connection is using secret authentication, connection strings or keys are constructed or acquired in the templates.
     - The deployment of app settings. Set the connection info such as key vault secret (retrieved from each resource template using key vault reference format) and the resource endpoint from the outputs of the target resources in app settings. {%if 'azurecontainerapp' in engine.resources%}Container Apps are deployed the second time if it is connected to the target resources. The connection information is set to the environment variables and the Container Apps secret. Key vault secret is referenced by the secret URI using system identity.{%endif%}
 
-3. `main.parameters.json`
+1. `main.parameters.json`
 
     This file contains the parameters that requires user input.
 {% if 'azurebotservice' in engine.resources %}
@@ -116,6 +116,6 @@ Iac Generator for Bicep generates three kinds of files. `main.bicep` describes t
 ## Next Step
 
 1. Complete the input parameters.
-2. Customize the configurations of the resources.
-3. Provision the resources. Refer to [Deploy Bicep files from Visual Studio Code](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/deploy-vscode).
+1. Customize the configurations of the resources.
+1. Provision the resources. Refer to [Deploy Bicep files from Visual Studio Code](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/deploy-vscode).
 
