@@ -54,7 +54,7 @@ Iac Generator for Terraform generates `main.tf` to create the compute resources,
     - `servicebus.firewall.tf` creates the instances of network rule set, which adds the outbound IPs of connected compute resources to the firewall rule set.
 {%endif%}{% if 'azurewebpubsub' in engine.resources %}
     - `webpubsub.tf` creates the instances of Azure Web PubSub service. Public network access is enabled.{%endif%}
-    - `role.tf` creates the role assignments to grant necessary access to system identity of compute resources if identity-based connection is used.       
+    - `role.tf` creates the role assignments to grant necessary access to system identity of compute resources if identity-based connection is used.
 
 1. `variables.tf`
 

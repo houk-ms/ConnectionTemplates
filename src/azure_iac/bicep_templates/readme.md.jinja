@@ -95,7 +95,7 @@ The generator for Bicep generates three kinds of files. `main.bicep` describes t
     This file defines the deployments of your services. During the deployments, connection information between services are configured. The resources are created or updated in the following order:
 
     - The dependency resources such as Container Apps Environment and App Service Plan, etc.
-    - The compute resources such as Container App and App Service, etc. 
+    - The compute resources such as Container App and App Service, etc.
     - The target resources such as databases, storage and key vault, etc. If the target is connected to a compute resource, network and authentication settings are configured. Outbound IPs of the compute resources are added to the target's firewall rules. If the connection is using system identity, principal ID is used to do role assignment according to the resource templates. If the connection is using secret authentication, connection strings or keys are constructed or acquired in the templates.
     - The deployment of app settings. Set the connection info such as key vault secret (retrieved from each resource template using key vault reference format) and the resource endpoint from the outputs of the target resources in app settings. {%if 'azurecontainerapp' in engine.resources%}Container Apps are deployed the second time if it is connected to the target resources. The connection information is set to the environment variables and the Container Apps secret. Key vault secret is referenced by the secret URI using system identity.{%endif%}
 
