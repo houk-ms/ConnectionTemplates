@@ -49,7 +49,7 @@ class ContainerAppEngine(SourceResourceEngine, TargetResourceEngine):
 
     
     def get_app_settings_http(self, binding: Binding) -> List[tuple]:
-        connInfoHelper = ComputeResourceConnInfoHelper("" if binding.source.service is None else binding.source.service['language'],
+        connInfoHelper = ComputeResourceConnInfoHelper("" if binding.source.service is None else binding.source.service.language,
                                                        request_url='azurerm_container_app.{}.ingress.0.fqdn'.format(self.module_name),
                                                        resource_name=self.resource.name
                                                       )

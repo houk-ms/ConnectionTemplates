@@ -32,13 +32,13 @@ Iac Generator for Bicep generates three kinds of files. `main.bicep` describes t
 {%endif%}{% if 'azurecontainerapp' in engine.resources %}
     - Azure Container Apps
 
-        `containerappenv.bicep` defines the Container Apps Environment and the Log Anayltics (for monitoring) that are prerequisites for the creation of the Container Apps. Only one Container Apps Environment is only created and is shared by all the Container Apps services.
+        `containerappenv.bicep` defines the Container Apps Environment and the Log Anayltics (for monitoring) that are prerequisites for the creation of the Container Apps. Only one Container Apps Environment is created and is shared by all the Container Apps services.
         `containerappregistry.bicep` defines the Container Registry Registry that is also shared by all of the Container Apps services.
         `containerapp.bicep` defines a template of a Container App. System identity is enabled and the Container App Registry is referenced. Environment variables and secrets for service bindings are passed through from the `main.bicep`.
 {%endif%}{% if 'azurecosmosdb' in engine.resources %}
     - Azure Cosmos DB for MongoDB
 
-        `cosmosdb.bicep` defines the template of a Storage Account. Public IPs are set to IP rules. The DocumentDB Account Contributor role is granted if system identity-based connection is used. Primary connection string is stored to key vault if connection by secret is used.
+        `cosmosdb.bicep` defines the template of a Cosmos DB of the kind of MongoDB and a Mongo database. Public IPs are set to IP rules. The DocumentDB Account Contributor role is granted if system identity-based connection is used. Primary connection string is stored to key vault if connection by secret is used.
 {%endif%}{% if 'azurefunctions' in engine.resources %}
     - Azure Functions
 
@@ -88,18 +88,16 @@ Iac Generator for Bicep generates three kinds of files. `main.bicep` describes t
 {%endif%}
     **_NOTE:_** All the secrets (connectin strings, access keys and passwords) are stored in key vault and used as key vault reference in compute resources.
 
-1. `main.bicep`
+2. `main.bicep`
 
-    This file defines the deployments of your services. The resources are provisioned in the following order:
+    This file defines the deployments of your services. During the deployments, connection information between services are configured. The resources are created or updated in the following order:
 
     - The dependency resources such as Container Apps Environment and App Service Plan, etc.
     - The compute resources such as Container App and App Service, etc. 
-    - The target resources such as databases, storage and key vault, etc. If the target is connected to a compute resource, network and authentication settings are configured. Outbound IPs of the compute resources are added to the target's firewall rules. If the connection is using system
-    - The deployment of app settings. Set the connection info such as key vault secret (using key vault reference format) and the resource endpoint from the outputs of the target resources in app settings. {%if 'azurecontainerapp' in engine.resources%}Container Apps are deployed the second time if it is connected to the target resources. The connection information is set to the environment variables and the Container Apps secret. Key vault secret is referenced by the secret URI using system identity.{%endif%}
+    - The target resources such as databases, storage and key vault, etc. If the target is connected to a compute resource, network and authentication settings are configured. Outbound IPs of the compute resources are added to the target's firewall rules. If the connection is using system identity, principal ID is used to do role assignment according to the resource templates. If the connection is using secret authentication, connection strings or keys are constructed or acquired in the templates.
+    - The deployment of app settings. Set the connection info such as key vault secret (retrieved from each resource template using key vault reference format) and the resource endpoint from the outputs of the target resources in app settings. {%if 'azurecontainerapp' in engine.resources%}Container Apps are deployed the second time if it is connected to the target resources. The connection information is set to the environment variables and the Container Apps secret. Key vault secret is referenced by the secret URI using system identity.{%endif%}
 
-    A diagram that shows the flow of deployments?
-
-1. `main.parameters.json`
+3. `main.parameters.json`
 
     This file contains the parameters that requires user input.
 {% if 'azurebotservice' in engine.resources %}
@@ -118,6 +116,6 @@ Iac Generator for Bicep generates three kinds of files. `main.bicep` describes t
 ## Next Step
 
 1. Complete the input parameters.
-1. Customize the configurations of the resources.
-1. Provision the resources. Refer to [Deploy Bicep files from Visual Studio Code](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/deploy-vscode).
+2. Customize the configurations of the resources.
+3. Provision the resources. Refer to [Deploy Bicep files from Visual Studio Code](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/deploy-vscode).
 

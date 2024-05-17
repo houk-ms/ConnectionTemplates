@@ -8,6 +8,7 @@ from azure_iac.terraform_engines import engine_factory
 from azure_iac.terraform_engines.main_engine import MainEngine
 from azure_iac.terraform_engines.blocks_engine import BlocksEngine
 from azure_iac.terraform_engines.modules.resource_engines.resourcegroup_engine import ResourceGroupEngine
+from azure_iac.terraform_engines.readme_engine import ReadMeEngine
 
 from azure_iac.generators.base_generator import BaseGenerator
 from azure_iac.handlers.terraform_binding_handler import TerraformBindingHandler
@@ -176,6 +177,18 @@ class TerraformGenerator(BaseGenerator):
         outputs_engine.blocks = [engine.render() for engine in self.output_engines]
         file_helper.create_file('{}/outputs.tf'.format(output_folder), outputs_engine.render())
 
+
+    def generate_readme(self, output_folder: str):
+        
+        # generate readme file
+        readme_engine = ReadMeEngine()
+        for engine in self.resource_engines:
+            if engine.resource is not None:
+                readme_engine.resources.append(engine.resource.type.value)
+
+        file_helper.create_file('{}/README.md'.format(output_folder), readme_engine.render_template())
+
+
     def generate(self, output_folder: str='./'):
         self.init_resource_engines()
         self.init_dependency_engines()
@@ -183,6 +196,7 @@ class TerraformGenerator(BaseGenerator):
         self.init_variable_engines()
         self.init_output_engines()
         self.generate_terraforms(output_folder)
+        self.generate_readme(output_folder)
 
     def _get_resource_engine_by_resource(self, resource: Resource):
         # TODO: support engine identifier

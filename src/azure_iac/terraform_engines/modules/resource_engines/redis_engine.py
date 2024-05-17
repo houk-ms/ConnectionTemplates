@@ -28,7 +28,7 @@ class RedisEngine(TargetResourceEngine):
 
     # return the app settings needed by secret connection
     def get_app_settings_secret(self, binding: Binding) -> List[tuple]:
-        connInfoHelper = RedisConnInfoHelper("" if binding.source.service is None else binding.source.service['language'],
+        connInfoHelper = RedisConnInfoHelper("" if binding.source.service is None else binding.source.service.language,
                                              connection_string='azurerm_redis_cache.{}.primary_connection_string'.format(self.module_name),
                                              host='azurerm_redis_cache.{}.hostname'.format(self.module_name),
                                              password='azurerm_redis_cache.{}.primary_access_key'.format(self.module_name),

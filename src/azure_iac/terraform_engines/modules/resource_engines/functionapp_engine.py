@@ -52,7 +52,7 @@ class FunctionAppEngine(SourceResourceEngine, TargetResourceEngine):
         ]
     
     def get_app_settings_http(self, binding: Binding) -> List[tuple]:
-        connInfoHelper = ComputeResourceConnInfoHelper("" if binding.source.service is None else binding.source.service['language'],
+        connInfoHelper = ComputeResourceConnInfoHelper("" if binding.source.service is None else binding.source.service.language,
                                                        request_url='azurerm_linux_function_app.{}.default_hostname'.format(self.module_name),
                                                        resource_name=self.resource.name
                                                       )

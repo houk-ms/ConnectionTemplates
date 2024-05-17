@@ -33,7 +33,7 @@ class StaticWebAppEngine(SourceResourceEngine, TargetResourceEngine):
         self.depend_engines = []
     
     def get_app_settings_http(self, binding: Binding) -> List[tuple]:
-        connInfoHelper = ComputeResourceConnInfoHelper("" if binding.source.service is None else binding.source.service['language'],
+        connInfoHelper = ComputeResourceConnInfoHelper("" if binding.source.service is None else binding.source.service.language,
                                                        request_url='azurerm_static_web_app.{}.default_host_name'.format(self.module_name),
                                                        resource_name=self.resource.name
                                                       )

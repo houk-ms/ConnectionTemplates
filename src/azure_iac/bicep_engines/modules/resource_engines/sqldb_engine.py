@@ -44,7 +44,7 @@ class SqlDbEngine(TargetResourceEngine):
 
     # return the app settings needed by secret connection
     def get_app_settings_secret(self, binding: Binding) -> List[tuple]:
-        connInfoHelper = SqlConnInfoHelper("" if binding.source.service is None else binding.source.service['language'],
+        connInfoHelper = SqlConnInfoHelper("" if binding.source.service is None else binding.source.service.language,
                                            server="${" + self.module_params_name + "}",
                                            user="${" + self.module_params_admin_name + "}",
                                            password="${" + self.module_params_password + "}",

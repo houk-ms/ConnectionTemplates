@@ -1,0 +1,76 @@
+# IaC Generator - Terraform
+
+## Terraform files
+
+Iac Generator for Terraform generates `main.tf` to create the compute resources, `variables.tf` to take user input and other Terraform files with the resource type name to create each resource.
+
+1. `main.tf`
+	This file first creates a new resource group. Compute resources such as Linux App Service, Container Apps and Azure Functions are also created in `main.tf`. The dependency resources such as App Service Plan and Container Apps Environment are created in separate files. One kind of compute resources share a single dependency resource. App settings and environment variables are configured based on each target resource. Implicit dependencies are used to get the necessary keys, connection strings and principal IDs of system identity from Terraform files of resources.
+
+1. Terraform files for resources
+
+    For each kind of resources except the compute resources, a Terraform file with the name of the resource type creates all the instances of the services. Required parameters for resource creation are configured to some default values.
+{% if 'azureaisearch' in engine.resource %}
+    - `aisearch.tf' creates the instances of Azure AI Search service.
+{%endif%}{% if 'azureaiservices' in engine.resources %}      
+    - `aiservices.tf` creates the instances of Azure AI Services accounts and the 'gpt-35-turbo' models for each account.
+{%endif%}{% if 'azureappservice' in engine.resources %}
+    - `appserviceplan.tf` creates a hosting Linux App Service Plan or a hosting Function App Plan, which is shared across Linux App Services and Function Apps.
+{%endif%}{% if 'azureapplicationinsights' in engine.resources %}
+    - `applicationinsights.tf` creates the instances of Application Insights.
+{%endif%}{% if 'azurebotservice' in engine.resources %}
+    - `botservice.tf` creates the instances of Bot Service with a Microsoft Teams channel.
+{%endif%}{% if 'azurecontainerapp' in engine.resources %}
+    - `containerappenv.tf` creates a Container Apps Environment and an Azure Log Analytics Workspace, which are shared by all the Container Apps services.
+    - `containerappregistry.tf` creates a Container Registry Registry that is shared by the Container Apps services.
+{%endif%}{% if 'azurecosmosdb' in engine.resources %}
+    - `cosmosdb.tf` creates the instances of the Cosmos DB for Mongo with a Mongo database.
+{%endif%}{% if 'azurekeyvault' in engine.resources %}
+    - `keyvault.tf` creates the instances of Azure Key Vault.
+	- `keyvaultsecret.tf` creates the key vault secrets. The secrets are directly acquired from the exported connection strings or keys of the resource instances or constructed with user inputs and resource information. You need to have the write access (e.g. Key Vault Secrets Officer role) to create the secrets to the key vaults.
+{%endif%}{% if 'azuredatabaseformysql' in engine.resources %}
+    - `mysql.tf` creates the instances of Azure MySQL flexible server with a MySQL database.
+	- `mysql.firewall.tf` adds a firewall rule to each server to allow public access from any Azure service.
+{%endif%}{% if 'azureopenai' in engine.resources %}
+    - `openai.tf` creates the instances of Azure OpenAI account with a deployment of a 'gpt-35-turbo' model.
+{%endif%}{% if 'azuredatabaseforpostgresql' in engine.resources %}
+    - `postgresqldb.tf` creates the instances of Azure PostgreSQL flexible server with a PostgreSQL database.
+	- `postgresqldb.firewall.tf` adds a firewall rule to each server to allow public access from any Azure service.
+{%endif%}{% if 'azurecacheforredis' in engine.resources %}
+    - `redis.tf` creates the instances of Redis Cache.
+	- `redis.firewall.tf` adds a firewall rule to each server to allow public access from any Azure service.
+{%endif%}{% if 'azuresqldatabase' in engine.resources %}
+    - `sqldb.tf` creates the instances of Azure SQL server with a SQL database.
+	- `sqldb.firewall.tf` adds a firewall rule to each server to allow public access from any Azure service.
+{%endif%}{% if 'azurestorageaccount' in engine.resources %}
+    - `storageaccount.tf` creates the instances of Storage Account.
+	- `storageaccount.firewall.tf creates the instances of network rules, which adds the outbound IPs of connected compute resources to the firewall rule set.
+{%endif%}{% if 'azurestaticwebapp' in engine.resources %}
+    - `staticwebapp.tf` creates the instances of Static Web App.
+{%endif%}{% if 'azureservicebus' in engine.resources %}
+    - `servicebus.tf` creates the instances of Service Bus namespace with a Service Bus Queue.
+	- `servicebus.firewall.tf` creates the instances of network rule set, which adds the outbound IPs of connected compute resources to the firewall rule set.
+{%endif%}{% if 'azurewebpubsub' in engine.resources %}
+    - `webpubsub.tf` creates the instances of Azure Web PubSub service. Public network access is enabled.{%endif%}
+    - `role.tf` creates the role assignments to grant necessary access to system identity of compute resources if identity-based connection is used.       
+
+3. `variables.tf`
+
+    This file contains the parameters that requires user input. Replace the '<...>' placeholder with your values according to the hint of the variable name.
+
+    - Modify the suffix of resource group name by changing 'resource_suffix'.
+    - Customize the location.{% if 'azurebotservice' in engine.resources %}
+    - The Azure AI Bot Service requires the client ID and the client secret of the Microsoft App.
+{%endif%}{% if 'azuredatabaseformysql' in engine.resources %}
+    - The Azure Database for MySQL servers requires the user name and the password of the database administrator.
+{%endif%}{% if 'azuredatabaseforpostgresql' in engine.resources %}
+    - The Azure Database for PostgreSQL servers requires the user name and the password of the database administrator.
+{%endif%}{% if 'azuresqldatabase' in engine.resources %}
+    - The Azure SQL Database requires the user name and the password of the database administrator.
+{%endif%}
+## Next Step
+
+1. Complete the input parameters.
+2. Customize the configurations of the resources.
+3. Provision the resources. Refer to [Terraform Tutorials](https://developer.hashicorp.com/terraform/tutorials/cli).
+

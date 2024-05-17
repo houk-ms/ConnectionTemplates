@@ -66,7 +66,7 @@ class FunctionAppEngine(SourceResourceEngine, TargetResourceEngine):
         self.module_params_storage_name = string_helper.format_camel('storageAccount', FunctionAppEngine.STORAGE_DEPENDENCY_NAME, "Name")
 
     def get_app_settings_http(self, binding: Binding) -> List[tuple]:
-        connInfoHelper = ComputeResourceConnInfoHelper("" if binding.source.service is None else binding.source.service['language'],
+        connInfoHelper = ComputeResourceConnInfoHelper("" if binding.source.service is None else binding.source.service.language,
                                                        request_url='{}.outputs.requestUrl'.format(self.module_name),
                                                        resource_name=self.resource.name
                                                       )

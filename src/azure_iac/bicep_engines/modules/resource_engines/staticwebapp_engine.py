@@ -42,7 +42,7 @@ class StaticWebAppEngine(SourceResourceEngine, TargetResourceEngine):
         
 	
     def get_app_settings_http(self, binding):
-        connInfoHelper = ComputeResourceConnInfoHelper("" if binding.source.service is None else binding.source.service['language'],
+        connInfoHelper = ComputeResourceConnInfoHelper("" if binding.source.service is None else binding.source.service.language,
                                                        request_url='{}.outputs.requestUrl'.format(self.module_name),
                                                        resource_name=self.resource.name
                                                       )
