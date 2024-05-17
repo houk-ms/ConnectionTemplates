@@ -1,8 +1,10 @@
-# IaC Generator - Bicep
+# Understand the generated Bicep files
+
+CodeToCloud generates Bicep code to create the Azure resources according to your infrastructure requirements and manages the connection between created Azure services. The generator takes care of app settings, authentication settings (identity enabling and role assignments) and public network settings to make you service work once deployed.
 
 ## Bicep files
 
-Iac Generator for Bicep generates three kinds of files. `main.bicep` describes the deployments of the resources. `main.parameters.json` takes the user inputs. Other bicep files are templates of each kind of resources to be used as modules in `main.bicep`.
+The generator for Bicep generates three kinds of files. `main.bicep` describes the deployments of the resources. `main.parameters.json` takes the user inputs. Other bicep files are templates of each kind of resources to be used as modules in `main.bicep`.
 
 1. Bicep templates of resources
 
