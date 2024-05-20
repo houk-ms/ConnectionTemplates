@@ -5,6 +5,7 @@ class Template(str, Enum):
     MAINPARAM = "mainparam.jinja"
     PARAM = "param.jinja"
     OUTPUT = "output.jinja"
+    README = "readme.md.jinja"
     AZURE_YAML = "azureyaml.jinja"
     AI_SEARCH_BICEP = "modules/aisearch/aisearch.bicep.jinja"
     AI_SEARCH_MODULE = "modules/aisearch/aisearch.module.jinja"

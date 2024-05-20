@@ -38,7 +38,7 @@ class StorageAccountEngine(TargetResourceEngine):
 
     # return the app settings needed by identity connection
     def get_app_settings_identity(self, binding: Binding) -> List[tuple]:
-        connInfoHelper = StorageConnInfoHelper("" if binding.source.service is None else binding.source.service['language'],
+        connInfoHelper = StorageConnInfoHelper("" if binding.source.service is None else binding.source.service.language,
                                               connection_string=None,
                                               blob_endpoint='azurerm_storage_account.{}.primary_blob_endpoint'.format(self.module_name),
                                               table_endpoint='azurerm_storage_account.{}.primary_table_endpoint'.format(self.module_name),
@@ -51,7 +51,7 @@ class StorageAccountEngine(TargetResourceEngine):
 
     # return the app settings needed by secret connection
     def get_app_settings_secret(self, binding: Binding) -> List[tuple]:
-        connInfoHelper = StorageConnInfoHelper("" if binding.source.service is None else binding.source.service['language'],
+        connInfoHelper = StorageConnInfoHelper("" if binding.source.service is None else binding.source.service.language,
                                               connection_string='azurerm_storage_account.{}.primary_access_key'.format(self.module_name)
                                               )
         configs = connInfoHelper.get_configs({} if binding.customKeys is None else binding.customKeys,

@@ -38,7 +38,7 @@ class WebPubSubEngine(TargetResourceEngine):
 
     # return the app settings needed by identity connection
     def get_app_settings_identity(self, binding: Binding) -> List[tuple]:
-        connInfoHelper = WebPubSubConnInfoHelper("" if binding.source.service is None else binding.source.service['language'],
+        connInfoHelper = WebPubSubConnInfoHelper("" if binding.source.service is None else binding.source.service.language,
                                               	 connection_string=None,
                                               	 host='azurerm_web_pubsub.{}.hostname'.format(self.module_name)
                                               	)
@@ -48,7 +48,7 @@ class WebPubSubEngine(TargetResourceEngine):
 
     # return the app settings needed by secret connection
     def get_app_settings_secret(self, binding: Binding) -> List[tuple]:
-        connInfoHelper = WebPubSubConnInfoHelper("" if binding.source.service is None else binding.source.service['language'],
+        connInfoHelper = WebPubSubConnInfoHelper("" if binding.source.service is None else binding.source.service.language,
                                               	 connection_string='azurerm_web_pubsub.{}.primary_connection_string'.format(self.module_name)
                                               	)
         configs = connInfoHelper.get_configs({} if binding.customKeys is None else binding.customKeys,

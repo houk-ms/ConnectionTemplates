@@ -38,7 +38,7 @@ class RedisEngine(TargetResourceEngine):
     
     # return the app settings needed by secret connection
     def get_app_settings_secret(self, binding: Binding) -> List[tuple]:
-        connInfoHelper = RedisConnInfoHelper("" if binding.source.service is None else binding.source.service['language'])
+        connInfoHelper = RedisConnInfoHelper("" if binding.source.service is None else binding.source.service.language)
         configs = connInfoHelper.get_configs({} if binding.customKeys is None else binding.customKeys,
                                              binding.connection,
                                              "bicep")

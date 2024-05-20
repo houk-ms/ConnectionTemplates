@@ -38,7 +38,7 @@ class ServiceBusEngine(TargetResourceEngine):
 
     # return the app settings needed by identity connection
     def get_app_settings_identity(self, binding: Binding) -> List[tuple]:
-        connInfoHelper = ServiceBusConnInfoHelper("" if binding.source.service is None else binding.source.service['language'],
+        connInfoHelper = ServiceBusConnInfoHelper("" if binding.source.service is None else binding.source.service.language,
                                                   connection_string=None,
                                                   namespace='{}.outputs.endpoint'.format(self.module_name)
                                                  )
@@ -49,7 +49,7 @@ class ServiceBusEngine(TargetResourceEngine):
     
     # return the app settings needed by secret connection
     def get_app_settings_secret(self, binding: Binding) -> List[tuple]:
-        connInfoHelper = ServiceBusConnInfoHelper("" if binding.source.service is None else binding.source.service['language'],
+        connInfoHelper = ServiceBusConnInfoHelper("" if binding.source.service is None else binding.source.service.language,
                                                   connection_string=''  # get in template
                                                  )
         configs = connInfoHelper.get_configs({} if binding.customKeys is None else binding.customKeys,

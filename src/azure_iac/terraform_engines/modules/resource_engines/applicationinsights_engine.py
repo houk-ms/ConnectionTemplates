@@ -40,7 +40,7 @@ class ApplicationInsightsEngine(TargetResourceEngine):
     # return the app settings needed by identity connection
     def get_app_settings_identity(self, binding: Binding) -> List[tuple]:
         # TODO: use identity connection string
-        connInfoHelper = AppInsightsConnInfoHelper("" if binding.source.service is None else binding.source.service['language'],
+        connInfoHelper = AppInsightsConnInfoHelper("" if binding.source.service is None else binding.source.service.language,
                                                    connection_string='azurerm_application_insights.{}.connection_string'.format(self.module_name)
                                                   )
         configs = connInfoHelper.get_configs({} if binding.customKeys is None else binding.customKeys,
@@ -49,7 +49,7 @@ class ApplicationInsightsEngine(TargetResourceEngine):
 
     # return the app settings needed by secret connection
     def get_app_settings_secret(self, binding: Binding) -> List[tuple]:
-        connInfoHelper = AppInsightsConnInfoHelper("" if binding.source.service is None else binding.source.service['language'],
+        connInfoHelper = AppInsightsConnInfoHelper("" if binding.source.service is None else binding.source.service.language,
                                                    connection_string='azurerm_application_insights.{}.connection_string'.format(self.module_name)
                                                   )
         configs = connInfoHelper.get_configs({} if binding.customKeys is None else binding.customKeys,

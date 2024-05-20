@@ -53,7 +53,7 @@ class BotServiceEngine(TargetResourceEngine):
         if binding.store:
             print('Warning: IaC generator does not support secret store for Bot Service.')
         
-        connInfoHelper = BotConnInfoHelper("" if binding.source.service is None else binding.source.service['language'],
+        connInfoHelper = BotConnInfoHelper("" if binding.source.service is None else binding.source.service.language,
                                            bot_id='"${var.' + self.main_var_botaadappclientid + '}"',
                                            bot_password='"${var.' + self.main_var_botaadappclientsecret + '}"',
                                            bot_domain='"' + self.module_params_endpoint + '"')
