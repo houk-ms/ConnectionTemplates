@@ -159,7 +159,7 @@ class BicepGenerator(BaseGenerator):
 
 	
     def generate_readme(self, output_folder: str):
-		# generate readme file
+        # generate readme file
         readme_engine = ReadMeEngine()
         readme_engine.resources = [engine.resource.type.value for engine in self.resource_engines]
 

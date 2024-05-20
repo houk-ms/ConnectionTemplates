@@ -1,15 +1,17 @@
-# IaC Generator - Terraform
+# Understand the generated Terraform files
+
+CodeToCloud generates Terraform code to create the Azure resources according to your infrastructure requirements and manages the connection between created Azure services. The generator takes care of app settings, authentication settings (identity enabling and role assignments), and public network settings to make your service work once deployed.
 
 ## Terraform files
 
-Iac Generator for Terraform generates `main.tf` to create the compute resources, `variables.tf` to take user input and other Terraform files with the resource type name to create each resource.
+Iac Generator for Terraform generates `main.tf` to create the compute resources, `variables.tf` to take user input, and other Terraform files with the resource type name to create each resource.
 
 1. `main.tf`
-    This file first creates a new resource group. Compute resources such as Linux App Service, Container Apps and Azure Functions are also created in `main.tf`. The dependency resources such as App Service Plan and Container Apps Environment are created in separate files. One kind of compute resources share a single dependency resource. App settings and environment variables are configured based on each target resource. Implicit dependencies are used to get the necessary keys, connection strings and principal IDs of system identity from Terraform files of resources.
+    This file first creates a new resource group. Compute resources such as Linux App Service, Container Apps, and Azure Functions are also created in `main.tf`. The dependency resources such as App Service Plan and Container Apps Environment are created in separate files. One kind of compute resource shares a single dependency resource. App settings and environment variables are configured based on each target resource. Implicit dependencies are used to get the necessary keys, connection strings, and principal IDs of system identity from the Terraform files of the resources.
 
 1. Terraform files for resources
 
-    For each kind of resources except the compute resources, a Terraform file with the name of the resource type creates all the instances of the services. Required parameters for resource creation are configured to some default values.
+    For each kind of resource except the compute resources, a Terraform file with the name of the resource type creates all the instances of the service. Required parameters for resource creation are configured with some default values.
 {% if 'azureaisearch' in engine.resource %}
     - `aisearch.tf' creates the instances of Azure AI Search service.
 {%endif%}{% if 'azureaiservices' in engine.resources %}      
@@ -27,7 +29,7 @@ Iac Generator for Terraform generates `main.tf` to create the compute resources,
     - `cosmosdb.tf` creates the instances of the Cosmos DB for Mongo with a Mongo database.
 {%endif%}{% if 'azurekeyvault' in engine.resources %}
     - `keyvault.tf` creates the instances of Azure Key Vault.
-    - `keyvaultsecret.tf` creates the key vault secrets. The secrets are directly acquired from the exported connection strings or keys of the resource instances or constructed with user inputs and resource information. You need to have the write access (e.g. Key Vault Secrets Officer role) to create the secrets to the key vaults.
+    - `keyvaultsecret.tf` creates the key vault secrets. The secrets are directly acquired from the exported connection strings or keys of the resource instances or constructed with user input and resource information. You need to have write access (e.g. Key Vault Secrets Officer role) to create the secrets in the key vaults.
 {%endif%}{% if 'azuredatabaseformysql' in engine.resources %}
     - `mysql.tf` creates the instances of Azure MySQL flexible server with a MySQL database.
     - `mysql.firewall.tf` adds a firewall rule to each server to allow public access from any Azure service.
@@ -44,7 +46,7 @@ Iac Generator for Terraform generates `main.tf` to create the compute resources,
     - `sqldb.firewall.tf` adds a firewall rule to each server to allow public access from any Azure service.
 {%endif%}{% if 'azurestorageaccount' in engine.resources %}
     - `storageaccount.tf` creates the instances of Storage Account.
-    - `storageaccount.firewall.tf creates the instances of network rules, which adds the outbound IPs of connected compute resources to the firewall rule set.
+    - `storageaccount.firewall.tf creates the instances of network rules, which add the outbound IPs of connected compute resources to the firewall rule set.
 {%endif%}{% if 'azurestaticwebapp' in engine.resources %}
     - `staticwebapp.tf` creates the instances of Static Web App.
 {%endif%}{% if 'azureservicebus' in engine.resources %}
@@ -52,15 +54,15 @@ Iac Generator for Terraform generates `main.tf` to create the compute resources,
     - `servicebus.firewall.tf` creates the instances of network rule set, which adds the outbound IPs of connected compute resources to the firewall rule set.
 {%endif%}{% if 'azurewebpubsub' in engine.resources %}
     - `webpubsub.tf` creates the instances of Azure Web PubSub service. Public network access is enabled.{%endif%}
-    - `role.tf` creates the role assignments to grant necessary access to system identity of compute resources if identity-based connection is used.       
+    - `role.tf` creates the role assignments to grant necessary access to system identity of compute resources if identity-based connection is used.
 
 1. `variables.tf`
 
-    This file contains the parameters that requires user input. Replace the '<...>' placeholder with your values according to the hint of the variable name.
+    This file contains the parameters that require user input. Replace the '<...>' placeholder with your values according to the hints provided by the variable names.
 
     - Modify the suffix of resource group name by changing 'resource_suffix'.
     - Customize the location.{% if 'azurebotservice' in engine.resources %}
-    - The Azure AI Bot Service requires the client ID and the client secret of the Microsoft App.
+    - The Azure AI Bot Service requires the client ID and the client secret of a Microsoft App.
 {%endif%}{% if 'azuredatabaseformysql' in engine.resources %}
     - The Azure Database for MySQL servers requires the user name and the password of the database administrator.
 {%endif%}{% if 'azuredatabaseforpostgresql' in engine.resources %}
@@ -72,5 +74,5 @@ Iac Generator for Terraform generates `main.tf` to create the compute resources,
 
 1. Complete the input parameters.
 1. Customize the configurations of the resources.
-1. Provision the resources. Refer to [Terraform Tutorials](https://developer.hashicorp.com/terraform/tutorials/cli).
+1. Provision the resources. You can refer to [Terraform Tutorials](https://developer.hashicorp.com/terraform/tutorials/cli).
 
