@@ -1,6 +1,5 @@
 from typing import List
 
-from azure_iac.helpers.connection_info import StorageConnInfoHelper
 from azure_iac.payloads.binding import Binding
 from azure_iac.payloads.resources.storage_account import StorageAccountResource
 

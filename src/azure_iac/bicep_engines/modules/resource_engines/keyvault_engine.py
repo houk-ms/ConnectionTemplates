@@ -1,6 +1,5 @@
 from typing import List
 
-from azure_iac.helpers.connection_info import KeyVaultConnInfoHelper
 from azure_iac.payloads.binding import Binding
 from azure_iac.payloads.resources.keyvault import KeyVaultResource
 

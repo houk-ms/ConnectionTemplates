@@ -42,11 +42,11 @@ class StaticWebAppEngine(SourceResourceEngine, TargetResourceEngine):
         
 	
     def get_app_settings_http(self, binding):
-        connInfoHelper = ComputeResourceConnInfoHelper("" if binding.source.service is None else binding.source.service.language,
-                                                       request_url='{}.outputs.requestUrl'.format(self.module_name),
-                                                       resource_name=self.resource.name
-                                                      )
-        configs = connInfoHelper.get_configs({} if binding.customKeys is None else binding.customKeys,
-                                             binding.connection)
-        
-        return self._get_app_settings(configs)
+        custom_keys = dict() if binding.customKeys is None else binding.customKeys
+        default_key = 'SERVICE_URL'
+        custom_key = custom_keys.get(default_key, default_key)
+        if custom_key == default_key:
+            custom_key = "SERVICE{}_URL".format(self.resource.name.upper())
+        return [
+            AppSetting(AppSettingType.KeyValue, custom_key, '{}.outputs.requestUrl'.format(self.module_name))
+        ]

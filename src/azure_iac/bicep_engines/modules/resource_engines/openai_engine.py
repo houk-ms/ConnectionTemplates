@@ -1,6 +1,5 @@
 from typing import List
 
-from azure_iac.helpers.connection_info import OpenAIConnInfoHelper
 from azure_iac.payloads.binding import Binding
 from azure_iac.payloads.resources.openai import OpenAIResource
 

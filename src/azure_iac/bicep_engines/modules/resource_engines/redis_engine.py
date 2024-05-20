@@ -1,6 +1,5 @@
 from typing import List
 
-from azure_iac.helpers.connection_info import RedisConnInfoHelper
 from azure_iac.payloads.binding import Binding
 from azure_iac.payloads.resources.redis import RedisResource
 
@@ -37,10 +36,9 @@ class RedisEngine(TargetResourceEngine):
 
     
     # return the app settings needed by secret connection
+    # TODO: construct redis connnection string 
     def get_app_settings_secret(self, binding: Binding) -> List[tuple]:
-        connInfoHelper = RedisConnInfoHelper("" if binding.source.service is None else binding.source.service.language)
-        configs = connInfoHelper.get_configs({} if binding.customKeys is None else binding.customKeys,
-                                             binding.connection,
-                                             "bicep")
-        
-        return self._get_app_settings(configs)
+        print('Warning: IaC generator does not support Redis Cache connection string generation for Bicep. Use AZURE_REDIS_KEY instead')
+        return [
+            AppSetting(AppSettingType.KeyVaultReference, 'AZURE_REDIS_KEY', '{}.outputs.keyVaultSecretUri'.format(self.module_name))
+        ]

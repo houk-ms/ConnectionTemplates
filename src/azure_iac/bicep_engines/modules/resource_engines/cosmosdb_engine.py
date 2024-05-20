@@ -1,6 +1,5 @@
 from typing import List
 
-from azure_iac.helpers.connection_info import CosmosConnInfoHelper
 from azure_iac.payloads.binding import Binding
 from azure_iac.payloads.resources.cosmos_db import CosmosDBResource
 

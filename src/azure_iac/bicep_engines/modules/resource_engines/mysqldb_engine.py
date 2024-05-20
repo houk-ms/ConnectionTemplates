@@ -78,7 +78,7 @@ class MySqlDbEngine(TargetResourceEngine):
                                 database="${" + self.module_params_database_name + "}",
                                 user="${" + self.module_params_admin_name + "}",
                                 password="${" + self.module_params_password + "}")
-        print(conn_str)
+
         custom_keys = dict() if binding.customKeys is None else binding.customKeys
         default_settings = {
             ClientType.PYTHON: [
