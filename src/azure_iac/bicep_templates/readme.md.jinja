@@ -1,14 +1,14 @@
 # Understand the generated Bicep files
 
-CodeToCloud generates Bicep code to create the Azure resources according to your infrastructure requirements and manages the connection between created Azure services. The generator takes care of app settings, authentication settings (identity enabling and role assignments) and public network settings to make you service work once deployed.
+CodeToCloud generates Bicep code to create Azure resources according to your infrastructure requirements and manages the connection between created Azure services. The generator takes care of app settings, authentication settings (identity enabling and role assignments), and public network settings to make your service work once deployed.
 
 ## Bicep files
 
-The generator for Bicep generates three kinds of files. `main.bicep` describes the deployments of the resources. `main.parameters.json` takes the user inputs. Other bicep files are templates of each kind of resources to be used as modules in `main.bicep`.
+The generator for Bicep generates three types of files: `main.bicep`, `main.parameters.json` and other Bicep files that serve as templates for each type of resource. `main.bicep` describes the deployment of the resources. `main.parameters.json` contains user inputs, and the other Bicep files are used as modules in main.bicep.
 
 1. Bicep templates of resources
 
-    For each kind of resources, a Bicep file is generated as the module for the resource. The Bicep file for each resource is used once or for multiple times in the `main.bicep` for actual deployments. Each template contains the parameters that it takes from the `main.bicep` at the top, followed by the basic configurations of the resources and the outputs in the end. You can modify the basic configurations of the resources in the templates or customize the parameters of a resource instance in the deployments in `main.bicep`. Below is the brief introduction of the generated Bicep files for all resources and their dependency resources.
+    For each type of resources, a Bicep file is generated as a module. These Bicep files are used once or multiple times in `main.bicep` for actual deployments. Each template contains the parameters it takes from `main.bicep` at the top, followed by the basic configurations of the resources and the outputs at the end. You can modify the basic configurations of the resources in the templates or customize the parameters of a resource instance in the deployments in `main.bicep`. Below is a brief introduction to the generated Bicep files for all resources and their dependencies.
 {% if 'azureaisearch' in engine.resource %}
     - Azure AI Search
 
@@ -16,92 +16,92 @@ The generator for Bicep generates three kinds of files. `main.bicep` describes t
 {%endif%}{% if 'azureaiservices' in engine.resources %}      
     - Azure AI Services
 
-        `aiservices.bicep` the template of an Azure AI Services account. Public IP rules are set to the network ACL. The Cognitive Services OpenAI Contributor role is granted if system identity-based connection is used. Key 1 of the account is stored to key vault if connection by secret is used.
+        `aiservices.bicep` defines an Azure AI Services account template. Public IP rules are set to the network ACL. The Cognitive Services OpenAI Contributor role is granted if system identity-based connection is used. The key 1 of the account is stored in the key vault if connection by secret is used.
 {%endif%}{% if 'azureappservice' in engine.resources %}
     - Azure App Service
 
         `appserviceplan.bicep` defines the hosting App Service Plan.
-        `appservice.bicep` defines a template of Azure App Service. System identity is enabled.
-        `appservice.settings.bicep` defines a template of app settings that is passed to the App Service. App settings for service bindings are passed through from the `main.bicep`.
+        `appservice.bicep` defines an Azure App Service template with system identity enabled.
+        `appservice.settings.bicep` defines an app settings template that is passed to the App Service. App settings for service bindings are passed through from `main.bicep`.
 {%endif%}{% if 'azureapplicationinsights' in engine.resources %}
     - Azure Application Insights
 
-        `applicationinsights.bicep` defines the Application Insights. Connection string and instrumentation key is output to be used by compute resources.
+        `applicationinsights.bicep` defines the Application Insights. The connection string and instrumentation key are output for use by compute resources.
 {%endif%}{% if 'azurebotservice' in engine.resources %}
     - Azure AI Bot Service
 
-        `botservice.bicep` defines the Bot Service with a Microsoft Teams channel. The Microsoft Application ID and the client secret for the Azure Bot Service is required as input from `main.parameters.json`.
+        `botservice.bicep` defines the Bot Service with a Microsoft Teams channel. The Microsoft Application ID and the client secret for the Azure Bot Service are required as input from `main.parameters.json`.
 {%endif%}{% if 'azurecontainerapp' in engine.resources %}
     - Azure Container Apps
 
-        `containerappenv.bicep` defines the Container Apps Environment and the Log Anayltics (for monitoring) that are prerequisites for the creation of the Container Apps. Only one Container Apps Environment is created and is shared by all the Container Apps services.
-        `containerappregistry.bicep` defines the Container Registry Registry that is also shared by all of the Container Apps services.
-        `containerapp.bicep` defines a template of a Container App. System identity is enabled and the Container App Registry is referenced. Environment variables and secrets for service bindings are passed through from the `main.bicep`.
+        `containerappenv.bicep` defines the Container Apps Environment and the Log Analytics (for monitoring) that are prerequisites for the creation of Container Apps. Only one Container Apps Environment is created and is shared by all Container Apps services.
+        `containerappregistry.bicep` defines the Container Registry that is also shared by all Container Apps services.
+        `containerapp.bicep` defines a Container App template with system identity enabled and the Container App Registry referenced. Environment variables and secrets for service bindings are passed through from `main.bicep`.
 {%endif%}{% if 'azurecosmosdb' in engine.resources %}
     - Azure Cosmos DB for MongoDB
 
-        `cosmosdb.bicep` defines the template of a Cosmos DB of the kind of MongoDB and a Mongo database. Public IPs are set to IP rules. The DocumentDB Account Contributor role is granted if system identity-based connection is used. Primary connection string is stored to key vault if connection by secret is used.
+        `cosmosdb.bicep` defines a Cosmos DB template of the MongoDB kind and a Mongo database. Public IPs are set to IP rules. The DocumentDB Account Contributor role is granted if system identity-based connection is used. The primary connection string is stored in the key vault if connection by secret is used.
 {%endif%}{% if 'azurefunctions' in engine.resources %}
     - Azure Functions
 
-        `storageaccount.bicep` defines a supporting storage account that each function app instance needs. All function app instances share one storage account. {% if 'azurestorageaccount' in engine.resources %}The template is shared by your target storage account.{%endif%}
-        `functionapp.settings.bicep` defines the template of app settings that is passed to the Azure Functions. App settings for service bindings are passed through from the `main.bicep`.
-        `functionapp.bicep` defines a template of an Azure Functions app. System identity is enabled. The default app settings of Azure Functions, e.g. connection string to the supporting storage account (`AzureWebJobsStorage`), are set.
+        `storageaccount.bicep` defines a supporting storage account that each function app instance needs. All function app instances share one storage account.{% if 'azurestorageaccount' in engine.resources %} The template is shared by your target storage accounts.{%endif%}
+        `functionapp.settings.bicep` defines an app settings template that is passed to Azure Functions. App settings for service bindings are passed through from `main.bicep`.
+        `functionapp.bicep` defines an Azure Functions app template with system identity enabled. The default app settings of Azure Functions, such as the connection string to the supporting storage account (`AzureWebJobsStorage`), are set.
 {%endif%}{% if 'azurekeyvault' in engine.resources %}
     - Azure Key Vault
 
-        `keyvault.bicep` defines the template for an Azure Key Vault. Public IP rules are set to the network ACL. The Key Vault Secrets Officer role is granted. For Bicep, all the secret values for service bindings are stored in key vault first and used as key vault references in compute resources. A key vault is automatically created and is shared across all resources.
+        `keyvault.bicep` defines an Azure Key Vault template. Public IP rules are set to the network ACL. The Key Vault Secrets Officer role is granted. For Bicep, all secret values for service bindings are stored in the key vault first and used as key vault references in compute resources. A key vault is automatically created and shared across all resources.
 {%endif%}{% if 'azuredatabaseformysql' in engine.resources %}
     - Azure Azure Database for MySQL flexible servers
 
-        `mysql.bicep` defines the template of an Azure MySQL flexible server and a MySQL database. The connection string is passed as the 'secretValue' parameter, which is constructed in the `main.bicep` using the admin name and password.
+        `mysql.bicep` defines an Azure MySQL flexible server template and a MySQL database. The connection string is passed as the 'secretValue' parameter, which is constructed in `main.bicep` using the admin name and password.
 {%endif%}{% if 'azureopenai' in engine.resources %}
     - Azure OpenAI
 
-        `openai.bicep` defines the template of an Azure OpenAI account and a deployment of a 'gpt-35-turbo' model. Public IP rules are set to the network ACL. The Cognitive Services OpenAI Contributor role is granted if system identity-based connection is used. Key 1 of the account is stored to key vault if connection by secret is used.
+        `openai.bicep` defines an Azure OpenAI account template and a deployment of a 'gpt-35-turbo' model. Public IP rules are set to the network ACL. The Cognitive Services OpenAI Contributor role is granted if system identity-based connection is used. Key 1 of the account is stored in the key vault if connection by secret is used.
 {%endif%}{% if 'azuredatabaseforpostgresql' in engine.resources %}
     - Azure Database for PostgreSQL flexible servers
 
-        `postgresqldb.bicep` defines the template of an Azure PostgreSQL flexible server and a PostgreSQL database. The connection string is passed as the 'secretValue' parameter, which is constructed in the `main.bicep` using the admin name and password.
+        `postgresqldb.bicep` defines an Azure PostgreSQL flexible server template and a PostgreSQL database. The connection string is passed as the 'secretValue' parameter, which is constructed in `main.bicep` using the admin name and password.
 {%endif%}{% if 'azurecacheforredis' in engine.resources %}
     - Azure Redis Cache
 
-        `redis.bicep` defines the template of a Redis Cache. A firewall rule resource is created for each IP to be allowed. The Redis Cache Contributor role is granted if system identity-based connection is used. The primary key is stored to key vault if connection by secret is used.
+        `redis.bicep` defines a Redis Cache template. A firewall rule resource is created for each allowed IP. The Redis Cache Contributor role is granted if system identity-based connection is used. The primary key is stored in the key vault if connection by secret is used.
 {%endif%}{% if 'azuresqldatabase' in engine.resources %}
     - Azure SQL Database
 
-        `sqldb.bicep` defines the template of an Azure SQL server and a SQL database. The connection string is passed as the 'secretValue' parameter, which is constructed in the `main.bicep` using the admin name and password.
+        `sqldb.bicep` defines an Azure SQL server template and a SQL database. The connection string is passed as the 'secretValue' parameter, which is constructed in `main.bicep` using the admin name and password.
 {%endif%}{% if 'azurestorageaccount' in engine.resources %}
     - Azure Storage Account
 
-        `storageaccount.bicep` defines the template of a Storage Account. Public IP rules are set to the network ACL. The Reader and Data Access role is granted if system identity-based connection is used. Connection string is constructed with all the endpoints (Blob, File, Table and Queue) and stored to key vault if connection by secret is used.
+        `storageaccount.bicep`  defines a Storage Account template. Public IP rules are set to the network ACL. The Reader and Data Access role is granted if system identity-based connection is used. The connection string is constructed with all the endpoints (Blob, File, Table, and Queue) and stored in the key vault if connection by secret is used.
 {%endif%}{% if 'azurestaticwebapp' in engine.resources %}
     - Azure Static Web app
 
-        `staticwebapp.bicep` defines the template of a Static Web App.
+        `staticwebapp.bicep` defines a Static Web App template.
 {%endif%}{% if 'azureservicebus' in engine.resources %}
     - Azure Service Bus
 
-        `servicebus.bicep` defines the template of a Service Bus namespace. A network rule set is defined to add public IP rules. The Azure Service Bus Data Owner role is granted if system identity-based connection is used. A resource of authentication rules is created to get the primary connection string, which is stored to key vault if connection by secret is used.
+        `servicebus.bicep` defines a Service Bus namespace template. A network rule set is defined to add public IP rules. The Azure Service Bus Data Owner role is granted if system identity-based connection is used. An authentication rules resource is created to get the primary connection string, which is stored in the key vault if connection by secret is used.
 {%endif%}{% if 'azurewebpubsub' in engine.resources %}
     - Azure Web PubSub
 
-        `webpubsub.bicep` defines the template of an Azure Web PubSub service. Public network access is enabled. The SignalR/Web PubSub Contributor role is granted if system identity-based connection is used. The primary connection string is stored to key vault if connection by secret is used.
+        `webpubsub.bicep` defines an Azure Web PubSub service template. Public network access is enabled. The SignalR/Web PubSub Contributor role is granted if system identity-based connection is used. The primary connection string is stored in the key vault if connection by secret is used.
 {%endif%}
-    **_NOTE:_** All the secrets (connectin strings, access keys and passwords) are stored in key vault and used as key vault reference in compute resources.
+    **_NOTE:_** All the secrets (connectin strings, access keys, and passwords) are stored in the key vault and used as key vault references in compute resources.
 
 1. `main.bicep`
 
-    This file defines the deployments of your services. During the deployments, connection information between services are configured. The resources are created or updated in the following order:
+    This file defines the deployments of your services. During the deployments, the connection information between services is configured. The resources are created or updated in the following order:
 
-    - The dependency resources such as Container Apps Environment and App Service Plan, etc.
-    - The compute resources such as Container App and App Service, etc.
-    - The target resources such as databases, storage and key vault, etc. If the target is connected to a compute resource, network and authentication settings are configured. Outbound IPs of the compute resources are added to the target's firewall rules. If the connection is using system identity, principal ID is used to do role assignment according to the resource templates. If the connection is using secret authentication, connection strings or keys are constructed or acquired in the templates.
-    - The deployment of app settings. Set the connection info such as key vault secret (retrieved from each resource template using key vault reference format) and the resource endpoint from the outputs of the target resources in app settings. {%if 'azurecontainerapp' in engine.resources%}Container Apps are deployed the second time if it is connected to the target resources. The connection information is set to the environment variables and the Container Apps secret. Key vault secret is referenced by the secret URI using system identity.{%endif%}
+    - Dependency resources such as Container Apps Environment and App Service Plan, etc.
+    - Compute resources such as Container App and App Service, etc.
+    - Target resources such as databases, storage, and key vault, etc. If the target is connected to a compute resource, network and authentication settings are configured. Outbound IPs of the compute resources are added to the target's firewall rules. If the connection is using system identity, the principal ID is used to do role assignment according to the resource templates. If the connection is using secret authentication, connection strings or keys are constructed or acquired in the templates.
+    - The deployment of app settings. The connection information, such as key vault secret (retrieved from each resource template using the key vault reference format) and the resource endpoint from the outputs of the target resources, is set in app settings.{%if 'azurecontainerapp' in engine.resources%} Container Apps are deployed a second time if they are connected to target resources. The connection information is set to the environment variables and the Container Apps secret. The key vault secret is referenced by the secret URI using system identity.{%endif%}
 
 1. `main.parameters.json`
 
-    This file contains the parameters that requires user input.
+    This file contains the parameters that require user input.
 {% if 'azurebotservice' in engine.resources %}
     - Azure AI Bot Service
       An Azure AI Bot Service requires the client ID and the client secret of the Microsoft App.
