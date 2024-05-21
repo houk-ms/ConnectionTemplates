@@ -36,3 +36,5 @@ class KeyVaultSecretEngine(BaseResourceEngine):
                 
                 # change the app setting value to the secret id
                 app_setting.value = 'azurerm_key_vault_secret.{}.id'.format(self.module_name)
+                # change the app setting type to use key vault reference format
+                app_setting.type = AppSettingType.KeyVaultReference

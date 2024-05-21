@@ -1,5 +1,5 @@
 from typing import List
-from azure_iac.helpers.connection_info import StorageConnInfoHelper
+
 from azure_iac.payloads.binding import Binding
 from azure_iac.payloads.resources.storage_account import StorageAccountResource
 
@@ -38,22 +38,19 @@ class StorageAccountEngine(TargetResourceEngine):
 
     # return the app settings needed by identity connection
     def get_app_settings_identity(self, binding: Binding) -> List[tuple]:
-        connInfoHelper = StorageConnInfoHelper("" if binding.source.service is None else binding.source.service.language,
-                                              connection_string=None,
-                                              blob_endpoint='azurerm_storage_account.{}.primary_blob_endpoint'.format(self.module_name),
-                                              table_endpoint='azurerm_storage_account.{}.primary_table_endpoint'.format(self.module_name),
-                                              queue_endpoint='azurerm_storage_account.{}.primary_queue_endpoint'.format(self.module_name),
-                                              file_endpoint='azurerm_storage_account.{}.primary_file_endpoint'.format(self.module_name)
-                                              )
-        configs = connInfoHelper.get_configs({} if binding.customKeys is None else binding.customKeys,
-                                             binding.connection)
-        return self._get_app_settings(configs)
+        custom_keys = dict() if binding.customKeys is None else binding.customKeys
+        default_settings = [
+            (AppSettingType.KeyValue, 'AZURE_STORAGEACCOUNT_BLOBENDPOINT', 'azurerm_storage_account.{}.primary_blob_endpoint'.format(self.module_name)),
+            (AppSettingType.KeyValue, 'AZURE_STORAGEACCOUNT_TABLEENDPOINT', 'azurerm_storage_account.{}.primary_table_endpoint'.format(self.module_name)),
+            (AppSettingType.KeyValue, 'AZURE_STORAGEACCOUNT_QUEUEENDPOINT', 'azurerm_storage_account.{}.primary_queue_endpoint'.format(self.module_name)),
+            (AppSettingType.KeyValue, 'AZURE_STORAGEACCOUNT_FILEENDPOINT', 'azurerm_storage_account.{}.primary_file_endpoint'.format(self.module_name)),
+        ]
+        return [AppSetting(_type, custom_keys.get(key, key), value) for _type, key, value in default_settings]
 
     # return the app settings needed by secret connection
     def get_app_settings_secret(self, binding: Binding) -> List[tuple]:
-        connInfoHelper = StorageConnInfoHelper("" if binding.source.service is None else binding.source.service.language,
-                                              connection_string='azurerm_storage_account.{}.primary_access_key'.format(self.module_name)
-                                              )
-        configs = connInfoHelper.get_configs({} if binding.customKeys is None else binding.customKeys,
-                                             binding.connection)
-        return self._get_app_settings(configs)
+        custom_keys = dict() if binding.customKeys is None else binding.customKeys
+        default_settings = [
+            (AppSettingType.SecretReference, 'AZURE_STORAGEACCOUNT_CONNECTIONSTRING', 'azurerm_storage_account.{}.primary_access_key'.format(self.module_name)),
+        ]
+        return [AppSetting(_type, custom_keys.get(key, key), value) for _type, key, value in default_settings]

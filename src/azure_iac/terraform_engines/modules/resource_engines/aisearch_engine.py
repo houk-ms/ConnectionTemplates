@@ -56,7 +56,7 @@ class AISearchEngine(TargetResourceEngine):
         name = 'azurerm_search_service.{}.name'.format(self.module_name) 
         deafult_settings = [
             (AppSettingType.KeyValue, 'AZURE_AISEARCH_ENDPOINT', '"https://${' + name + '}.search.windows.net/"'),
-            (AppSettingType.KeyVaultReference, 'AZURE_AISEARCH_KEY', 'azurerm_search_service.{}.primary_key'.format(self.module_name)),
+            (AppSettingType.SecretReference, 'AZURE_AISEARCH_KEY', 'azurerm_search_service.{}.primary_key'.format(self.module_name)),
         ]
 
         return [AppSetting(_type, custom_keys.get(key, key), value) for _type, key, value in deafult_settings]

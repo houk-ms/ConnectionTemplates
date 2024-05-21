@@ -1,6 +1,5 @@
 from typing import List
 
-from azure_iac.helpers.connection_info import ServiceBusConnInfoHelper
 from azure_iac.payloads.binding import Binding
 from azure_iac.payloads.resources.service_bus import ServiceBusResource
 
@@ -41,19 +40,16 @@ class ServiceBusEngine(TargetResourceEngine):
 
     # return the app settings needed by identity connection
     def get_app_settings_identity(self, binding: Binding) -> List[tuple]:
-        connInfoHelper = ServiceBusConnInfoHelper("" if binding.source.service is None else binding.source.service.language,
-                                                  connection_string=None,
-                                                  namespace='azurerm_servicebus_namespace.{}.endpoint'.format(self.module_name)
-                                                  )
-        configs = connInfoHelper.get_configs({} if binding.customKeys is None else binding.customKeys,
-                                             binding.connection)
-        return self._get_app_settings(configs)
+        custom_keys = dict() if binding.customKeys is None else binding.customKeys
+        default_settings = [
+            (AppSettingType.KeyValue, 'AZURE_SERVICEBUS_FULLYQUALIFIEDNAMESPACE', 'azurerm_servicebus_namespace.{}.endpoint'.format(self.module_name)),
+        ]
+        return [AppSetting(_type, custom_keys.get(key, key), value) for _type, key, value in default_settings]
 
     # return the app settings needed by secret connection
     def get_app_settings_secret(self, binding: Binding) -> List[tuple]:
-        connInfoHelper = ServiceBusConnInfoHelper("" if binding.source.service is None else binding.source.service.language,
-                                                  connection_string='azurerm_servicebus_namespace.{}.default_primary_connection_string'.format(self.module_name)
-                                                 )
-        configs = connInfoHelper.get_configs({} if binding.customKeys is None else binding.customKeys,
-                                             binding.connection)
-        return self._get_app_settings(configs)
+        custom_keys = dict() if binding.customKeys is None else binding.customKeys
+        default_settings = [
+            (AppSettingType.SecretReference, 'AZURE_SERVICEBUS_CONNECTIONSTRING', 'azurerm_servicebus_namespace.{}.default_primary_connection_string'.format(self.module_name)),
+        ]
+        return [AppSetting(_type, custom_keys.get(key, key), value) for _type, key, value in default_settings]
