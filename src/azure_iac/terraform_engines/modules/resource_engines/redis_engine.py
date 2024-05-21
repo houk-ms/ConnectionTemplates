@@ -1,8 +1,11 @@
 from typing import List
-from azure_iac.helpers.connection_info import RedisConnInfoHelper
+
+from azure_iac.helpers.constants import ClientType
+from azure_iac.helpers.connection_info import get_client_type
 from azure_iac.payloads.binding import Binding
 from azure_iac.payloads.resources.redis import RedisResource
 
+from azure_iac.terraform_engines.models.appsetting import AppSettingType, AppSetting
 from azure_iac.terraform_engines.models.template import Template
 from azure_iac.terraform_engines.modules.target_resource_engine import TargetResourceEngine
 
@@ -28,14 +31,18 @@ class RedisEngine(TargetResourceEngine):
 
     # return the app settings needed by secret connection
     def get_app_settings_secret(self, binding: Binding) -> List[tuple]:
-        connInfoHelper = RedisConnInfoHelper("" if binding.source.service is None else binding.source.service.language,
-                                             connection_string='azurerm_redis_cache.{}.primary_connection_string'.format(self.module_name),
-                                             host='azurerm_redis_cache.{}.hostname'.format(self.module_name),
-                                             password='azurerm_redis_cache.{}.primary_access_key'.format(self.module_name),
-                                             database=f'\"{self.module_params_database_name}\"',
-                                             port='azurerm_redis_cache.{}.ssl_port'.format(self.module_name)
-                                             )
-        configs = connInfoHelper.get_configs({} if binding.customKeys is None else binding.customKeys,
-                                             binding.connection,
-                                             "tf")
-        return self._get_app_settings(configs)
+        custom_keys = dict() if binding.customKeys is None else binding.customKeys
+        default_settings = [
+            (AppSettingType.SecretReference, 'AZURE_REDIS_CONNECTIONSTRING', 'azurerm_redis_cache.{}.primary_connection_string'.format(self.module_name))
+        ]
+        separate_settings = [
+            (AppSettingType.KeyValue, 'AZURE_REDIS_HOST', 'azurerm_redis_cache.{}.hostname'.format(self.module_name)),
+            (AppSettingType.KeyValue, 'AZURE_REDIS_DATABASE', f'\"{self.module_params_database_name}\"'),
+            (AppSettingType.SecretReference, 'AZURE_REDIS_PASSWORD', 'azurerm_redis_cache.{}.primary_access_key'.format(self.module_name)),
+            (AppSettingType.KeyValue, 'AZURE_REDIS_PORT', 'azurerm_redis_cache.{}.ssl_port'.format(self.module_name)),
+            (AppSettingType.KeyValue, 'AZURE_REDIS_SSL', "\"true\"")
+        ]
+        client_type = get_client_type(binding.source.service.language)
+        if client_type == ClientType.DEFAULT:
+            return [AppSetting(_type, custom_keys.get(key, key), value) for _type, key, value in separate_settings]
+        return [AppSetting(_type, key, value) for _type, key, value in default_settings]

@@ -1,5 +1,5 @@
 from typing import List
-from azure_iac.helpers.connection_info import SqlConnInfoHelper
+
 from azure_iac.helpers.connection_info import get_client_type, join_segments
 from azure_iac.helpers.constants import ClientType, SQL_CONSTANTS
 from azure_iac.payloads.binding import Binding
@@ -51,11 +51,6 @@ class SqlDbEngine(TargetResourceEngine):
 
     # return the app settings needed by secret connection
     def get_app_settings_secret(self, binding: Binding) -> List[tuple]:
-        connInfoHelper = SqlConnInfoHelper("" if binding.source.service is None else binding.source.service.language,
-                                           server=self.module_params_name,
-                                           user=self.module_params_administrator_login,
-                                           password=self.module_params_administrator_login_password,
-                                           database=self.module_params_database_name)
         
         def get_conn_str(client_type, server, port, database, user, password) -> str:
             if client_type == ClientType.PYTHON:

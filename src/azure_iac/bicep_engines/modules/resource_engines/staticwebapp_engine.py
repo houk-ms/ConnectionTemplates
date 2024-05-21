@@ -1,6 +1,5 @@
 from typing import List
 
-from azure_iac.helpers.connection_info import ComputeResourceConnInfoHelper
 from azure_iac.payloads.resources.static_web_app import StaticWebAppResource
 
 from azure_iac.bicep_engines.models.template import Template

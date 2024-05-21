@@ -185,8 +185,7 @@
 		{
 			"source": "${azureappservice.app1}",
 			"target": "${azuresqldatabase.sql1}",
-			"connection": "secret",
-			"store": "${azurekeyvault.kv1}"
+			"connection": "secret"
 		},
 		{
 			"source": "${azureappservice.app2}",

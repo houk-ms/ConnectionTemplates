@@ -104,7 +104,7 @@ class MySqlDbEngine(TargetResourceEngine):
                 (AppSettingType.KeyValue, 'AZURE_MYSQL_USER', "\"{}\"".format(user)),
                 (AppSettingType.SecretReference, 'AZURE_MYSQL_PASSWORD', "\"{}\"".format(password)),
                 (AppSettingType.KeyValue, 'AZURE_MYSQL_PORT', "\"{}\"".format(port)),
-                (AppSettingType.KeyValue, 'AZURE_MYSQL_SSL', "true")
+                (AppSettingType.KeyValue, 'AZURE_MYSQL_SSL', "\"true\"")
             ],
             ClientType.JAVA: [
                 (AppSettingType.SecretReference, "AZURE_MYSQL_CONNECTIONSTRING", conn_str),
@@ -118,7 +118,7 @@ class MySqlDbEngine(TargetResourceEngine):
                 (AppSettingType.KeyValue, 'AZURE_MYSQL_USER', "\"{}\"".format(user)),
                 (AppSettingType.SecretReference, 'AZURE_MYSQL_PASSWORD', "\"{}\"".format(password)),
                 (AppSettingType.KeyValue, 'AZURE_MYSQL_PORT', "\"{}\"".format(port)),
-                (AppSettingType.KeyValue, 'AZURE_MYSQL_SSL', "Require")
+                (AppSettingType.KeyValue, 'AZURE_MYSQL_SSL', "\"Require\"")
             ]
         }
         return [AppSetting(_type, custom_keys.get(key, key), value) for _type, key, value in default_settings[client_type]]
