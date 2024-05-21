@@ -1,6 +1,5 @@
 from typing import List
 
-from azure_iac.helpers.connection_info import WebPubSubConnInfoHelper
 from azure_iac.payloads.binding import Binding
 from azure_iac.payloads.resources.web_pubsub import WebPubSubResource
 
@@ -38,19 +37,16 @@ class WebPubSubEngine(TargetResourceEngine):
 
     # return the app settings needed by identity connection
     def get_app_settings_identity(self, binding: Binding) -> List[tuple]:
-        connInfoHelper = WebPubSubConnInfoHelper("" if binding.source.service is None else binding.source.service.language,
-                                              	 connection_string=None,
-                                              	 host='azurerm_web_pubsub.{}.hostname'.format(self.module_name)
-                                              	)
-        configs = connInfoHelper.get_configs({} if binding.customKeys is None else binding.customKeys,
-                                             binding.connection)
-        return self._get_app_settings(configs)
+        custom_keys = dict() if binding.customKeys is None else binding.customKeys
+        default_settings = [
+            (AppSettingType.KeyValue, 'AZURE_WEBPUBSUB_HOST', 'azurerm_web_pubsub.{}.hostname'.format(self.module_name)),
+        ]
+        return [AppSetting(_type, custom_keys.get(key, key), value) for _type, key, value in default_settings]
 
     # return the app settings needed by secret connection
     def get_app_settings_secret(self, binding: Binding) -> List[tuple]:
-        connInfoHelper = WebPubSubConnInfoHelper("" if binding.source.service is None else binding.source.service.language,
-                                              	 connection_string='azurerm_web_pubsub.{}.primary_connection_string'.format(self.module_name)
-                                              	)
-        configs = connInfoHelper.get_configs({} if binding.customKeys is None else binding.customKeys,
-                                             binding.connection)
-        return self._get_app_settings(configs)
+        custom_keys = dict() if binding.customKeys is None else binding.customKeys
+        default_settings = [
+            (AppSettingType.SecretReference, 'AZURE_WEBPUBSUB_CONNECTIONSTRING', 'azurerm_web_pubsub.{}.primary_connection_string'.format(self.module_name)),
+        ]
+        return [AppSetting(_type, custom_keys.get(key, key), value) for _type, key, value in default_settings]

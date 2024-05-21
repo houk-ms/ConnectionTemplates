@@ -85,7 +85,7 @@ class MySqlDbEngine(TargetResourceEngine):
                 (AppSettingType.KeyValue, 'AZURE_MYSQL_HOST', "\'${" + self.module_params_name + "}.mysql.database.azure.com\'"),
                 (AppSettingType.KeyValue, 'AZURE_MYSQL_DATABASE', self.module_params_database_name),
                 (AppSettingType.KeyValue, 'AZURE_MYSQL_USER', self.module_params_admin_name),
-                (AppSettingType.KeyValue, 'AZURE_MYSQL_PASSWORD', self.module_params_password),
+                (AppSettingType.KeyVaultReference, 'AZURE_MYSQL_PASSWORD', self.module_params_password),
             ],
             ClientType.NODE: [
                 (AppSettingType.KeyValue, 'AZURE_MYSQL_HOST', "\'${" + self.module_params_name + "}.mysql.database.azure.com\'"),
