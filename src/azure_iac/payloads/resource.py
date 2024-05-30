@@ -20,6 +20,7 @@ from azure_iac.payloads.resources.static_web_app import StaticWebAppResource
 from azure_iac.payloads.resources.openai import OpenAIResource
 from azure_iac.payloads.resources.web_pubsub import WebPubSubResource
 from azure_iac.payloads.resources.storage_account import StorageAccountResource
+from azure_iac.payloads.resources.useridentity import UserIdentityResource
 
 
 RESOURCES = {
@@ -41,6 +42,7 @@ RESOURCES = {
     ResourceType.AZURE_SERVICE_BUS: ServiceBusResource,
     ResourceType.AZURE_STATIC_WEB_APP: StaticWebAppResource,
     ResourceType.AZURE_OPENAI: OpenAIResource,
+    ResourceType.AZURE_USER_IDENTITY: UserIdentityResource,
     ResourceType.AZURE_WEBPUBSUB: WebPubSubResource,
 }
 

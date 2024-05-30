@@ -238,9 +238,13 @@
 			}
 		},
 		{
+			"source":"${azureappservice.app3}",
+			"target":"${azurecosmosdb.cosmos1}"
+		},
+		{
 			"source":"${azureappservice.app2}",
 			"target":"${azurecosmosdb.cosmos1}",
-			"connection": "secret"
+			"connection": "user-identity"
 		},
 		{
 			"source":"${azureappservice.app1}",

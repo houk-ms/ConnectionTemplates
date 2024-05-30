@@ -17,8 +17,6 @@ from azure_iac.terraform_engines.modules.resource_engines.postgresql_engine impo
 from azure_iac.terraform_engines.modules.resource_engines.postgresql_firewall_engine import PostgreSqlDbFirewallEngine
 from azure_iac.terraform_engines.modules.resource_engines.redis_engine import RedisEngine
 from azure_iac.terraform_engines.modules.resource_engines.redis_firewall_engine import RedisFirewallEngine
-from azure_iac.terraform_engines.modules.resource_engines.openai_engine import OpenAIEngine
-from azure_iac.terraform_engines.modules.resource_engines.webpubsub_engine import WebPubSubEngine
 from azure_iac.terraform_engines.modules.resource_engines.role_resource_engine import RoleResourceEngine
 from azure_iac.terraform_engines.modules.resource_engines.servicebus_engine import ServiceBusEngine
 from azure_iac.terraform_engines.modules.resource_engines.servicebus_network_engine import ServiceBusNetworkEngine
@@ -27,6 +25,8 @@ from azure_iac.terraform_engines.modules.resource_engines.sql_firewall_engine im
 from azure_iac.terraform_engines.modules.resource_engines.staticwebapp_engine import StaticWebAppEngine
 from azure_iac.terraform_engines.modules.resource_engines.storageaccount_engine import StorageAccountEngine
 from azure_iac.terraform_engines.modules.resource_engines.storageaccount_firewall_engine import StorageAccountFirewallEngine
+from azure_iac.terraform_engines.modules.resource_engines.useridentity_engine import UserIdentityEngine
+from azure_iac.terraform_engines.modules.resource_engines.webpubsub_engine import WebPubSubEngine
 
 
 RESOURCE_ENGINES = {
@@ -41,13 +41,14 @@ RESOURCE_ENGINES = {
     ResourceType.AZURE_KEYVAULT: KeyVaultEngine,
     ResourceType.AZURE_MYSQL_DB: MySqlDbEngine,
     ResourceType.AZURE_OPENAI: OpenAIEngine,
-    ResourceType.AZURE_WEBPUBSUB: WebPubSubEngine,
     ResourceType.AZURE_POSTGRESQL_DB: PostgreSqlDbEngine,
     ResourceType.AZURE_REDIS_CACHE: RedisEngine,
     ResourceType.AZURE_SERVICE_BUS: ServiceBusEngine,
     ResourceType.AZURE_SQL_DB: SqlDbEngine,
     ResourceType.AZURE_STATIC_WEB_APP: StaticWebAppEngine,
     ResourceType.AZURE_STORAGE_ACCOUNT: StorageAccountEngine,
+    ResourceType.AZURE_USER_IDENTITY: UserIdentityEngine,
+    ResourceType.AZURE_WEBPUBSUB: WebPubSubEngine,
 }
 
 FIREWALL_ENGINES = {
