@@ -1,6 +1,6 @@
 from typing import List
 
-from azure_iac.payloads.resources.app_service import AppServiceResource
+from azure_iac.payloads.resources.container_app import ContainerAppResource
 from azure_iac.payloads.models.project_type import ProjectType
 
 from azure_iac.bicep_engines.models.appsetting import AppSetting, AppSettingType
@@ -11,7 +11,7 @@ from azure_iac.helpers import string_helper
 
 
 class ContainerAppSettingsEngine(SettingResourceEngine):
-    def __init__(self, resource: AppServiceResource) -> None:
+    def __init__(self, resource: ContainerAppResource) -> None:
         super().__init__(Template.CONTAINER_APP_BICEP.value,
                          Template.CONTAINER_APP_MODULE.value)
         self.resource = resource
