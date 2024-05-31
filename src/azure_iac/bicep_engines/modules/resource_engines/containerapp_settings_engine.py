@@ -31,6 +31,10 @@ class ContainerAppSettingsEngine(SettingResourceEngine):
                     AppSetting(AppSettingType.KeyValue, setting.get('name'), "'{}'".format(setting.get('value', '<...>')))
                 )
             self.add_app_settings(app_settings)
+        
+        # identity settings, system identity is default, to sync with the first deployment
+        self.module_identity_type = '\'SystemAssigned\''
+        self.module_user_identities = []
     
     def _get_module_params_secrets(self) -> List[tuple]:
         secrets = []
@@ -38,3 +42,7 @@ class ContainerAppSettingsEngine(SettingResourceEngine):
             if not setting.is_raw_value():
                 secrets.append((setting.secret_name, setting.value))
         return secrets
+    
+    def set_module_user_identity(self, identity_id):
+        self.module_identity_type = '\'SystemAssigned, UserAssigned\''
+        self.module_user_identities.append('\'${' + identity_id + '}\'')

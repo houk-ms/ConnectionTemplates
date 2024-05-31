@@ -1,5 +1,6 @@
 from azure_iac.payloads.binding import Binding
 from azure_iac.payloads.models.connection_type import ConnectionType
+from azure_iac.payloads.models.resource_type import ResourceType
 
 from azure_iac.bicep_engines.models.appsetting import AppSetting, AppSettingType
 from azure_iac.bicep_engines.modules.source_resource_engine import SourceResourceEngine
@@ -50,7 +51,10 @@ class BicepBindingHandler():
             self.target_engine.allow_firewall(public_ip)
 
             # enable user identity on source
-            self.source_engine.enable_user_identity(self.user_identity_engine.get_identity_id())
+            identity_id = self.user_identity_engine.get_identity_id()
+            self.source_engine.enable_user_identity(identity_id)
+            if self.binding.source.type == ResourceType.AZURE_CONTAINER_APP:
+                self.setting_engine.set_module_user_identity(identity_id)
             
             # setting engine depends on target engine
             self.setting_engine.add_dependency_engine(self.target_engine)

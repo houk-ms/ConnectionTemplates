@@ -38,7 +38,7 @@ class SourceResourceEngine(BaseResourceEngine):
             if app_setting.name not in existing_setting_names:
                 self.module_params_app_settings.append(app_setting)
 
-        
+    # enable user identity on the resource of current engine
     def enable_user_identity(self, identity_id):
         self.module_identity_type = 'SystemAssigned, UserAssigned'
         self.module_user_identities.append(identity_id)
