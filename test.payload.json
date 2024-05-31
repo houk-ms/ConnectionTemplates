@@ -222,6 +222,11 @@
 			}
 		},
 		{
+			"source": "${azurecontainerapp.aca1}",
+			"target": "${azurecosmosdb.cosmos1}",
+			"connection": "user-identity"
+		},
+		{
 			"source": "${azureappservice.app1}",
 			"target": "${azurecosmosdb.cosmos1}",
 			"connection": "secret",

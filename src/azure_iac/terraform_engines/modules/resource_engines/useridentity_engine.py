@@ -15,8 +15,11 @@ class UserIdentityEngine(BaseResourceEngine):
         self.module_name = self.resource.name or Abbreviation.USER_IDENTITY.value
         self.module_params_name = (self.resource.name or Abbreviation.USER_IDENTITY.value) + '${var.resource_suffix}'
 
-    def get_identity_id(self):
+    def get_principal_id(self):
         return 'azurerm_user_assigned_identity.{}.principal_id'.format(self.module_name)
     
     def get_client_id(self):
         return 'azurerm_user_assigned_identity.{}.client_id'.format(self.module_name)
+    
+    def get_identity_id(self):
+        return 'azurerm_user_assigned_identity.{}.id'.format(self.module_name)

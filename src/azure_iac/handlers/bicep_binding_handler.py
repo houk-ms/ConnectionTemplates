@@ -44,10 +44,13 @@ class BicepBindingHandler():
         elif self.binding.connection == ConnectionType.USERIDENTITY:
             # target engine depends on source engine
             self.target_engine.add_dependency_engine(self.source_engine)
-            principal_id = self.user_identity_engine.get_identity_id()
+            principal_id = self.user_identity_engine.get_principal_id()
             public_ip = self.source_engine.get_outbound_ip()
             self.target_engine.assign_role(principal_id)
             self.target_engine.allow_firewall(public_ip)
+
+            # enable user identity on source
+            self.source_engine.enable_user_identity(self.user_identity_engine.get_identity_id())
             
             # setting engine depends on target engine
             self.setting_engine.add_dependency_engine(self.target_engine)

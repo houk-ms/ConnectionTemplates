@@ -44,6 +44,9 @@ resource "azurerm_container_app" "{{engine.module_name}}" {
   	}
 
 	identity {
-		type	=	"SystemAssigned"
+		type = "{{engine.module_identity_type}}" {% if engine.module_user_identities %}
+		identity_ids = concat({% for identity in engine.module_user_identities %}
+			{{identity}}{% if loop.index != engine.module_params_allow_ips|length %},{% endif %}{% endfor %}
+		){%endif%}
 	}
 }

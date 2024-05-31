@@ -32,9 +32,13 @@ class UserIdentityEngine(BaseResourceEngine):
         self.depend_engines = []
         
 	
-    def get_identity_id(self) -> str:
+    def get_principal_id(self) -> str:
         return '{}.outputs.identityPrincipalId'.format(self.module_name)
 
 
     def get_client_id(self):
         return '{}.outputs.identityClientId'.format(self.module_name)
+    
+
+    def get_identity_id(self) -> str:
+        return '{}.outputs.id'.format(self.module_name)

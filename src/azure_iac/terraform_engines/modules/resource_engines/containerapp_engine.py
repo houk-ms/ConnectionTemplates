@@ -46,7 +46,6 @@ class ContainerAppEngine(SourceResourceEngine, TargetResourceEngine):
             ContainerRegistryEngine(self.resource),
         ]
 
-    
     def get_app_settings_http(self, binding: Binding) -> List[tuple]:
         custom_keys = dict() if binding.customKeys is None else binding.customKeys
         default_key = 'SERVICE_URL'

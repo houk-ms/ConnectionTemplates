@@ -50,7 +50,7 @@ class TerraformGenerator(BaseGenerator):
                 break
 
         for binding in self.payload.bindings:
-            # container app does not support keyvault store
+            # container app does not support keyvault store => TODO: now supported, wait for implementation
             if binding.source.type == ResourceType.AZURE_CONTAINER_APP \
                 and binding.store is not None :
                 binding.store = None
@@ -223,6 +223,7 @@ class TerraformGenerator(BaseGenerator):
         return None
 
     def _get_role_engine_by_resource(self, resource: Resource):
+        # TODO: different role to same resource
         for engine in self.role_engines:
             if engine.resource == resource:
                 return engine

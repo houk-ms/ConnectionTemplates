@@ -58,10 +58,13 @@ class TerraformBindingHandler():
             self.role_engine.assign_role(principal_id, scope, role_def)
 
         elif self.binding.connection == ConnectionType.USERIDENTITY:
+            # enable user identity for source engine
+            self.source_engine.enable_user_identity(self.user_identity_engine.get_identity_id())
+
             # role engine depends on user identity and target engine (--> principal id, scope)
             self.role_engine.add_dependency_engine(self.source_engine)
             self.role_engine.add_dependency_engine(self.target_engine)
-            principal_id = self.user_identity_engine.get_identity_id()
+            principal_id = self.user_identity_engine.get_principal_id()
             scope, role_def = self.target_engine.get_role_scope()
             self.role_engine.assign_role(principal_id, scope, role_def)
 
