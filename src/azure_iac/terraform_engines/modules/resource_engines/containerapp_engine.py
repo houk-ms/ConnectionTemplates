@@ -60,11 +60,11 @@ class ContainerAppEngine(SourceResourceEngine, TargetResourceEngine):
         secrets = []
         for setting in self.module_params_app_settings:
             if not setting.is_raw_value():
-                secrets.append((setting.secret_name, setting.value))
+                secrets.append((setting.secret_name, setting.value, setting.is_keyvault_reference()))
         
         # add the container registry password in secrets, not used in env
         # use abbreviation for dependency container registry to avoid being deduplicated
-        secrets.append(('acr-password', 'azurerm_container_registry.{}.admin_password'.format(Abbreviation.CONTAINER_REGISTRY.value)))
+        secrets.append(('acr-password', 'azurerm_container_registry.{}.admin_password'.format(Abbreviation.CONTAINER_REGISTRY.value), False))
         
         return secrets
         
