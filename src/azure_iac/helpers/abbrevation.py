@@ -24,4 +24,5 @@ class Abbreviation(str, Enum):
     STORAGE_ACCOUNT = "strg"
     STATIC_WEB_APP = "swa"
     SERVICE_BUS = "sb"
+    USER_IDENTITY = "umi"
     WEB_PUBSUB = "wps"

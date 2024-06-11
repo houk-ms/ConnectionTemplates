@@ -3,6 +3,7 @@
 param name string = 'fnapp-${uniqueString(resourceGroup().id)}'
 param location string = resourceGroup().location
 param identityType string = 'SystemAssigned'
+param userAssignedIdentities object = {}
 param functionAppPlanId string
 param appSettings array = []
 param storageAccountName string
@@ -29,6 +30,7 @@ resource functionapp 'Microsoft.Web/sites@2022-09-01' = {
 	}
 	identity: {
 		type: identityType
+		userAssignedIdentities: userAssignedIdentities
 	}
 }
 

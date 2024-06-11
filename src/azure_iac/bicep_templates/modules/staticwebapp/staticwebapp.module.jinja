@@ -5,7 +5,11 @@ module {{engine.module_name}} 'staticwebapp.bicep' = {
 	scope: resourceGroup
 	params: {
 		location: location
-		name: {{engine.module_params_name}} {% if engine.module_params_app_settings %}
+		name: {{engine.module_params_name}} 
+		identityType: {{engine.module_identity_type}}{% if engine.module_user_identities %}
+		userAssignedIdentities: { 
+			{% for userIdentity in engine.module_user_identities %}{{userIdentity}}: {} {% if not loop.last %},{% endif %}{% endfor %}
+		}{%endif%}{% if engine.module_params_app_settings %}
 		appSettings: [{% for key, value in engine.module_params_app_settings %}
 			{
 				name: '{{key}}'

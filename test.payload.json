@@ -209,6 +209,15 @@
 			}
 		},
 		{
+			"source": "${azurecontainerapp.aca1}",
+			"target": "${azuredatabaseforpostgresql.pg1}",
+			"connection": "secret",
+			"store": "${azurekeyvault.kv1}",
+			"customKeys": {
+				"AZURE_POSTGRESQL_CONNECTIONSTRING": "pgsqlconnstr"
+			}
+		},
+		{
 			"source": "${azureappservice.app2}",
 			"target": "${azuredatabaseforpostgresql.pg2}",
 			"connection": "secret"
@@ -220,6 +229,11 @@
 			"customKeys": {
 				"AZURE_MYSQL_HOST": "pyhost"
 			}
+		},
+		{
+			"source": "${azurecontainerapp.aca1}",
+			"target": "${azurecosmosdb.cosmos1}",
+			"connection": "user-identity"
 		},
 		{
 			"source": "${azureappservice.app1}",
@@ -238,9 +252,13 @@
 			}
 		},
 		{
+			"source":"${azureappservice.app3}",
+			"target":"${azurecosmosdb.cosmos1}"
+		},
+		{
 			"source":"${azureappservice.app2}",
 			"target":"${azurecosmosdb.cosmos1}",
-			"connection": "secret"
+			"connection": "user-identity"
 		},
 		{
 			"source":"${azureappservice.app1}",

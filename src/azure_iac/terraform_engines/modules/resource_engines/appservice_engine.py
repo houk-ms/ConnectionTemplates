@@ -8,6 +8,7 @@ from azure_iac.terraform_engines.models.template import Template
 from azure_iac.terraform_engines.modules.source_resource_engine import SourceResourceEngine
 from azure_iac.terraform_engines.modules.target_resource_engine import TargetResourceEngine
 from azure_iac.terraform_engines.modules.resource_engines.appserviceplan_engine import AppServicePlanEngine
+from azure_iac.terraform_engines.modules.resource_engines.useridentity_engine import UserIdentityEngine
 
 from azure_iac.helpers import string_helper
 from azure_iac.helpers.abbrevation import Abbreviation
@@ -54,4 +55,3 @@ class AppServiceEngine(SourceResourceEngine, TargetResourceEngine):
         return [
             AppSetting(AppSettingType.KeyValue, custom_key, 'azurerm_linux_web_app.{}.default_hostname'.format(self.module_name))
         ]
-    

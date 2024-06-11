@@ -2,11 +2,17 @@
 
 param name string = 'static-${uniqueString(resourceGroup().id)}'
 param location string = resourceGroup().location
+param identityType string = 'SystemAssigned'
+param userAssignedIdentities object = {}
 
 
 resource staticWebApp 'Microsoft.Web/staticSites@2021-01-15' = {
-  name: name
-  location: location
+	name: name
+	location: location
+  	identity: {
+		type: identityType
+		userAssignedIdentities: userAssignedIdentities
+	}
 }
 
 output id string = staticWebApp.id

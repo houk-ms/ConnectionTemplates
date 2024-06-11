@@ -4,6 +4,7 @@ from azure_iac.payloads.binding import Binding
 from azure_iac.payloads.models.resource_type import ResourceType
 from azure_iac.payloads.models.connection_type import ConnectionType
 from azure_iac.payloads.resources.keyvault import KeyVaultResource
+from azure_iac.payloads.resources.useridentity import UserIdentityResource
 
 from azure_iac.bicep_engines import engine_factory
 from azure_iac.bicep_engines.main_engine import MainEngine
@@ -41,12 +42,20 @@ class BicepGenerator(BaseGenerator):
         # not a keyvault resource in the payload
         keyvault_resource = KeyVaultResource()
         is_existing_keyvault = False
+        useridentity_resource = UserIdentityResource()
+        is_existing_user_identity = False
+        has_user_identity = False
         for resource in self.payload.resources:
             if resource.type == ResourceType.AZURE_KEYVAULT:
                 is_existing_keyvault = True
                 keyvault_resource = resource
                 break
-        
+            
+            if resource.type == ResourceType.AZURE_USER_IDENTITY:
+                is_existing_user_identity = True
+                useridentity_resource = resource
+                break
+
         has_secret_binding = False
         for binding in self.payload.bindings:
             # only application insights support secret connection without a key vault
@@ -54,10 +63,15 @@ class BicepGenerator(BaseGenerator):
                 and binding.target.type != ResourceType.AZURE_APPLICATION_INSIGHTS:
                 binding.store = keyvault_resource
                 has_secret_binding = True
+            
+            if binding.connection == ConnectionType.USERIDENTITY:
+                has_user_identity = True
         
         if not is_existing_keyvault and has_secret_binding:
             self.payload.resources.append(keyvault_resource)
 
+        if not is_existing_user_identity and has_user_identity:
+            self.payload.resources.append(useridentity_resource)
 
     def add_implicit_bindings(self):
         # when binding store is keyvault, add implicit binding for source to keyvault
@@ -132,7 +146,8 @@ class BicepGenerator(BaseGenerator):
                 self._get_resource_engine_by_resource(binding.source), 
                 self._get_resource_engine_by_resource(binding.target), 
                 self._get_resource_engine_by_resource(binding.store),
-                self._get_setting_engine_by_resource(binding.source))
+                self._get_setting_engine_by_resource(binding.source),
+                self._get_user_identity_engine())  #TODO: cannot customize user identity
             binding_handler.process_engines()
 
 
@@ -188,7 +203,13 @@ class BicepGenerator(BaseGenerator):
             if engine.resource == resource:
                 return engine
         return None
-    
+
+    def _get_user_identity_engine(self):
+        for engine in self.resource_engines:
+            if engine.resource and engine.resource.type == ResourceType.AZURE_USER_IDENTITY:
+                return engine
+        return None
+
     def _dedup_engines_by_name(self, engine_list):
         deduped = []
         for engine in engine_list:

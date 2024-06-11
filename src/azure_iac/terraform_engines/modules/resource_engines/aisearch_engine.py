@@ -1,6 +1,7 @@
 from typing import List
 
 from azure_iac.payloads.binding import Binding
+from azure_iac.payloads.models.connection_type import ConnectionType
 from azure_iac.payloads.resources.aisearch import AISearchResource
 
 from azure_iac.terraform_engines.models.appsetting import AppSetting, AppSettingType
@@ -42,11 +43,10 @@ class AISearchEngine(TargetResourceEngine):
         
         # TODO: TF does not support other endpoints for now, so we just concatenate the name
         name = 'azurerm_search_service.{}.name'.format(self.module_name) 
-        deafult_settings = [
+        default_settings = [
             (AppSettingType.KeyValue, 'AZURE_AISEARCH_ENDPOINT', '"https://${' + name + '}.search.windows.net/"'),
         ]
-
-        return [AppSetting(_type, custom_keys.get(key, key), value) for _type, key, value in deafult_settings]
+        return [AppSetting(_type, custom_keys.get(key, key), value) for _type, key, value in default_settings]
 
     # return the app settings needed by secret connection
     def get_app_settings_secret(self, binding: Binding) -> List[tuple]:

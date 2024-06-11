@@ -1,0 +1,15 @@
+// The template to create a user assigned identity
+
+param name string = 'umi-${uniqueString(resourceGroup().id)}'
+param location string = resourceGroup().location
+
+resource userIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' = {
+    name: name
+	location: location
+}
+
+
+output id string = userIdentity.id
+output name string = userIdentity.name
+output identityPrincipalId string = userIdentity.properties.principalId
+output identityClientId string = userIdentity.properties.clientId

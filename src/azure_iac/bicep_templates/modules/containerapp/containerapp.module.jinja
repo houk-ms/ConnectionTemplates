@@ -15,6 +15,10 @@ module {{engine.module_name}} 'containerapp.bicep' = {
 			}{% endfor %}
 		]{% endif %}
 		containerAppEnvId: containerAppEnvId
+		identityType: {{engine.module_identity_type}}{% if engine.module_user_identities %}
+		userAssignedIdentities: { 
+			{% for userIdentity in engine.module_user_identities %}{{userIdentity}}: {} {% if not loop.last %},{% endif %}{% endfor %}
+		}{%endif%}
 		containerRegistryName: containerRegistryName {% if engine.module_params_app_settings %}
 		containerEnv: [{% for setting in engine.module_params_app_settings %}
 			{

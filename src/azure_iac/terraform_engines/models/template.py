@@ -38,5 +38,6 @@ class Template(str, Enum):
     STATIC_WEB_APP_TF = "modules/staticwebapp/staticwebapp.tf.jinja"
     SERVICE_BUS_TF = "modules/servicebus/servicebus.tf.jinja"
     SERVICE_BUS_NETWORK_TF = "modules/servicebus/servicebus.network.tf.jinja"
+    USER_IDENTITY_TF = "modules/identity/useridentity.tf.jinja"
     WEB_PUBSUB_TF = "modules/webpubsub/webpubsub.tf.jinja"
     

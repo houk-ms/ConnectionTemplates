@@ -1,6 +1,7 @@
 from azure_iac.payloads.binding import Binding
 from azure_iac.payloads.payload import Payload
 from azure_iac.payloads.resource import Resource
+from azure_iac.payloads.resources.useridentity import UserIdentityResource
 from azure_iac.payloads.models.connection_type import ConnectionType
 from azure_iac.payloads.models.resource_type import ResourceType
 
@@ -39,11 +40,21 @@ class TerraformGenerator(BaseGenerator):
     def complete_payloads(self):
         super().complete_payloads()
 
+        useridentity_resource = UserIdentityResource()
+        is_existing_user_identity = False
+        has_user_identity = False
+        for resource in self.payload.resources:
+            if resource.type == ResourceType.AZURE_USER_IDENTITY:
+                is_existing_user_identity = True
+                useridentity_resource = resource
+                break
+
         for binding in self.payload.bindings:
-            # container app does not support keyvault store
-            if binding.source.type == ResourceType.AZURE_CONTAINER_APP \
-                and binding.store is not None :
-                binding.store = None
+            if binding.connection == ConnectionType.USERIDENTITY:
+                has_user_identity = True
+        
+        if not is_existing_user_identity and has_user_identity:
+            self.payload.resources.append(useridentity_resource)
 
     def add_implicit_bindings(self):
         # when binding store is keyvault, add implicit binding for source to keyvault
@@ -76,9 +87,9 @@ class TerraformGenerator(BaseGenerator):
                     self.firewall_engines.append(firewall_engine(resource))
 
             # create role engines for target resources if they are as the binding targets
-            # and the connection is system identity
+            # and the connection is system identity or user identity
             if resource in [binding.target for binding in self.payload.bindings \
-                            if binding.connection == ConnectionType.SYSTEMIDENTITY]:
+                            if binding.connection == ConnectionType.SYSTEMIDENTITY or binding.connection == ConnectionType.USERIDENTITY]:
                 role_engine = engine_factory.get_role_engine()
                 self.role_engines.append(role_engine(resource))
 
@@ -136,7 +147,8 @@ class TerraformGenerator(BaseGenerator):
                 self._get_resource_engine_by_resource(binding.target), 
                 self._get_role_engine_by_resource(binding.target),
                 self._get_firewall_engine_by_resource(binding.target),
-                self._get_key_vault_secret_engine_by_resource(binding.target))
+                self._get_key_vault_secret_engine_by_resource(binding.target),
+                self._get_user_identity_engine())  #TODO: cannot customize user identity
             binding_handler.process_engines()
 
 
@@ -206,6 +218,7 @@ class TerraformGenerator(BaseGenerator):
         return None
 
     def _get_role_engine_by_resource(self, resource: Resource):
+        # TODO: different role to same resource
         for engine in self.role_engines:
             if engine.resource == resource:
                 return engine
@@ -220,6 +233,12 @@ class TerraformGenerator(BaseGenerator):
     def _get_key_vault_secret_engine_by_resource(self, resource: Resource):
         for engine in self.key_vault_secret_engines:
             if engine.resource == resource:
+                return engine
+        return None
+    
+    def _get_user_identity_engine(self):
+        for engine in self.resource_engines:
+            if engine.resource and engine.resource.type == ResourceType.AZURE_USER_IDENTITY:
                 return engine
         return None
     
