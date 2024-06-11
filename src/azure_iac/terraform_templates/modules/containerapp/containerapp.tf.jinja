@@ -20,7 +20,7 @@ resource "azurerm_container_app" "{{engine.module_name}}" {
 	secret {
 		name	=	"{{key}}" {%if is_kv_ref %}
 		key_vault_secret_id = {{value}}
-		identity= "System" {% else %}
+		identity= 	"System" {% else %}
 		value	=	{{value}} {%endif%}
 	}{% endfor %}
 	{% endif %}
