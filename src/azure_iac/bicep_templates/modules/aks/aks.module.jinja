@@ -6,7 +6,6 @@ module {{engine.module_name}} 'aks.bicep' = {
 	params: {
 		location: location
 		name: {{engine.module_params_name}}
-		appServicePlanId: appServicePlanId
 	}{% if engine.depend_engines %}
 	dependsOn: [{% for dep in engine.depend_engines %}
 		{{dep.module_name}}{% endfor %}

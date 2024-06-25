@@ -6,10 +6,10 @@ class AKSResource(ComputeResource):
     def __init__(self):
         super().__init__()
 
-        self.type = ResourceType.AZURE_APP_SERVICE
+        self.type = ResourceType.AZURE_KUBERNETES_SERVICE
         self.name = ''
     
     def from_json(json):
-        result = AppServiceResource()
+        result = AKSResource()
         result.name = json.get('name', '')
         return result

@@ -3,6 +3,7 @@ from typing import List
 from azure_iac.payloads.models.resource_type import ResourceType
 from azure_iac.payloads.resources.aisearch import AISearchResource
 from azure_iac.payloads.resources.aiservices import AIServicesResource
+from azure_iac.payloads.resources.aks import AKSResource
 from azure_iac.payloads.resources.app_service import AppServiceResource
 from azure_iac.payloads.resources.application_insights import ApplicationInsightsResource
 from azure_iac.payloads.resources.bot_service import BotServiceResource
@@ -25,6 +26,7 @@ from azure_iac.payloads.resources.storage_account import StorageAccountResource
 RESOURCES = {
     ResourceType.AZURE_AI_SEARCH: AISearchResource,
     ResourceType.AZURE_AI_SERVICES: AIServicesResource,
+    ResourceType.AZURE_KUBERNETES_SERVICE: AKSResource, 
     ResourceType.AZURE_APP_SERVICE: AppServiceResource,
     ResourceType.AZURE_APPLICATION_INSIGHTS: ApplicationInsightsResource,
     ResourceType.AZURE_BOT_SERVICE: BotServiceResource,
