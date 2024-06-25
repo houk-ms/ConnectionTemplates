@@ -59,7 +59,7 @@ if __name__ == '__main__':
         "I want two container apps, one as frontend to call the other backend app. The backend app use a storage as a database.",
         "I want to use container app as the hosting service. The app reads and writes data from a sql database.",
         "I want two container apps, one as frontend to call the other backend app. The backend app use a storage as a database. Use ms entra id.",
-        "My app needs to be hosted on Function app that uses Open AI service."
+        "My app needs to be hosted on Function app that uses Open AI service.",
         "The application is made from multiple components, including:\
             Search service: the backend service that provides the search and retrieval capabilities.\
             Indexer service: the service that indexes the data and creates the search indexes.\
