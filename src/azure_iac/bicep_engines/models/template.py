@@ -11,6 +11,8 @@ class Template(str, Enum):
     AI_SEARCH_MODULE = "modules/aisearch/aisearch.module.jinja"
     AI_SERVICES_BICEP = "modules/aiservices/aiservices.bicep.jinja"
     AI_SERVICES_MODULE = "modules/aiservices/aiservices.module.jinja"
+    AKS_BICEP = "modules/aks/aks.bicep.jinja"
+    AKS_MODULE = "modules/aks/aks.module.jinja"
     APP_INSIGHTS_BICEP = "modules/applicationinsights/applicationinsights.bicep.jinja"
     APP_INSIGHTS_MODULE = "modules/applicationinsights/applicationinsights.module.jinja"
     APP_SERVICE_BICEP = "modules/appservice/appservice.bicep.jinja"
