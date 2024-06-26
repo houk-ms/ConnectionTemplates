@@ -37,4 +37,5 @@ ResourceTypeToAzdServiceType = {
     ResourceType.AZURE_CONTAINER_APP: 'containerapp',
     ResourceType.AZURE_FUNCTION_APP: 'function',
     ResourceType.AZURE_APP_SERVICE: 'appservice',
+    ResourceType.AZURE_STATIC_WEB_APP: 'staticwebapp',
 }
