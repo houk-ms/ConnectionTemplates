@@ -2,6 +2,7 @@ from azure_iac.payloads.models.resource_type import ResourceType
 
 from azure_iac.bicep_engines.modules.resource_engines.aisearch_engine import AISearchEngine
 from azure_iac.bicep_engines.modules.resource_engines.aiservices_engine import AIServicesEngine
+from azure_iac.bicep_engines.modules.resource_engines.aks_engine import AKSEngine
 from azure_iac.bicep_engines.modules.resource_engines.applicationinsights_engine import ApplicationInsightsEngine
 from azure_iac.bicep_engines.modules.resource_engines.appservice_engine import AppServiceEngine
 from azure_iac.bicep_engines.modules.resource_engines.appservice_settings_engine import AppServiceSettingsEngine
@@ -27,6 +28,7 @@ from azure_iac.bicep_engines.modules.resource_engines.webpubsub_engine import We
 RESOURCE_ENGINES = {
     ResourceType.AZURE_AI_SEARCH: AISearchEngine,
     ResourceType.AZURE_AI_SERVICES: AIServicesEngine,
+    ResourceType.AZURE_KUBERNETES_SERVICE: AKSEngine,
     ResourceType.AZURE_APPLICATION_INSIGHTS: ApplicationInsightsEngine,
     ResourceType.AZURE_APP_SERVICE: AppServiceEngine,
     ResourceType.AZURE_BOT_SERVICE: BotServiceEngine,

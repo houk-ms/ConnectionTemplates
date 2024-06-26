@@ -21,6 +21,7 @@ class Template(str, Enum):
     FUNCTION_APP_LINUX_TF = "modules/functionapp/functionapplinux.tf.jinja"
     KEYVAULT_TF = "modules/keyvault/keyvault.tf.jinja"
     KEYVAULTSECRET_TF = "modules/keyvault/keyvaultsecret.tf.jinja"
+    KUBERNETES_TF = "modules/aks/aks.tf.jinja"
     LOG_ANALYTICS_TF = "modules/loganalytics/loganalytics.tf.jinja"
     MYSQL_DB_TF = "modules/mysqldb/mysqldb.tf.jinja"
     MYSQL_DB_FIREWALL_TF = "modules/mysqldb/mysqldb.firewall.tf.jinja"
