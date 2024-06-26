@@ -1,21 +1,21 @@
 # Create an AKS cluster.
 
 resource "azurerm_kubernetes_cluster" "{{engine.module_name}}" {
-  name                = "{{engine.module_params_name}}"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+	name                = "{{engine.module_params_name}}"
+	location            = azurerm_resource_group.rg.location
+	resource_group_name = azurerm_resource_group.rg.name
 
-  default_node_pool {
-    name       = "default"
-    node_count = 1
-    vm_size    = "Standard_D2_v2"
-  }
+	default_node_pool {
+		name       = "default"
+		node_count = 1
+		vm_size    = "Standard_D2_v2"
+	}
 
-  identity {
-    type = "SystemAssigned"
-  }
+	identity {
+		type = "SystemAssigned"
+	}
 
-  tags = {
-    Environment = "Production"
-  }
+	tags = {
+		Environment = "Production"
+	}
 }

@@ -34,7 +34,7 @@ RESOURCE_ENGINES = {
     ResourceType.AZURE_AI_SEARCH: AISearchEngine,
     ResourceType.AZURE_AI_SERVICES: AIServicesEngine,
     ResourceType.AZURE_KUBERNETES_SERVICE: AKSEngine,
-	ResourceType.AZURE_APPLICATION_INSIGHTS: ApplicationInsightsEngine,
+    ResourceType.AZURE_APPLICATION_INSIGHTS: ApplicationInsightsEngine,
     ResourceType.AZURE_APP_SERVICE: AppServiceEngine,
     ResourceType.AZURE_BOT_SERVICE: BotServiceEngine,
     ResourceType.AZURE_CONTAINER_APP: ContainerAppEngine,
