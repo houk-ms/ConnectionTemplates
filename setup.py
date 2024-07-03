@@ -6,7 +6,7 @@ with open('requirements.txt') as f:
 
 setup(
     name='azure_iac',
-    version='0.1',
+    version='0.2',
     packages=find_packages(where='src'),
     package_dir={'': 'src'},  # specify the src directory
     license='MIT',

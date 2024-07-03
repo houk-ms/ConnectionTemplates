@@ -36,7 +36,7 @@ python setup.py sdist bdist_wheel
 Run cmd below to install the generator
 
 ```cmd
-pip install .\dist\azure_iac-0.1-py3-none-any.whl
+pip install .\dist\azure_iac-0.2-py3-none-any.whl
 ```
 
 To execute generator through the package provide command
@@ -50,5 +50,7 @@ To execute generator through package imports
 ```python
 from azure_iac.command import Command
 
-Command().execute('<path-to-your-payload>', '<path-to-your-payload>')
+Command().execute(
+	payload_path='<path-to-your-payload>', # or use payload='<your-json-payload>'
+	output_path='<path-to-your-output-folder>')
 ```
