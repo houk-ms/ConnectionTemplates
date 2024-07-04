@@ -21,6 +21,7 @@ class Template(str, Enum):
     FUNCTION_APP_LINUX_TF = "modules/functionapp/functionapplinux.tf.jinja"
     KEYVAULT_TF = "modules/keyvault/keyvault.tf.jinja"
     KEYVAULTSECRET_TF = "modules/keyvault/keyvaultsecret.tf.jinja"
+    KUBERNETES_TF = "modules/aks/aks.tf.jinja"
     LOG_ANALYTICS_TF = "modules/loganalytics/loganalytics.tf.jinja"
     MYSQL_DB_TF = "modules/mysqldb/mysqldb.tf.jinja"
     MYSQL_DB_FIREWALL_TF = "modules/mysqldb/mysqldb.firewall.tf.jinja"
@@ -38,5 +39,6 @@ class Template(str, Enum):
     STATIC_WEB_APP_TF = "modules/staticwebapp/staticwebapp.tf.jinja"
     SERVICE_BUS_TF = "modules/servicebus/servicebus.tf.jinja"
     SERVICE_BUS_NETWORK_TF = "modules/servicebus/servicebus.network.tf.jinja"
+    USER_IDENTITY_TF = "modules/identity/useridentity.tf.jinja"
     WEB_PUBSUB_TF = "modules/webpubsub/webpubsub.tf.jinja"
     

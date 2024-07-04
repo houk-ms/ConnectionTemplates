@@ -13,6 +13,7 @@ class ResourceType(str, Enum):
     AZURE_COSMOS_DB = "azurecosmosdb"
     AZURE_FUNCTION_APP = "azurefunctions"
     AZURE_KEYVAULT = "azurekeyvault"
+    AZURE_KUBERNETES_SERVICE = "azurekubernetesservice"
     AZURE_MYSQL_DB = "azuredatabaseformysql"
     AZURE_OPENAI = "azureopenai"
     AZURE_POSTGRESQL_DB = "azuredatabaseforpostgresql"
@@ -21,6 +22,7 @@ class ResourceType(str, Enum):
     AZURE_STORAGE_ACCOUNT = "azurestorageaccount"
     AZURE_STATIC_WEB_APP = "azurestaticwebapp"
     AZURE_SERVICE_BUS = "azureservicebus"
+    AZURE_USER_IDENTITY = "azureuseridentity"
     AZURE_WEBPUBSUB = "azurewebpubsub"
 
 
@@ -30,6 +32,7 @@ class ResourceType(str, Enum):
             ResourceType.AZURE_CONTAINER_APP, 
             ResourceType.AZURE_FUNCTION_APP,
             ResourceType.AZURE_STATIC_WEB_APP,
+            # ResourceType.AZURE_KUBERNETES_SERVICE,
         ]
 
     # targets that supports TF firewall rules

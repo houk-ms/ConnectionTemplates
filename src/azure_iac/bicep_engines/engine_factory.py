@@ -2,6 +2,7 @@ from azure_iac.payloads.models.resource_type import ResourceType
 
 from azure_iac.bicep_engines.modules.resource_engines.aisearch_engine import AISearchEngine
 from azure_iac.bicep_engines.modules.resource_engines.aiservices_engine import AIServicesEngine
+from azure_iac.bicep_engines.modules.resource_engines.aks_engine import AKSEngine
 from azure_iac.bicep_engines.modules.resource_engines.applicationinsights_engine import ApplicationInsightsEngine
 from azure_iac.bicep_engines.modules.resource_engines.appservice_engine import AppServiceEngine
 from azure_iac.bicep_engines.modules.resource_engines.appservice_settings_engine import AppServiceSettingsEngine
@@ -22,12 +23,14 @@ from azure_iac.bicep_engines.modules.resource_engines.staticwebapp_engine import
 from azure_iac.bicep_engines.modules.resource_engines.staticwebapp_settings_engine import StaticWebAppSettingsEngine
 from azure_iac.bicep_engines.modules.resource_engines.storageaccount_engine import StorageAccountEngine
 from azure_iac.bicep_engines.modules.resource_engines.openai_engine import OpenAIEngine
+from azure_iac.bicep_engines.modules.resource_engines.useridentity_engine import UserIdentityEngine
 from azure_iac.bicep_engines.modules.resource_engines.webpubsub_engine import WebPubSubEngine
 
 
 RESOURCE_ENGINES = {
     ResourceType.AZURE_AI_SEARCH: AISearchEngine,
     ResourceType.AZURE_AI_SERVICES: AIServicesEngine,
+    ResourceType.AZURE_KUBERNETES_SERVICE: AKSEngine,
     ResourceType.AZURE_APPLICATION_INSIGHTS: ApplicationInsightsEngine,
     ResourceType.AZURE_APP_SERVICE: AppServiceEngine,
     ResourceType.AZURE_BOT_SERVICE: BotServiceEngine,
@@ -43,6 +46,7 @@ RESOURCE_ENGINES = {
     ResourceType.AZURE_SQL_DB: SqlDbEngine,
     ResourceType.AZURE_STATIC_WEB_APP: StaticWebAppEngine,
     ResourceType.AZURE_STORAGE_ACCOUNT: StorageAccountEngine,
+    ResourceType.AZURE_USER_IDENTITY: UserIdentityEngine,
     ResourceType.AZURE_WEBPUBSUB: WebPubSubEngine,
 }
 

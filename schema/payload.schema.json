@@ -27,10 +27,11 @@
 							"azuredatabaseformysql", 
 							"azuredatabaseforpostgresql", 
 							"azureopenai",
+							"azureservicebus",
 							"azuresqldatabase",
-							"azurestorageaccount",
 							"azurestaticwebapp",
-							"azureservicebus"
+							"azurestorageaccount",
+							"azurewebpubsub"
 						],
 						"description": "The resource type"
 					},
