@@ -10,6 +10,8 @@ param containerAppEnvId string
 param containerRegistryName string
 param targetPort int = 80
 param tags object = {}
+param identityType string = 'SystemAssigned'
+param userAssignedIdentities object = {}
 
 
 resource containerRegistry 'Microsoft.ContainerRegistry/registries@2023-07-01' existing = { 
@@ -20,7 +22,8 @@ resource containerApp 'Microsoft.App/containerApps@2023-05-01' = {
 	name: name
 	location: location
 	identity: {
-		type: 'SystemAssigned'
+		type: identityType
+		userAssignedIdentities: userAssignedIdentities
 	}
 	properties: {
 		environmentId: containerAppEnvId

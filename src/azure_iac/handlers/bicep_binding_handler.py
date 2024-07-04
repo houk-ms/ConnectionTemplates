@@ -1,10 +1,13 @@
 from azure_iac.payloads.binding import Binding
 from azure_iac.payloads.models.connection_type import ConnectionType
+from azure_iac.payloads.models.resource_type import ResourceType
 
+from azure_iac.bicep_engines.models.appsetting import AppSetting, AppSettingType
 from azure_iac.bicep_engines.modules.source_resource_engine import SourceResourceEngine
 from azure_iac.bicep_engines.modules.target_resource_engine import TargetResourceEngine
 from azure_iac.bicep_engines.modules.store_resource_engine import StoreResourceEngine
 from azure_iac.bicep_engines.modules.setting_resource_engine import SettingResourceEngine
+from azure_iac.bicep_engines.modules.resource_engines.useridentity_engine import UserIdentityEngine
 
 
 class BicepBindingHandler():
@@ -14,12 +17,14 @@ class BicepBindingHandler():
                  target_engine: TargetResourceEngine,
                  store_engine: StoreResourceEngine,
                  setting_engine: SettingResourceEngine,
+                 user_identity_engine: UserIdentityEngine
                  ):
         self.binding = binding
         self.source_engine = source_engine
         self.target_engine = target_engine
         self.store_engine = store_engine
         self.setting_engine = setting_engine
+        self.user_identity_engine = user_identity_engine
 
 
     def process_engines(self):
@@ -35,6 +40,29 @@ class BicepBindingHandler():
             # setting engine depends on target engine
             self.setting_engine.add_dependency_engine(self.target_engine)
             app_settings = self.target_engine.get_app_settings_identity(self.binding)
+            self.setting_engine.add_app_settings(app_settings)
+            
+        elif self.binding.connection == ConnectionType.USERIDENTITY:
+            # target engine depends on source engine
+            self.target_engine.add_dependency_engine(self.source_engine)
+            principal_id = self.user_identity_engine.get_principal_id()
+            public_ip = self.source_engine.get_outbound_ip()
+            self.target_engine.assign_role(principal_id)
+            self.target_engine.allow_firewall(public_ip)
+
+            # enable user identity on source
+            identity_id = self.user_identity_engine.get_identity_id()
+            self.source_engine.enable_user_identity(identity_id)
+            if self.binding.source.type == ResourceType.AZURE_CONTAINER_APP:
+                self.setting_engine.set_module_user_identity(identity_id)
+            
+            # setting engine depends on target engine
+            self.setting_engine.add_dependency_engine(self.target_engine)
+            app_settings = self.target_engine.get_app_settings_identity(self.binding)
+            custom_keys = dict() if self.binding.customKeys is None else self.binding.customKeys
+            app_settings.append(AppSetting(AppSettingType.KeyValue,
+                                           custom_keys.get('AZURE_CLIENT_ID', 'AZURE_CLIENT_ID'),
+                                           self.user_identity_engine.get_client_id()))
             self.setting_engine.add_app_settings(app_settings)
 
         elif self.binding.connection == ConnectionType.HTTP:

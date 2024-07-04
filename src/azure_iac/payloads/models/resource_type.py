@@ -22,6 +22,7 @@ class ResourceType(str, Enum):
     AZURE_STORAGE_ACCOUNT = "azurestorageaccount"
     AZURE_STATIC_WEB_APP = "azurestaticwebapp"
     AZURE_SERVICE_BUS = "azureservicebus"
+    AZURE_USER_IDENTITY = "azureuseridentity"
     AZURE_WEBPUBSUB = "azurewebpubsub"
 
 

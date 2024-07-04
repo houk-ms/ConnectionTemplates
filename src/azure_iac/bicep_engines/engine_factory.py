@@ -22,6 +22,7 @@ from azure_iac.bicep_engines.modules.resource_engines.servicebus_engine import S
 from azure_iac.bicep_engines.modules.resource_engines.staticwebapp_engine import StaticWebAppEngine
 from azure_iac.bicep_engines.modules.resource_engines.storageaccount_engine import StorageAccountEngine
 from azure_iac.bicep_engines.modules.resource_engines.openai_engine import OpenAIEngine
+from azure_iac.bicep_engines.modules.resource_engines.useridentity_engine import UserIdentityEngine
 from azure_iac.bicep_engines.modules.resource_engines.webpubsub_engine import WebPubSubEngine
 
 
@@ -44,6 +45,7 @@ RESOURCE_ENGINES = {
     ResourceType.AZURE_SQL_DB: SqlDbEngine,
     ResourceType.AZURE_STATIC_WEB_APP: StaticWebAppEngine,
     ResourceType.AZURE_STORAGE_ACCOUNT: StorageAccountEngine,
+    ResourceType.AZURE_USER_IDENTITY: UserIdentityEngine,
     ResourceType.AZURE_WEBPUBSUB: WebPubSubEngine,
 }
 

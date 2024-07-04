@@ -11,6 +11,10 @@ class SourceResourceEngine(BaseResourceEngine):
         self.module_var_principal_id_name = ''
         self.module_var_outbound_ip_name = ''
 
+        # identity settings, system identity is default
+        self.module_identity_type = '\'SystemAssigned\''
+        self.module_user_identities = []
+
     # return the principal id variable name of current engine
     def get_identity_id(self) -> str:
         return self.module_var_principal_id_name
@@ -22,3 +26,8 @@ class SourceResourceEngine(BaseResourceEngine):
     # return the endpoint variable name of current engine
     def get_endpoint(self) -> str:
         return self.module_var_endpoint_name
+    
+	# enable user identity on the resource of current engine
+    def enable_user_identity(self, identity_id):
+        self.module_identity_type = '\'SystemAssigned, UserAssigned\''
+        self.module_user_identities.append('\'${' + identity_id + '}\'')

@@ -22,4 +22,6 @@ class AppSetting():
         return self.type != AppSettingType.KeyVaultReference
 
     def get_secret_name(self) -> str:
+        if self.value[0] == '\'':
+            return self.name + '-secret-name'
         return str(self.value).split('.')[0].replace('Deployment', '-connstr').lower()

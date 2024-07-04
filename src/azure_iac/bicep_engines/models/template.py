@@ -61,5 +61,7 @@ class Template(str, Enum):
     STATIC_WEB_APP_MODULE = "modules/staticwebapp/staticwebapp.module.jinja"
     STATIC_WEB_APP_SETTINGS_BICEP = "modules/staticwebapp/staticwebapp.settings.bicep.jinja"
     STATIC_WEB_APP_SETTINGS_MODULE = "modules/staticwebapp/staticwebapp.settings.module.jinja"
+    USER_IDENTITY_BICEP = "modules/identity/useridentity.bicep.jinja"
+    USER_IDENTITY_MODULE = "modules/identity/useridentity.module.jinja"
     WEBPUBSUB_BICEP = "modules/webpubsub/webpubsub.bicep.jinja"
     WEBPUBSUB_MODULE = "modules/webpubsub/webpubsub.module.jinja"

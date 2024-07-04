@@ -2,4 +2,11 @@ resource "azurerm_static_web_app" "{{engine.module_name}}" {
 	name                = "{{engine.module_params_name}}"
 	resource_group_name = azurerm_resource_group.rg.name
 	location            = "eastus2"
+
+	identity {
+		type = "{{engine.module_identity_type}}" {% if engine.module_user_identities %}
+		identity_ids = concat({% for identity in engine.module_user_identities %}
+			{{identity}}{% if loop.index != engine.module_params_allow_ips|length %},{% endif %}{% endfor %}
+		){%endif%}
+	}
 }

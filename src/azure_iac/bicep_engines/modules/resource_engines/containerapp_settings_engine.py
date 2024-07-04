@@ -1,6 +1,6 @@
 from typing import List
 
-from azure_iac.payloads.resources.app_service import AppServiceResource
+from azure_iac.payloads.resources.container_app import ContainerAppResource
 from azure_iac.payloads.models.project_type import ProjectType
 
 from azure_iac.bicep_engines.models.appsetting import AppSetting, AppSettingType
@@ -11,7 +11,7 @@ from azure_iac.helpers import string_helper
 
 
 class ContainerAppSettingsEngine(SettingResourceEngine):
-    def __init__(self, resource: AppServiceResource) -> None:
+    def __init__(self, resource: ContainerAppResource) -> None:
         super().__init__(Template.CONTAINER_APP_BICEP.value,
                          Template.CONTAINER_APP_MODULE.value)
         self.resource = resource
@@ -31,6 +31,10 @@ class ContainerAppSettingsEngine(SettingResourceEngine):
                     AppSetting(AppSettingType.KeyValue, setting.get('name'), "'{}'".format(setting.get('value', '<...>')))
                 )
             self.add_app_settings(app_settings)
+        
+        # identity settings, system identity is default, to sync with the first deployment
+        self.module_identity_type = '\'SystemAssigned\''
+        self.module_user_identities = []
     
     def _get_module_params_secrets(self) -> List[tuple]:
         secrets = []
@@ -38,3 +42,7 @@ class ContainerAppSettingsEngine(SettingResourceEngine):
             if not setting.is_raw_value():
                 secrets.append((setting.secret_name, setting.value))
         return secrets
+    
+    def set_module_user_identity(self, identity_id):
+        self.module_identity_type = '\'SystemAssigned, UserAssigned\''
+        self.module_user_identities.append('\'${' + identity_id + '}\'')
