@@ -30,7 +30,8 @@ class ResourceType(str, Enum):
         return self in [
             ResourceType.AZURE_APP_SERVICE, 
             ResourceType.AZURE_CONTAINER_APP, 
-            ResourceType.AZURE_FUNCTION_APP, 
+            ResourceType.AZURE_FUNCTION_APP,
+            ResourceType.AZURE_STATIC_WEB_APP,
             # ResourceType.AZURE_KUBERNETES_SERVICE,
         ]
 

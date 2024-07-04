@@ -3,6 +3,10 @@ resource "azurerm_static_web_app" "{{engine.module_name}}" {
 	resource_group_name = azurerm_resource_group.rg.name
 	location            = "eastus2"
 
+	app_settings = { {% for setting in engine.module_params_app_settings %}
+		"{{setting.name}}" = {{setting.value}}{% endfor %}
+	}
+
 	identity {
 		type = "{{engine.module_identity_type}}" {% if engine.module_user_identities %}
 		identity_ids = concat({% for identity in engine.module_user_identities %}

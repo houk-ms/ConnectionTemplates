@@ -158,6 +158,14 @@
 				"name": "func2"
 			}
 		]
+	  },
+	  {
+		"type": "azurestaticwebapp",
+		"instances":[
+			{
+				"name": "swa1"
+			}
+		]
 	  }
 	],
 	"bindings": [
@@ -356,6 +364,10 @@
 		{
 			"source":"${azureappservice.app2}",
 			"target":"${azureopenai.openai2}"
+		},
+		{
+			"source": "${azurestaticwebapp.swa1}",
+			"target": "${azurecontainerapp.aca1}"
 		}
 		
 	],
@@ -378,6 +390,16 @@
 		{
 			"host": "${azurecontainerapp.aca1}",
 			"language": "python",
+			"project": "."
+		},
+		{
+			"host": "${azurefunctions.func1}",
+			"language": "python",
+			"project": "."
+		},
+		{
+			"host": "${azurestaticwebapp.swa1}",
+			"language": "js",
 			"project": "."
 		}
 	  ]

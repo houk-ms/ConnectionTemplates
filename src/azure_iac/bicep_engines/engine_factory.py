@@ -20,6 +20,7 @@ from azure_iac.bicep_engines.modules.resource_engines.redis_engine import RedisE
 from azure_iac.bicep_engines.modules.resource_engines.sqldb_engine import SqlDbEngine
 from azure_iac.bicep_engines.modules.resource_engines.servicebus_engine import ServiceBusEngine
 from azure_iac.bicep_engines.modules.resource_engines.staticwebapp_engine import StaticWebAppEngine
+from azure_iac.bicep_engines.modules.resource_engines.staticwebapp_settings_engine import StaticWebAppSettingsEngine
 from azure_iac.bicep_engines.modules.resource_engines.storageaccount_engine import StorageAccountEngine
 from azure_iac.bicep_engines.modules.resource_engines.openai_engine import OpenAIEngine
 from azure_iac.bicep_engines.modules.resource_engines.useridentity_engine import UserIdentityEngine
@@ -53,6 +54,7 @@ SETTING_ENGINES = {
     ResourceType.AZURE_APP_SERVICE: AppServiceSettingsEngine,
     ResourceType.AZURE_CONTAINER_APP: ContainerAppSettingsEngine,
     ResourceType.AZURE_FUNCTION_APP: FunctionAppSettingsEngine,
+    ResourceType.AZURE_STATIC_WEB_APP: StaticWebAppSettingsEngine,
 }
 
 def get_resource_engine_from_type(resource_type: ResourceType):
