@@ -15,6 +15,7 @@ class Abbreviation(str, Enum):
     FUNCTION_APP = "func"
     KEYVAULT = "kv"
     KEYVAULT_SECRET = "secret"
+    KUBERNETES = "aks"
     MYSQL_DB = "mysql"
     OPENAI = "openai"
     POSTGRESQL_DB = "psql"

@@ -13,6 +13,7 @@ class ResourceType(str, Enum):
     AZURE_COSMOS_DB = "azurecosmosdb"
     AZURE_FUNCTION_APP = "azurefunctions"
     AZURE_KEYVAULT = "azurekeyvault"
+    AZURE_KUBERNETES_SERVICE = "azurekubernetesservice"
     AZURE_MYSQL_DB = "azuredatabaseformysql"
     AZURE_OPENAI = "azureopenai"
     AZURE_POSTGRESQL_DB = "azuredatabaseforpostgresql"
@@ -29,6 +30,7 @@ class ResourceType(str, Enum):
             ResourceType.AZURE_APP_SERVICE, 
             ResourceType.AZURE_CONTAINER_APP, 
             ResourceType.AZURE_FUNCTION_APP, 
+            # ResourceType.AZURE_KUBERNETES_SERVICE,
         ]
 
     # targets that supports TF firewall rules
